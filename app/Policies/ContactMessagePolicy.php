@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class ContactMessagePolicy extends OwnerOnlyPolicy
-{
-}
+class ContactMessagePolicy extends OwnerOnlyPolicy {}

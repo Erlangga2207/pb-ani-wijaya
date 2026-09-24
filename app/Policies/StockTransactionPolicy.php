@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class StockTransactionPolicy extends OwnerOnlyPolicy
-{
-}
+class StockTransactionPolicy extends OwnerOnlyPolicy {}

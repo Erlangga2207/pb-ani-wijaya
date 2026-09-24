@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class BuyerPolicy extends MasterDataPolicy
-{
-}
+class BuyerPolicy extends MasterDataPolicy {}

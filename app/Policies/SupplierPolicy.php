@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class SupplierPolicy extends MasterDataPolicy
-{
-}
+class SupplierPolicy extends MasterDataPolicy {}

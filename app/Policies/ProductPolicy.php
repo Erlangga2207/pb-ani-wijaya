@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class ProductPolicy extends OwnerOnlyPolicy
-{
-}
+class ProductPolicy extends OwnerOnlyPolicy {}

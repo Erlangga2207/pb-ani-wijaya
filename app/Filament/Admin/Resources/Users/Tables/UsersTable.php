@@ -34,9 +34,9 @@ class UsersTable
                     ->formatStateUsing(fn (string $state): string => UserForm::ROLE_LABELS[$state] ?? $state)
                     ->color(fn (string $state): string => match ($state) {
                         'super_admin' => 'danger',
-                        'owner'       => 'warning',
-                        'staff'       => 'info',
-                        default       => 'gray',
+                        'owner' => 'warning',
+                        'staff' => 'info',
+                        default => 'gray',
                     }),
 
                 IconColumn::make('is_active')
