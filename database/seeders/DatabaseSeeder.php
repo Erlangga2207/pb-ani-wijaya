@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             SiteSettingSeeder::class,
+            ItemSeeder::class,
         ]);
 
         // Super admin dari .env (ADMIN_EMAIL / ADMIN_PASSWORD). Kosong = dilewati, jangan hardcode password.
