@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NotaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotaController;
+use App\Http\Controllers\PurchaseReceiptController;
+use Illuminate\Support\Facades\Route;
 
 // ============================================
 // PUBLIC ROUTES (Website untuk pengunjung)
@@ -20,3 +21,7 @@ Route::post('/kontak', [HomeController::class, 'submitKontak'])->name('contact.s
 Route::get('/nota/{transaction}', [NotaController::class, 'show'])
     ->name('nota.show')
     ->middleware(['auth', 'role:super_admin|owner']);
+
+Route::get('/pembelian/{purchase}/bukti', PurchaseReceiptController::class)
+    ->name('purchases.receipt')
+    ->middleware(['auth', 'can:view,purchase']);
