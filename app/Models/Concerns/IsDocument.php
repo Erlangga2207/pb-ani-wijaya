@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Validation\ValidationException;
 
 // Kolom bersama dokumen transaksi: number, status, void_reason, voided_at, voided_by, user_id.
 trait IsDocument
@@ -43,6 +44,25 @@ trait IsDocument
     public function scopePosted(Builder $query): Builder
     {
         return $query->where($this->qualifyColumn('status'), DocumentStatus::Posted);
+    }
+
+    /**
+     * Ambil ulang dokumen dengan lock (cegah void dobel) lalu pastikan boleh dibatalkan.
+     * Panggil di dalam DB::transaction.
+     */
+    public function lockForVoid(string $reason): static
+    {
+        if (trim($reason) === '') {
+            throw ValidationException::withMessages(['reason' => 'Alasan pembatalan wajib diisi.']);
+        }
+
+        $fresh = static::query()->lockForUpdate()->findOrFail($this->getKey());
+
+        if ($fresh->isVoid()) {
+            throw ValidationException::withMessages(['reason' => 'Dokumen sudah dibatalkan.']);
+        }
+
+        return $fresh;
     }
 
     public function markVoid(string $reason, User $by): void
