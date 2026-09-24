@@ -9,6 +9,7 @@ use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
+use Livewire\Component;
 
 // Tombol "Batalkan" untuk semua dokumen transaksi. $void = fn (Model $record, string $reason) memanggil service.
 class VoidAction
@@ -30,7 +31,7 @@ class VoidAction
                     ->required()
                     ->maxLength(1000),
             ])
-            ->action(function (Model $record, array $data, Action $action) use ($void) {
+            ->action(function (Model $record, array $data, Action $action, Component $livewire) use ($void) {
                 try {
                     $void($record, $data['reason']);
                 } catch (ValidationException $e) {
@@ -39,6 +40,7 @@ class VoidAction
                 }
 
                 $record->refresh();
+                $livewire->dispatch('document-updated');
                 Notification::make()->success()->title('Dokumen dibatalkan')->send();
             });
     }
