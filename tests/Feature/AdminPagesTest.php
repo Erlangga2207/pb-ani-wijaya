@@ -26,9 +26,16 @@ class AdminPagesTest extends TestCase
             '/admin/stock-movements', '/admin/stock-adjustments', '/admin/stock-adjustments/create',
             '/admin/suppliers', '/admin/suppliers/create', '/admin/buyers', '/admin/buyers/create',
             '/admin/users', '/admin/users/create',
+            '/admin/purchases', '/admin/productions', '/admin/sales', '/admin/expenses', '/admin/expenses/create',
+            '/admin/payables', '/admin/receivables', '/admin/reports', '/admin/website-settings',
+            '/admin/contact-messages', '/admin/galleries', '/admin/products', '/admin/products/create',
         ] as $url) {
             $this->get($url)->assertOk();
         }
+
+        // Menu Roles (Shield) hanya super_admin.
+        $this->get('/admin/shield/roles')->assertForbidden();
+        $this->actingAs($this->userWithRole('super_admin'))->get('/admin/shield/roles')->assertOk();
     }
 
     public function test_staff_pages_and_hidden_cost(): void
