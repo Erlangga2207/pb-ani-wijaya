@@ -22,6 +22,9 @@ class StockTransactionResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'reference_number';
 
+    // Data lama sebelum v2: disembunyikan & read-only. Dihapus di akhir PRD-05.
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Schema $schema): Schema
     {
         return StockTransactionForm::configure($schema);
