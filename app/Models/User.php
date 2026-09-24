@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable(['name', 'email', 'password', 'is_active'])]
@@ -20,6 +21,8 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, HasRoles, Notifiable;
 
     public const ROLES = ['super_admin', 'owner', 'staff'];
+
+    public const TRANSACTION_TABLES = ['stock_transactions'];
 
     protected function casts(): array
     {
@@ -44,5 +47,23 @@ class User extends Authenticatable implements FilamentUser
     public function isOwnerOrAbove(): bool
     {
         return $this->hasAnyRole(['super_admin', 'owner']);
+    }
+
+    // Role yang boleh diberikan user ini ke user lain.
+    public function assignableRoles(): array
+    {
+        return $this->isSuperAdmin() ? self::ROLES : ['owner', 'staff'];
+    }
+
+    // User yang pernah mencatat transaksi tidak dihapus, cukup dinonaktifkan (jejak audit).
+    public function hasRecordedTransactions(): bool
+    {
+        foreach (self::TRANSACTION_TABLES as $table) {
+            if (DB::table($table)->where('user_id', $this->id)->exists()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
