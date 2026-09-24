@@ -13,12 +13,21 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class SiteSettingResource extends Resource
 {
     protected static ?string $model = SiteSetting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Website';
+
+    protected static ?string $navigationLabel = 'Pengaturan Website';
+
+    protected static ?string $modelLabel = 'Pengaturan Website';
+
+    protected static ?string $pluralModelLabel = 'Pengaturan Website';
 
     protected static ?string $recordTitleAttribute = 'label';
 
