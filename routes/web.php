@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PurchaseReceiptController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleInvoiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,8 @@ Route::get('/nota/{sale}', [SaleInvoiceController::class, 'show'])
 Route::get('/pembelian/{purchase}/bukti', PurchaseReceiptController::class)
     ->name('purchases.receipt')
     ->middleware(['auth', 'can:view,purchase']);
+
+Route::middleware(['auth', 'can:view-report,tab'])->prefix('laporan/{tab}')->group(function () {
+    Route::get('/cetak', [ReportController::class, 'print'])->name('reports.print');
+    Route::get('/csv', [ReportController::class, 'csv'])->name('reports.csv');
+});
