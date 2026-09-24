@@ -19,4 +19,4 @@ Route::post('/kontak', [HomeController::class, 'submitKontak'])->name('contact.s
 // ============================================
 Route::get('/nota/{transaction}', [NotaController::class, 'show'])
     ->name('nota.show')
-    ->middleware(['auth', 'role:super_admin|admin']);
+    ->middleware(['auth', 'role:super_admin|owner']);

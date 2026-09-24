@@ -13,12 +13,21 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class GalleryResource extends Resource
 {
     protected static ?string $model = Gallery::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Website';
+
+    protected static ?string $navigationLabel = 'Galeri';
+
+    protected static ?string $modelLabel = 'Galeri';
+
+    protected static ?string $pluralModelLabel = 'Galeri';
 
     protected static ?string $recordTitleAttribute = 'title';
 

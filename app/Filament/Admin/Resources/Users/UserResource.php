@@ -13,12 +13,16 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
+// Hak akses diatur oleh App\Policies\UserPolicy.
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan';
 
     protected static ?string $navigationLabel = 'Pengguna';
 
@@ -29,32 +33,6 @@ class UserResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?int $navigationSort = 90;
-
-    public static function canViewAny(): bool
-    {
-        return auth()->user()?->hasRole(['super_admin', 'admin']) ?? false;
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()?->hasRole(['super_admin', 'admin']) ?? false;
-    }
-
-    public static function canCreate(): bool
-    {
-        return auth()->user()?->hasRole(['super_admin', 'admin']) ?? false;
-    }
-
-    public static function canEdit($record): bool
-    {
-        return auth()->user()?->hasRole(['super_admin', 'admin']) ?? false;
-    }
-
-    public static function canDelete($record): bool
-    {
-        return (auth()->user()?->hasRole(['super_admin', 'admin']) ?? false)
-            && $record->id !== auth()->id();
-    }
 
     public static function form(Schema $schema): Schema
     {
@@ -74,9 +52,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListUsers::route('/'),
+            'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            'edit'   => EditUser::route('/{record}/edit'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 }
