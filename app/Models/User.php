@@ -22,7 +22,7 @@ class User extends Authenticatable implements FilamentUser
 
     public const ROLES = ['super_admin', 'owner', 'staff'];
 
-    public const TRANSACTION_TABLES = ['stock_adjustments', 'purchases', 'payments', 'productions', 'sales'];
+    public const TRANSACTION_TABLES = ['stock_adjustments', 'purchases', 'payments', 'productions', 'sales', 'expenses'];
 
     protected $attributes = ['is_active' => true];
 
