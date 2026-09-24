@@ -2,14 +2,15 @@
 
 namespace App\Filament\Admin\Resources\ContactMessages\Tables;
 
-use Filament\Actions\Action;
+use App\Enums\LeadStatus;
+use App\Filament\Admin\Resources\ContactMessages\ContactMessageResource;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ContactMessagesTable
@@ -19,60 +20,23 @@ class ContactMessagesTable
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                IconColumn::make('is_read')
-                    ->label('')
-                    ->boolean()
-                    ->trueIcon('heroicon-s-envelope-open')
-                    ->falseIcon('heroicon-s-envelope')
-                    ->trueColor('gray')
-                    ->falseColor('danger'),
-
+                TextColumn::make('created_at')->label('Tanggal')->dateTime('d M Y H:i')->sortable(),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()
                     ->weight(fn ($record) => $record->is_read ? null : 'bold'),
-
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable()
-                    ->copyable()
-                    ->toggleable(),
-
-                TextColumn::make('subject')
-                    ->label('Subjek')
-                    ->searchable()
-                    ->placeholder('(Tanpa subjek)')
-                    ->limit(40),
-
-                TextColumn::make('message')
-                    ->label('Preview Pesan')
-                    ->limit(60)
-                    ->color('gray')
-                    ->toggleable(),
-
-                TextColumn::make('created_at')
-                    ->label('Diterima')
-                    ->dateTime('d M Y H:i')
-                    ->since()
-                    ->sortable(),
+                TextColumn::make('email')->label('Email')->searchable()->copyable()->toggleable(),
+                TextColumn::make('phone')->label('HP')->placeholder('-')->toggleable(),
+                TextColumn::make('subject')->label('Subjek')->searchable()->placeholder('(Tanpa subjek)')->limit(40),
+                TextColumn::make('status')->label('Status')->badge(),
             ])
             ->filters([
-                TernaryFilter::make('is_read')
-                    ->label('Status Baca')
-                    ->trueLabel('Sudah Dibaca')
-                    ->falseLabel('Belum Dibaca')
-                    ->placeholder('Semua'),
+                SelectFilter::make('status')->label('Status')->options(LeadStatus::class),
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make()
-                    ->label('Notes'),
-                Action::make('reply')
-                    ->label('Balas')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->color('success')
-                    ->url(fn ($record) => 'mailto:' . $record->email . '?subject=Re: ' . urlencode($record->subject ?? 'Pesan Anda'))
-                    ->openUrlInNewTab(),
+                EditAction::make()->label('Tindak lanjut'),
+                ActionGroup::make(ContactMessageResource::leadActions()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -2,55 +2,46 @@
 
 namespace App\Filament\Admin\Resources\ContactMessages\Schemas;
 
-use Filament\Forms\Components\TextInput;
+use App\Enums\LeadStatus;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class ContactMessageForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Section::make('Pesan dari Pengunjung')
                     ->schema([
                         Grid::make(2)->schema([
-                            TextInput::make('name')
-                                ->label('Nama')
-                                ->disabled(),
-
-                            TextInput::make('email')
-                                ->label('Email')
-                                ->email()
-                                ->disabled(),
+                            TextInput::make('name')->label('Nama')->disabled(),
+                            TextInput::make('email')->label('Email')->disabled(),
                         ]),
-
-                        TextInput::make('subject')
-                            ->label('Subjek')
-                            ->disabled()
-                            ->placeholder('Tidak ada subjek'),
-
-                        Textarea::make('message')
-                            ->label('Pesan')
-                            ->disabled()
-                            ->rows(6)
-                            ->columnSpanFull(),
+                        TextInput::make('subject')->label('Subjek')->disabled()->placeholder('Tidak ada subjek'),
+                        Textarea::make('message')->label('Pesan')->disabled()->rows(6),
                     ]),
 
-                Section::make('Tindakan Admin')
+                Section::make('Tindak Lanjut')
+                    ->description('Diisi admin setelah menghubungi calon pembeli.')
                     ->schema([
-                        Toggle::make('is_read')
-                            ->label('Sudah Dibaca')
-                            ->onColor('success'),
-
+                        Grid::make(3)->schema([
+                            Select::make('status')->label('Status')->options(LeadStatus::class)->required()->native(false),
+                            TextInput::make('phone')->label('No. HP / WhatsApp')->tel(),
+                            TextInput::make('company')->label('Perusahaan'),
+                            TextInput::make('country')->label('Negara'),
+                            Toggle::make('is_read')->label('Sudah Dibaca')->onColor('success'),
+                        ]),
                         Textarea::make('admin_notes')
                             ->label('Catatan Internal')
                             ->placeholder('Catatan untuk tim (tidak terlihat oleh pengirim)')
-                            ->rows(3)
-                            ->columnSpanFull(),
+                            ->rows(3),
                     ]),
             ]);
     }
