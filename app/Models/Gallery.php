@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Gallery extends Model
 {
@@ -24,30 +23,15 @@ class Gallery extends Model
         'order' => 'integer',
     ];
 
-    // Accessor: bersihkan file_path kalau ke-store sebagai JSON/array
-    public function getFilePathAttribute($value)
-    {
-        if (empty($value)) {
-            return null;
-        }
-
-        // Kalau value adalah JSON string, decode dan ambil item pertama
-        if (is_string($value) && (str_starts_with($value, '[') || str_starts_with($value, '{'))) {
-            $decoded = json_decode($value, true);
-            if (is_array($decoded)) {
-                return $decoded[0] ?? null;
-            }
-        }
-
-        return $value;
-    }
-
     public function getFileUrlAttribute(): string
     {
-        if (!$this->file_path) {
-            return '';
-        }
-        return Storage::url($this->file_path);
+        return $this->file_path ? asset('storage/'.$this->file_path) : '';
+    }
+
+    // galeri.blade.php memakai $gallery->caption; kolomnya bernama description.
+    public function getCaptionAttribute(): ?string
+    {
+        return $this->description;
     }
 
     public function getCategoryLabelAttribute(): string

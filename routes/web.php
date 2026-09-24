@@ -14,7 +14,9 @@ Route::get('/tentang-kami', [HomeController::class, 'tentangKami'])->name('about
 Route::get('/produk', [HomeController::class, 'produk'])->name('products');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('gallery');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('contact');
-Route::post('/kontak', [HomeController::class, 'submitKontak'])->name('contact.submit');
+Route::post('/kontak', [HomeController::class, 'submitKontak'])
+    ->name('contact.submit')
+    ->middleware('throttle:5,1'); // anti-spam: 5 kiriman / menit / IP
 
 // ============================================
 // AUTHENTICATED ROUTES (Internal)

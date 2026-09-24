@@ -16,13 +16,17 @@ class ProductsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nama')
                     ->searchable(),
                 TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable(),
                 TextColumn::make('weight_per_karung')
+                    ->label('Berat/Karung (kg)')
                     ->numeric()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label('Tampil')
                     ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()

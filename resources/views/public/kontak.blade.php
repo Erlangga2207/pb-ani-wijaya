@@ -103,6 +103,7 @@
                     {{-- Form --}}
                     <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6">
                         @csrf
+                        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                         {{-- Name + Email Grid --}}
                         <div class="grid md:grid-cols-2 gap-6">

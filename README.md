@@ -1,58 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PB. Ani Wijaya
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website company profile + sistem internal pabrik penggilingan beras ketan PB. Ani Wijaya (Losarang, Indramayu).
+Laravel 13 · Filament v5 (panel `/admin`) · Filament Shield / spatie-permission.
 
-## About Laravel
+Rencana & keputusan desain ada di [`docs/prd/`](docs/prd). Aturan kerja untuk Claude Code ada di [`CLAUDE.md`](CLAUDE.md).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Setup
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env         # isi DB_*, ADMIN_EMAIL, ADMIN_PASSWORD
+php artisan key:generate
+php artisan migrate --seed   # role, site settings, 5 barang, super admin dari .env
+php artisan storage:link
+php artisan test
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+`ADMIN_EMAIL` / `ADMIN_PASSWORD` kosong = super admin tidak dibuat (password tidak pernah di-hardcode).
 
-## Contributing
+## Alur bisnis
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+Pembelian gabah (PB) ─▶ Produksi / giling (PR) ─▶ Penjualan (PJ)
+        │ +gabah          -gabah, +beras/menir/dedak/sekam   │ -beras/menir
+        └──────────────▶ stock_movements (buku besar stok) ◀─┘ ◀── Stock opname (SO)
+```
 
-## Code of Conduct
+- Semua perubahan stok lewat `App\Services\StockService` (transaksi DB + `lockForUpdate`, stok tidak bisa minus).
+- Dokumen transaksi **tidak bisa diedit/dihapus**. Koreksi = **Batalkan (void)** dengan alasan, yang membuat mutasi balik.
+- Nomor dokumen otomatis `PREFIX-YYYYMMDD-0001` (`PB`, `PR`, `PJ`, `SO`, `BY` pembayaran, `BO` biaya).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Rumus
 
-## Security Vulnerabilities
+| | |
+|---|---|
+| Biaya gabah / kg | (subtotal + ongkos angkut) ÷ kg, lalu **moving average**: `(stok × avg + kg × biaya) ÷ (stok + kg)` |
+| Rendemen | beras ÷ gabah × 100% (normal 50–60%, ubah di `config/production.php`) |
+| Susut | gabah − Σ semua hasil giling |
+| HPP beras / kg | total biaya gabah ÷ kg beras. Hasil samping HPP = 0 (metode *by-product*) |
+| Laba kotor | (subtotal − diskon) − HPP terjual. Ongkir tidak termasuk omzet |
+| Laba bersih | laba kotor − biaya operasional |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Keterbatasan yang diterima:** saat dokumen di-void, biaya rata-rata tidak dihitung ulang mundur; mutasi balik memakai biaya dari mutasi aslinya. Nilai persediaan di laporan memakai biaya rata-rata saat ini. Cukup untuk skala UMKM.
 
-## License
+## Peran
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Role | Akses |
+|---|---|
+| `super_admin` | Semua, termasuk menu Roles |
+| `owner` | Semua data, laporan keuangan, void, kelola staff. Tidak bisa menyentuh akun super_admin |
+| `staff` | Input pembelian, produksi, penjualan, pembayaran; lihat stok & rendemen. Tanpa HPP/laba/biaya, laporan keuangan, pengguna, menu Website |
+
+Policy ditulis manual berbasis role di `app/Policies` (`config/filament-shield.php` → `policies.generate = false`), jadi `shield:generate` tidak akan menimpanya.
+
+## Perintah berguna
+
+```bash
+php artisan stock:verify              # cocokkan cache stok item dengan buku besar
+php artisan gallery:normalize-paths   # sekali jalan: bersihkan file_path galeri lama yang berbentuk JSON
+./vendor/bin/pint                     # format kode
+```
