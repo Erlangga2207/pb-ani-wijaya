@@ -4,12 +4,13 @@ namespace App\Filament\Admin\Resources\Galleries\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
 class GalleryForm
@@ -58,6 +59,7 @@ class GalleryForm
                                 ])
                                 ->default('image')
                                 ->required()
+                                ->live()
                                 ->native(false),
                         ]),
                     ]),
@@ -70,16 +72,21 @@ class GalleryForm
                     ->getUploadedFileNameForStorageUsing(function ($file) {
                         $extension = $file->getClientOriginalExtension();
                         $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                
+
                         // Strip extension dari filename kalau masih ada (double-safety)
-                        $filename = preg_replace('/\.' . preg_quote($extension, '/') . '$/i', '', $filename);
-                
-                        return \Illuminate\Support\Str::slug($filename) . '.' . $extension;
+                        $filename = preg_replace('/\.'.preg_quote($extension, '/').'$/i', '', $filename);
+
+                        return Str::slug($filename).'.'.$extension;
                     })
+                    // Satu file, state berupa string (bukan array) supaya file_path tidak tersimpan sebagai JSON.
                     ->multiple(false)
-                    ->maxSize(10240)
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'video/mp4'])
-                    ->helperText('Format: JPG, PNG, WEBP, MP4. Maks. 10 MB.')
+                    ->maxSize(fn (Get $get) => $get('file_type') === 'video' ? 51200 : 5120)
+                    ->acceptedFileTypes(fn (Get $get) => $get('file_type') === 'video'
+                        ? ['video/mp4']
+                        : ['image/jpeg', 'image/png', 'image/webp'])
+                    ->helperText(fn (Get $get) => $get('file_type') === 'video'
+                        ? 'Format: MP4. Maks. 50 MB.'
+                        : 'Format: JPG, PNG, WEBP. Maks. 5 MB.')
                     ->columnSpanFull(),
 
                 Section::make('Pengaturan')
