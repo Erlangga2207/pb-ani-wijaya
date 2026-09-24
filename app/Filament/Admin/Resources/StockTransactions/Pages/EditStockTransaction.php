@@ -19,7 +19,7 @@ class EditStockTransaction extends EditRecord
                 ->color('warning')
                 ->url(fn () => route('nota.show', $this->record->id))
                 ->openUrlInNewTab()
-                ->visible(fn () => auth()->user()->hasRole(['super_admin', 'admin'])),
+                ->visible(fn () => auth()->user()->hasRole(['super_admin', 'owner'])),
 
             DeleteAction::make(),
         ];
