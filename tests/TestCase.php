@@ -2,13 +2,16 @@
 
 namespace Tests;
 
+use App\Models\Buyer;
 use App\Models\Item;
 use App\Models\Production;
 use App\Models\Purchase;
+use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Services\ProductionService;
 use App\Services\PurchaseService;
+use App\Services\SaleService;
 use Database\Seeders\RoleSeeder;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -65,5 +68,21 @@ abstract class TestCase extends BaseTestCase
             'input_kg' => $inputKg,
             'outputs' => collect($outputs)->mapWithKeys(fn ($kg, $code) => [$this->item($code)->id => $kg])->all(),
         ], auth()->user());
+    }
+
+    // Skenario PRD-05: 10 karung beras (250 kg) @Rp20.000 + menir 50 kg @Rp8.000, diskon Rp50.000.
+    protected function sellRice(array $override = []): Sale
+    {
+        return app(SaleService::class)->create(array_merge([
+            'sale_date' => today()->toDateString(),
+            'buyer_id' => Buyer::firstOrCreate(['name' => 'Toko Berkah'], ['phone' => '081234567890', 'city' => 'Cirebon'])->id,
+            'items' => [
+                ['item_id' => $this->item('BKT')->id, 'input_quantity' => 10, 'input_unit' => 'sack', 'price_per_kg' => 20000],
+                ['item_id' => $this->item('MNR')->id, 'input_quantity' => 50, 'input_unit' => 'kg', 'price_per_kg' => 8000],
+            ],
+            'discount' => 50000,
+            'pay_now' => 0,
+            'due_date' => today()->addDays(14)->toDateString(),
+        ], $override), auth()->user());
     }
 }

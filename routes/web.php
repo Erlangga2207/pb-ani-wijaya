@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PurchaseReceiptController;
+use App\Http\Controllers\SaleInvoiceController;
 use Illuminate\Support\Facades\Route;
 
 // ============================================
@@ -18,9 +18,9 @@ Route::post('/kontak', [HomeController::class, 'submitKontak'])->name('contact.s
 // ============================================
 // AUTHENTICATED ROUTES (Internal)
 // ============================================
-Route::get('/nota/{transaction}', [NotaController::class, 'show'])
-    ->name('nota.show')
-    ->middleware(['auth', 'role:super_admin|owner']);
+Route::get('/nota/{sale}', [SaleInvoiceController::class, 'show'])
+    ->name('sales.invoice')
+    ->middleware(['auth', 'can:view,sale']);
 
 Route::get('/pembelian/{purchase}/bukti', PurchaseReceiptController::class)
     ->name('purchases.receipt')
