@@ -179,3 +179,30 @@ a.daftar-baris:hover{ background:var(--line-2); }
 .login-latar{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1rem; border-top:4px solid var(--primary); }
 .login-kotak{ width:100%; max-width:380px; padding:1.5rem; }
 .login-kotak h1{ font-family:var(--font-display); font-size:1.5rem; font-weight:700; }
+
+/* .tabel-kartu: di bawah md tiap baris tabel jadi kartu (pola Deepsea).
+   .kartu-judul = baris pertama, .kartu-status = kanan atas, td[data-label] = "Label nilai". */
+@media (max-width:767.98px){
+  .tabel-kartu thead{ display:none; }
+  .tabel-kartu, .tabel-kartu tbody{ display:block; }
+  .tabel-kartu tr{ display:flex; flex-wrap:wrap; align-items:center; gap:.2rem .75rem; padding:.75rem 1rem; border-bottom:1px solid var(--line); }
+  .tabel-kartu tr::after{ content:""; flex:0 0 100%; order:1; height:0; }
+  .tabel-kartu tr:last-child{ border-bottom:0; }
+  .table.tabel-kartu > :not(caption) > * > *{ display:block; flex:0 0 100%; order:2; min-width:0; padding:0; border:0; text-align:left; white-space:normal; color:var(--ink-2); font-size:.9rem; }
+  .table.tabel-kartu > tbody > tr > .kartu-judul{ flex:1 1 0; order:0; color:var(--ink); font-weight:600; font-size:1rem; }
+  .table.tabel-kartu > tbody > tr > .kartu-status{ flex:0 0 auto; order:1; }
+  .tabel-kartu td[data-label]::before{ content:attr(data-label) " "; color:var(--ink-3); }
+  .table.tabel-kartu > tbody > tr > .kartu-aksi{ display:flex; gap:.5rem; margin-top:.5rem; }
+  .tabel-kartu .kartu-aksi .btn{ flex:1; min-height:44px; display:inline-flex; align-items:center; justify-content:center; }
+  .table.tabel-kartu > tbody > tr > .kartu-kosong{ text-align:center; }
+}
+/* Baris yang bisa diklik: satu <a class="stretched-link"> per baris, tanpa JavaScript. */
+.baris-link{ position:relative; cursor:pointer; }
+.table > tbody > tr.baris-link:hover{ --bs-table-bg:var(--line-2); }
+.baris-link :is(a:not(.stretched-link), button, form, input, select){ position:relative; z-index:2; }
+
+/* Daftar label–nilai di halaman detail */
+.rincian{ display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:1rem; margin:0; }
+.rincian dt{ font-size:.8rem; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:.03em; }
+.rincian dd{ margin:0; }
+.pagination{ --bs-pagination-color:var(--ink-2); --bs-pagination-active-bg:var(--primary); --bs-pagination-active-border-color:var(--primary); margin:1rem 0 0; flex-wrap:wrap; }

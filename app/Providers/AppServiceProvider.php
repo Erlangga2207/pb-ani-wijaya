@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\SiteSetting;
 use App\Models\User;
 use App\Services\ReportService;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
     private function bootAdminPanel(): void
     {
         Blade::anonymousComponentPath(resource_path('views/admin/components'), 'admin');
+        Paginator::useBootstrapFive();
 
         // Menu dari config/admin-menu.php, disaring per role & route yang sudah ada. Grup kosong dibuang.
         View::composer('admin.layouts.app', function ($view) {
