@@ -47,12 +47,11 @@
             {{-- Left: Image with Decoration --}}
             <div class="relative" data-aos="fade-right">
                 <div class="aspect-[4/5] rounded-3xl bg-gradient-to-br from-primary/10 to-gold/10 overflow-hidden shadow-2xl relative">
-                    {{-- Background ornament --}}
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <img src="{{ asset('images/logo.png') }}"
-                             alt="PB. Ani Wijaya Logo"
-                             class="w-2/3 h-2/3 object-contain opacity-90 drop-shadow-2xl">
-                    </div>
+                    <img src="{{ asset('images/foto_pabrik.webp') }}"
+                         alt="Pabrik PB. Ani Wijaya"
+                         loading="lazy"
+                         class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent"></div>
 
                     {{-- Floating decoration --}}
                     <div class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
@@ -192,57 +191,80 @@
 <section class="py-20 md:py-32 bg-white">
     <div class="max-w-7xl mx-auto px-5 md:px-12">
 
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <div class="grid lg:grid-cols-2 gap-6 lg:gap-16 lg:items-end mb-12 md:mb-16">
             <div data-aos="fade-up">
                 <span class="text-primary font-bold text-xs uppercase tracking-widest">Pilar Kesuksesan</span>
-                <h2 class="font-heading text-3xl md:text-5xl font-bold text-charcoal mt-3 leading-tight">
+                <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mt-3 leading-tight">
                     Nilai yang Kami <span class="text-primary italic">Pegang Teguh</span>
                 </h2>
             </div>
-            <p class="text-gray-600 max-w-md" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-gray-600 text-base md:text-lg leading-relaxed lg:max-w-md lg:justify-self-end lg:border-l-2 lg:border-primary/20 lg:pl-6" data-aos="fade-up" data-aos-delay="100">
                 Tiga prinsip yang memandu setiap keputusan kami — dari pemilihan ladang hingga kemasan final.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
             {{-- Value 1: Quality --}}
-            <div class="group p-8 md:p-10 bg-surface rounded-3xl hover:bg-charcoal hover:text-white transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
-                <div class="w-16 h-16 bg-white group-hover:bg-primary rounded-2xl flex items-center justify-center mb-8 transition-colors">
-                    <span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+            <div class="group relative flex flex-col p-7 md:p-9 bg-surface rounded-3xl border border-gray-100 hover:bg-charcoal hover:text-white hover:-translate-y-1 transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="w-14 h-14 bg-white group-hover:bg-primary rounded-2xl shadow-sm flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+                    </div>
+                    <span class="font-heading text-4xl font-bold text-primary/15 group-hover:text-white/20 transition-colors">01</span>
                 </div>
 
-                <h4 class="font-heading text-2xl font-bold mb-4">Kualitas Utama</h4>
+                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">Kualitas Utama</h4>
 
                 <p class="text-gray-600 group-hover:text-white/80 leading-relaxed transition-colors">
                     Kualitas bukanlah tindakan, melainkan kebiasaan. Kami menerapkan uji laboratorium ketat untuk kelembaban, kemurnian, dan integritas butiran.
                 </p>
+
+                <div class="mt-auto pt-6">
+                    <div class="h-1 w-12 bg-primary rounded-full group-hover:w-20 transition-all duration-500"></div>
+                </div>
             </div>
 
             {{-- Value 2: Integrity --}}
-            <div class="group p-8 md:p-10 bg-primary text-white rounded-3xl shadow-2xl md:-translate-y-4 hover:-translate-y-6 transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
-                <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-8">
-                    <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">handshake</span>
+            <div class="group relative flex flex-col p-7 md:p-9 bg-primary text-white rounded-3xl shadow-2xl shadow-primary/30 overflow-hidden lg:-translate-y-4 hover:-translate-y-1 lg:hover:-translate-y-6 transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full"></div>
+
+                <div class="relative flex items-start justify-between mb-6">
+                    <div class="w-14 h-14 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">handshake</span>
+                    </div>
+                    <span class="font-heading text-4xl font-bold text-white/25">02</span>
                 </div>
 
-                <h4 class="font-heading text-2xl font-bold mb-4">Integritas</h4>
+                <h4 class="relative font-heading text-xl md:text-2xl font-bold mb-3">Integritas</h4>
 
-                <p class="text-white/90 leading-relaxed">
+                <p class="relative text-white/90 leading-relaxed">
                     Membangun kepercayaan dengan distributor dan retail partner melalui harga yang jujur, sertifikasi berat akurat (NIB), dan konsistensi yang tak tergoyahkan.
                 </p>
+
+                <div class="relative mt-auto pt-6">
+                    <div class="h-1 w-12 bg-gold rounded-full group-hover:w-20 transition-all duration-500"></div>
+                </div>
             </div>
 
             {{-- Value 3: Innovation --}}
-            <div class="group p-8 md:p-10 bg-surface rounded-3xl hover:bg-charcoal hover:text-white transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
-                <div class="w-16 h-16 bg-white group-hover:bg-primary rounded-2xl flex items-center justify-center mb-8 transition-colors">
-                    <span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" style="font-variation-settings: 'FILL' 1;">settings_suggest</span>
+            <div class="group relative flex flex-col p-7 md:p-9 bg-surface rounded-3xl border border-gray-100 hover:bg-charcoal hover:text-white hover:-translate-y-1 transition-all duration-500 md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="w-14 h-14 bg-white group-hover:bg-primary rounded-2xl shadow-sm flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-primary group-hover:text-white text-3xl" style="font-variation-settings: 'FILL' 1;">settings_suggest</span>
+                    </div>
+                    <span class="font-heading text-4xl font-bold text-primary/15 group-hover:text-white/20 transition-colors">03</span>
                 </div>
 
-                <h4 class="font-heading text-2xl font-bold mb-4">Inovasi Tradisional</h4>
+                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">Inovasi Tradisional</h4>
 
                 <p class="text-gray-600 group-hover:text-white/80 leading-relaxed transition-colors">
                     Menghormati kearifan pertanian tradisional sambil berinvestasi pada teknologi penggilingan modern untuk meminimalkan limbah dan memaksimalkan kualitas.
                 </p>
+
+                <div class="mt-auto pt-6">
+                    <div class="h-1 w-12 bg-primary rounded-full group-hover:w-20 transition-all duration-500"></div>
+                </div>
             </div>
         </div>
     </div>

@@ -146,9 +146,11 @@
             <div class="relative" data-aos="fade-right">
                 <div class="aspect-square bg-white rounded-3xl shadow-2xl p-8 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-gold/20 rounded-full blur-3xl"></div>
-                    <img src="{{ asset('images/logo.png') }}"
+                    <img src="{{ asset('images/foto_beras.jpeg') }}"
                          alt="{{ $featuredProduct->name }}"
-                         class="w-full h-full object-contain relative z-10 drop-shadow-xl">
+                         loading="lazy"
+                         class="absolute inset-0 w-full h-full object-cover z-10">
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/30 via-transparent to-charcoal/10 z-10"></div>
 
                     {{-- Premium Badge --}}
                     <div class="absolute top-6 left-6 bg-gold text-charcoal px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg flex items-center gap-2 z-20">

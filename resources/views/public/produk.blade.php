@@ -70,12 +70,11 @@
                         <span class="material-symbols-outlined text-[300px] text-primary absolute -top-10 -right-10 rotate-12">grain</span>
                     </div>
 
-                    {{-- Logo as Product Hero Image --}}
-                    <div class="absolute inset-0 flex items-center justify-center p-12 md:p-16">
-                        <img src="{{ asset('images/logo.png') }}"
-                             alt="Beras Ketan Putih PB. Ani Wijaya"
-                             class="w-full h-full object-contain drop-shadow-2xl">
-                    </div>
+                    {{-- Product Photo --}}
+                    <img src="{{ asset('images/foto_beras.jpeg') }}"
+                         alt="Beras Ketan Putih PB. Ani Wijaya"
+                         class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/30 via-transparent to-charcoal/10"></div>
 
                     {{-- Floating Premium Badge --}}
                     <div class="absolute top-5 left-5 md:top-8 md:left-8 bg-primary text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full font-bold text-xs md:text-sm shadow-lg flex items-center gap-1.5">
