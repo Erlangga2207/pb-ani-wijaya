@@ -4,19 +4,37 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleInvoiceController;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 // ============================================
 // PUBLIC ROUTES (Website untuk pengunjung)
 // ============================================
-Route::get('/', [HomeController::class, 'beranda'])->name('home');
-Route::get('/tentang-kami', [HomeController::class, 'tentangKami'])->name('about');
-Route::get('/produk', [HomeController::class, 'produk'])->name('products');
-Route::get('/galeri', [HomeController::class, 'galeri'])->name('gallery');
-Route::get('/kontak', [HomeController::class, 'kontak'])->name('contact');
+// Didaftarkan dua kali: tanpa prefix (bahasa default, nama route tetap: home, products, ...)
+// dan dengan prefix bahasa (/en/produk, nama route: localized.products). Path tetap slug Indonesia.
+// Link di Blade publik memakai localized_route('products').
+$publicPages = function () {
+    Route::get('/', [HomeController::class, 'beranda'])->name('home');
+    Route::get('/tentang-kami', [HomeController::class, 'tentangKami'])->name('about');
+    Route::get('/produk', [HomeController::class, 'produk'])->name('products');
+    Route::get('/galeri', [HomeController::class, 'galeri'])->name('gallery');
+    Route::get('/kontak', [HomeController::class, 'kontak'])->name('contact');
+};
+
+Route::middleware(SetLocale::class)->group($publicPages);
+
+Route::middleware(SetLocale::class)
+    ->prefix('{locale}')
+    ->where(['locale' => implode('|', array_slice(array_keys(config('locales')), 1))])
+    ->name('localized.')
+    ->group($publicPages);
+
+// Satu route POST untuk semua bahasa; bahasa asal dikirim lewat field "locale".
 Route::post('/kontak', [HomeController::class, 'submitKontak'])
     ->name('contact.submit')
     ->middleware('throttle:5,1'); // anti-spam: 5 kiriman / menit / IP
+
+Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
 // ============================================
 // AUTHENTICATED ROUTES (Internal)
