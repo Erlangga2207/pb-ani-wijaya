@@ -6,7 +6,7 @@
            class="form-control" style="max-width:260px">
     {{ $slot }}
     <button type="submit" class="btn btn-garis">Cari</button>
-    @if (request()->hasAny(['q', 'type', 'status', 'village']))
+    @if (array_filter(request()->except('page')))
         <a href="{{ url()->current() }}" class="btn btn-polos">Reset</a>
     @endif
 </form>

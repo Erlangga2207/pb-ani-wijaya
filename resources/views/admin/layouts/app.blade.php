@@ -55,6 +55,20 @@
             @if (session('gagal'))
                 <div class="alert alert-danger" role="alert">{{ session('gagal') }}</div>
             @endif
+            @if (session('peringatan'))
+                <div class="alert alert-warning" role="alert">{{ session('peringatan') }}</div>
+            @endif
+            {{-- Ringkasan error validasi; berguna untuk pesan dari Service yang tidak terikat satu field (mis. void ditolak). --}}
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    <strong>Belum tersimpan:</strong>
+                    <ul class="mb-0 ps-3">
+                        @foreach ($errors->all() as $message)
+                            <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @yield('konten')
         </main>
     </div>

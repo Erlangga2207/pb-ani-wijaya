@@ -8,6 +8,7 @@ return [
     'boolean' => ':Attribute harus ya atau tidak.',
     'confirmed' => 'Konfirmasi :attribute tidak cocok.',
     'date' => ':Attribute bukan tanggal yang valid.',
+    'distinct' => ':Attribute tidak boleh dobel.',
     'email' => ':Attribute harus alamat email yang valid.',
     'enum' => ':Attribute yang dipilih tidak valid.',
     'exists' => ':Attribute yang dipilih tidak ditemukan.',
@@ -25,11 +26,13 @@ return [
     ],
     'mimes' => ':Attribute harus berformat: :values.',
     'min' => [
+        'array' => ':Attribute minimal :min baris.',
         'numeric' => ':Attribute minimal :min.',
         'string' => ':Attribute minimal :min karakter.',
     ],
     'numeric' => ':Attribute harus berupa angka.',
     'required' => ':Attribute wajib diisi.',
+    'required_without' => ':Attribute wajib diisi bila :values kosong.',
     'string' => ':Attribute harus berupa teks.',
     'unique' => ':Attribute sudah dipakai.',
 ];
