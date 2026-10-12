@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Tentang Kami')
+@section('title', __('Tentang Kami'))
 
 @section('content')
 
@@ -17,22 +17,22 @@
 
         {{-- Breadcrumb --}}
         <div class="flex items-center justify-center gap-2 text-white/60 text-sm mb-8" data-aos="fade-down">
-            <a href="{{ route('home') }}" class="hover:text-gold transition-colors">Beranda</a>
+            <a href="{{ localized_route('home') }}" class="hover:text-gold transition-colors">{{ __('Beranda') }}</a>
             <span class="material-symbols-outlined text-base">chevron_right</span>
-            <span class="text-gold">Tentang Kami</span>
+            <span class="text-gold">{{ __('Tentang Kami') }}</span>
         </div>
 
         <span class="inline-block bg-gold/20 text-gold px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur" data-aos="fade-up">
-            Established Legacy
+            {{ __('Established Legacy') }}
         </span>
 
         <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
-            Warisan Indramayu, <br>
-            <span class="text-primary italic">Mutu Terjamin</span>
+            {{ __('Warisan Indramayu,') }} <br>
+            <span class="text-primary italic">{{ __('Mutu Terjamin') }}</span>
         </h1>
 
         <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-            Selama puluhan tahun, PB. Ani Wijaya menjadi pondasi produksi beras berkualitas — memadukan kearifan tradisional Indramayu dengan teknologi modern untuk menghidupi keluarga di seluruh Indonesia.
+            {{ __('Selama puluhan tahun, PB. Ani Wijaya menjadi pondasi produksi beras berkualitas — memadukan kearifan tradisional Indramayu dengan teknologi modern untuk menghidupi keluarga di seluruh Indonesia.') }}
         </p>
     </div>
 </section>
@@ -48,7 +48,7 @@
             <div class="relative" data-aos="fade-right">
                 <div class="aspect-[4/5] rounded-3xl bg-gradient-to-br from-primary/10 to-gold/10 overflow-hidden shadow-2xl relative">
                     <img src="{{ asset('images/foto_pabrik.webp') }}"
-                         alt="Pabrik PB. Ani Wijaya"
+                         alt="{{ __('Pabrik PB. Ani Wijaya') }}"
                          loading="lazy"
                          class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent"></div>
@@ -57,7 +57,7 @@
                     <div class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-lg">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-gold text-base" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
-                            <span class="text-xs font-bold text-charcoal">Sejak Berdiri</span>
+                            <span class="text-xs font-bold text-charcoal">{{ __('Sejak Berdiri') }}</span>
                         </div>
                     </div>
                 </div>
@@ -66,17 +66,17 @@
                 <div class="hidden lg:block absolute -bottom-10 -right-10 bg-primary p-8 rounded-2xl shadow-2xl max-w-xs text-white">
                     <span class="material-symbols-outlined text-gold text-4xl mb-2">format_quote</span>
                     <p class="font-heading text-lg italic leading-relaxed">
-                        "Setiap butir beras adalah janji kami untuk kualitas."
+                        {{ __('"Setiap butir beras adalah janji kami untuk kualitas."') }}
                     </p>
                     <div class="mt-4 pt-4 border-t border-white/20 text-xs uppercase tracking-widest text-white/70">
-                        — Tim PB. Ani Wijaya
+                        {{ __('— Tim PB. Ani Wijaya') }}
                     </div>
                 </div>
             </div>
 
             {{-- Right: Story Text --}}
             <div data-aos="fade-left">
-                <span class="text-primary font-bold text-xs uppercase tracking-widest">Cerita Kami</span>
+                <span class="text-primary font-bold text-xs uppercase tracking-widest">{{ __('Cerita Kami') }}</span>
 
                 <h2 class="font-heading text-3xl md:text-5xl font-bold text-charcoal mt-3 mb-8 leading-tight">
                     {{ $setting('about_title', 'Perjalanan Ketekunan & Keunggulan') }}
@@ -98,15 +98,15 @@
                 <div class="mt-10 grid grid-cols-3 gap-6">
                     <div>
                         <div class="font-heading text-3xl md:text-4xl font-bold text-primary">{{ $setting('years_experience', '25') }}+</div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">Tahun Pengalaman</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">{{ __('Tahun Pengalaman') }}</div>
                     </div>
                     <div>
                         <div class="font-heading text-3xl md:text-4xl font-bold text-primary">{{ $setting('partners_count', '500') }}+</div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">Mitra Distribusi</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">{{ __('Mitra Distribusi') }}</div>
                     </div>
                     <div>
                         <div class="font-heading text-3xl md:text-4xl font-bold text-primary">100%</div>
-                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">Local Sourced</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wider mt-1">{{ __('Local Sourced') }}</div>
                     </div>
                 </div>
             </div>
@@ -121,12 +121,12 @@
     <div class="max-w-7xl mx-auto px-5 md:px-12">
 
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="text-primary font-bold text-xs uppercase tracking-widest">Visi & Misi</span>
+            <span class="text-primary font-bold text-xs uppercase tracking-widest">{{ __('Visi & Misi') }}</span>
             <h2 class="font-heading text-3xl md:text-5xl font-bold text-charcoal mt-3 mb-4">
-                Tujuan & <span class="text-primary italic">Arah Langkah</span>
+                {{ __('Tujuan &') }} <span class="text-primary italic">{{ __('Arah Langkah') }}</span>
             </h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
-                Apa yang ingin kami capai, dan bagaimana cara kami mencapainya.
+                {{ __('Apa yang ingin kami capai, dan bagaimana cara kami mencapainya.') }}
             </p>
         </div>
 
@@ -142,14 +142,14 @@
                         <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">visibility</span>
                     </div>
 
-                    <span class="text-gold font-bold text-xs uppercase tracking-widest">Visi Kami</span>
+                    <span class="text-gold font-bold text-xs uppercase tracking-widest">{{ __('Visi Kami') }}</span>
 
                     <h3 class="font-heading text-2xl md:text-4xl font-bold mt-3 mb-6 leading-tight">
-                        Menjadi tolak ukur kualitas dan reliabilitas dalam industri penggilingan beras Indonesia.
+                        {{ __('Menjadi tolak ukur kualitas dan reliabilitas dalam industri penggilingan beras Indonesia.') }}
                     </h3>
 
                     <p class="text-white/90 leading-relaxed">
-                        Memberdayakan petani lokal dan memodernisasi rantai pasok beras tradisional — tanpa kehilangan jiwa budaya kami.
+                        {{ __('Memberdayakan petani lokal dan memodernisasi rantai pasok beras tradisional — tanpa kehilangan jiwa budaya kami.') }}
                     </p>
                 </div>
             </div>
@@ -160,24 +160,24 @@
                     <span class="material-symbols-outlined text-gold text-3xl" style="font-variation-settings: 'FILL' 1;">flag</span>
                 </div>
 
-                <span class="text-primary font-bold text-xs uppercase tracking-widest">Misi Strategis</span>
+                <span class="text-primary font-bold text-xs uppercase tracking-widest">{{ __('Misi Strategis') }}</span>
 
                 <h3 class="font-heading text-2xl md:text-3xl font-bold mt-3 mb-6 text-charcoal">
-                    Bagaimana Kami Bertindak
+                    {{ __('Bagaimana Kami Bertindak') }}
                 </h3>
 
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
                         <span class="material-symbols-outlined text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                        <span class="text-gray-600">Memanfaatkan teknologi mutakhir untuk kemurnian dan hasil panen yang optimal.</span>
+                        <span class="text-gray-600">{{ __('Memanfaatkan teknologi mutakhir untuk kemurnian dan hasil panen yang optimal.') }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="material-symbols-outlined text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                        <span class="text-gray-600">Membangun kemitraan jangka panjang berdasarkan transparansi dan integritas.</span>
+                        <span class="text-gray-600">{{ __('Membangun kemitraan jangka panjang berdasarkan transparansi dan integritas.') }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <span class="material-symbols-outlined text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                        <span class="text-gray-600">Berkontribusi pada ketahanan pangan nasional melalui supply chain yang konsisten.</span>
+                        <span class="text-gray-600">{{ __('Berkontribusi pada ketahanan pangan nasional melalui supply chain yang konsisten.') }}</span>
                     </li>
                 </ul>
             </div>
@@ -193,13 +193,13 @@
 
         <div class="grid lg:grid-cols-2 gap-6 lg:gap-16 lg:items-end mb-12 md:mb-16">
             <div data-aos="fade-up">
-                <span class="text-primary font-bold text-xs uppercase tracking-widest">Pilar Kesuksesan</span>
+                <span class="text-primary font-bold text-xs uppercase tracking-widest">{{ __('Pilar Kesuksesan') }}</span>
                 <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mt-3 leading-tight">
-                    Nilai yang Kami <span class="text-primary italic">Pegang Teguh</span>
+                    {{ __('Nilai yang Kami') }} <span class="text-primary italic">{{ __('Pegang Teguh') }}</span>
                 </h2>
             </div>
             <p class="text-gray-600 text-base md:text-lg leading-relaxed lg:max-w-md lg:justify-self-end lg:border-l-2 lg:border-primary/20 lg:pl-6" data-aos="fade-up" data-aos-delay="100">
-                Tiga prinsip yang memandu setiap keputusan kami — dari pemilihan ladang hingga kemasan final.
+                {{ __('Tiga prinsip yang memandu setiap keputusan kami — dari pemilihan ladang hingga kemasan final.') }}
             </p>
         </div>
 
@@ -214,10 +214,10 @@
                     <span class="font-heading text-4xl font-bold text-primary/15 group-hover:text-white/20 transition-colors">01</span>
                 </div>
 
-                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">Kualitas Utama</h4>
+                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">{{ __('Kualitas Utama') }}</h4>
 
                 <p class="text-gray-600 group-hover:text-white/80 leading-relaxed transition-colors">
-                    Kualitas bukanlah tindakan, melainkan kebiasaan. Kami menerapkan uji laboratorium ketat untuk kelembaban, kemurnian, dan integritas butiran.
+                    {{ __('Kualitas bukanlah tindakan, melainkan kebiasaan. Kami menerapkan uji laboratorium ketat untuk kelembaban, kemurnian, dan integritas butiran.') }}
                 </p>
 
                 <div class="mt-auto pt-6">
@@ -236,10 +236,10 @@
                     <span class="font-heading text-4xl font-bold text-white/25">02</span>
                 </div>
 
-                <h4 class="relative font-heading text-xl md:text-2xl font-bold mb-3">Integritas</h4>
+                <h4 class="relative font-heading text-xl md:text-2xl font-bold mb-3">{{ __('Integritas') }}</h4>
 
                 <p class="relative text-white/90 leading-relaxed">
-                    Membangun kepercayaan dengan distributor dan retail partner melalui harga yang jujur, sertifikasi berat akurat (NIB), dan konsistensi yang tak tergoyahkan.
+                    {{ __('Membangun kepercayaan dengan distributor dan retail partner melalui harga yang jujur, sertifikasi berat akurat (NIB), dan konsistensi yang tak tergoyahkan.') }}
                 </p>
 
                 <div class="relative mt-auto pt-6">
@@ -256,10 +256,10 @@
                     <span class="font-heading text-4xl font-bold text-primary/15 group-hover:text-white/20 transition-colors">03</span>
                 </div>
 
-                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">Inovasi Tradisional</h4>
+                <h4 class="font-heading text-xl md:text-2xl font-bold mb-3">{{ __('Inovasi Tradisional') }}</h4>
 
                 <p class="text-gray-600 group-hover:text-white/80 leading-relaxed transition-colors">
-                    Menghormati kearifan pertanian tradisional sambil berinvestasi pada teknologi penggilingan modern untuk meminimalkan limbah dan memaksimalkan kualitas.
+                    {{ __('Menghormati kearifan pertanian tradisional sambil berinvestasi pada teknologi penggilingan modern untuk meminimalkan limbah dan memaksimalkan kualitas.') }}
                 </p>
 
                 <div class="mt-auto pt-6">
@@ -278,19 +278,19 @@
         <div class="text-center text-white" data-aos="zoom-in">
             <div class="inline-flex items-center justify-center gap-3 bg-gold/20 backdrop-blur px-6 py-2 rounded-full mb-6">
                 <span class="material-symbols-outlined text-gold" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
-                <span class="text-gold font-bold text-xs uppercase tracking-widest">Resmi & Terpercaya</span>
+                <span class="text-gold font-bold text-xs uppercase tracking-widest">{{ __('Resmi & Terpercaya') }}</span>
             </div>
 
             <h3 class="font-heading text-2xl md:text-4xl font-bold mb-4">
-                Terverifikasi NIB
+                {{ __('Terverifikasi NIB') }}
             </h3>
 
             <p class="text-white/80 mb-8 max-w-2xl mx-auto">
-                Lisensi resmi dari pemerintah Indonesia dengan nomor registrasi yang dapat diverifikasi publik.
+                {{ __('Lisensi resmi dari pemerintah Indonesia dengan nomor registrasi yang dapat diverifikasi publik.') }}
             </p>
 
             <div class="inline-block bg-white/10 backdrop-blur border border-white/20 rounded-2xl px-8 py-4">
-                <div class="text-xs uppercase tracking-widest text-white/60 mb-1">Business Registration ID</div>
+                <div class="text-xs uppercase tracking-widest text-white/60 mb-1">{{ __('Business Registration ID') }}</div>
                 <div class="font-heading text-3xl md:text-4xl font-bold text-gold">
                     {{ $setting('company_nib', '1412210030165') }}
                 </div>
@@ -306,23 +306,23 @@
     <div class="max-w-5xl mx-auto px-5 md:px-12 text-center" data-aos="fade-up">
 
         <h2 class="font-heading text-3xl md:text-5xl font-bold text-charcoal mb-6 leading-tight">
-            Siap menjadi bagian dari <br>
-            <span class="text-primary italic">cerita kami selanjutnya?</span>
+            {{ __('Siap menjadi bagian dari') }} <br>
+            <span class="text-primary italic">{{ __('cerita kami selanjutnya?') }}</span>
         </h2>
 
         <p class="text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Distributor, retailer, atau pemilik usaha kuliner — kami terbuka untuk diskusi kerjasama jangka panjang yang saling menguntungkan.
+            {{ __('Distributor, retailer, atau pemilik usaha kuliner — kami terbuka untuk diskusi kerjasama jangka panjang yang saling menguntungkan.') }}
         </p>
 
         <div class="flex flex-wrap gap-4 justify-center">
-            <a href="{{ route('contact') }}"
+            <a href="{{ localized_route('contact') }}"
                class="bg-primary text-white px-8 py-4 rounded-lg font-bold hover:bg-primary-hover transition-all shadow-lg hover:shadow-xl active:scale-95 inline-flex items-center gap-2">
                 <span class="material-symbols-outlined">mail</span>
-                <span>Hubungi Kami</span>
+                <span>{{ __('Hubungi Kami') }}</span>
             </a>
-            <a href="{{ route('products') }}"
+            <a href="{{ localized_route('products') }}"
                class="border-2 border-charcoal text-charcoal px-8 py-4 rounded-lg font-bold hover:bg-charcoal hover:text-white transition-all active:scale-95 inline-flex items-center gap-2">
-                <span>Lihat Produk</span>
+                <span>{{ __('Lihat Produk') }}</span>
                 <span class="material-symbols-outlined">arrow_forward</span>
             </a>
         </div>

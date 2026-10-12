@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Galeri - Dokumentasi Fasilitas & Produk')
+@section('title', __('Galeri - Dokumentasi Fasilitas & Produk'))
 
 @section('content')
 
@@ -18,25 +18,25 @@
         <div class="relative z-10 max-w-5xl mx-auto px-5 md:px-12 text-center">
             {{-- Breadcrumb --}}
             <div class="flex items-center justify-center gap-2 text-white/60 text-sm mb-6 md:mb-8" data-aos="fade-down">
-                <a href="{{ route('home') }}" class="hover:text-gold transition-colors">Beranda</a>
+                <a href="{{ localized_route('home') }}" class="hover:text-gold transition-colors">{{ __('Beranda') }}</a>
                 <span class="material-symbols-outlined text-base">chevron_right</span>
-                <span class="text-gold">Galeri</span>
+                <span class="text-gold">{{ __('Galeri') }}</span>
             </div>
 
             {{-- Badge --}}
             <span class="inline-block bg-gold/20 text-gold px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur" data-aos="fade-up">
-                Dokumentasi Operasi
+                {{ __('Dokumentasi Operasi') }}
             </span>
 
             {{-- Title --}}
             <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
-                Mutu Terjamin, <br>
-                <span class="text-primary italic">Butir Demi Butir.</span>
+                {{ __('Mutu Terjamin,') }} <br>
+                <span class="text-primary italic">{{ __('Butir Demi Butir.') }}</span>
             </h1>
 
             {{-- Subtitle --}}
             <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-                Jelajahi fasilitas penggilingan modern kami di Indramayu — dari sawah emas Jawa Barat hingga lini pengemasan presisi. Transparansi adalah pondasi PB. Ani Wijaya.
+                {{ __('Jelajahi fasilitas penggilingan modern kami di Indramayu — dari sawah emas Jawa Barat hingga lini pengemasan presisi. Transparansi adalah pondasi PB. Ani Wijaya.') }}
             </p>
         </div>
     </section>
@@ -53,7 +53,7 @@
                     :class="filter === 'all' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">apps</span>
-                    Semua
+                    {{ __('Semua') }}
                     <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.all"></span>
                 </button>
 
@@ -62,7 +62,7 @@
                     :class="filter === 'origin' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">agriculture</span>
-                    Asal Padi
+                    {{ __('Asal Padi') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.origin"></span>
                 </button>
 
@@ -71,7 +71,7 @@
                     :class="filter === 'processing' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">settings_suggest</span>
-                    Produksi
+                    {{ __('Produksi') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.processing"></span>
                 </button>
 
@@ -80,7 +80,7 @@
                     :class="filter === 'quality' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">verified</span>
-                    Kualitas
+                    {{ __('Kualitas') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.quality"></span>
                 </button>
 
@@ -89,7 +89,7 @@
                     :class="filter === 'logistics' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">local_shipping</span>
-                    Logistik
+                    {{ __('Logistik') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.logistics"></span>
                 </button>
 
@@ -98,7 +98,7 @@
                     :class="filter === 'product' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">rice_bowl</span>
-                    Produk
+                    {{ __('Produk') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.product"></span>
                 </button>
 
@@ -107,7 +107,7 @@
                     :class="filter === 'facility' ? 'bg-primary text-white shadow-md' : 'bg-surface text-charcoal hover:bg-surface/70'"
                     class="flex-shrink-0 px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-95">
                     <span class="material-symbols-outlined text-base">factory</span>
-                    Fasilitas
+                    {{ __('Fasilitas') }}
                     <span class="bg-black/10 px-2 py-0.5 rounded-full text-[10px]" x-text="counts.facility"></span>
                 </button>
             </div>
@@ -148,14 +148,14 @@
 
                             // Category label mapping
                             $categoryLabels = [
-                                'origin' => ['label' => 'Asal Padi', 'icon' => 'agriculture'],
-                                'processing' => ['label' => 'Produksi', 'icon' => 'settings_suggest'],
-                                'quality' => ['label' => 'Kualitas', 'icon' => 'verified'],
-                                'logistics' => ['label' => 'Logistik', 'icon' => 'local_shipping'],
-                                'product' => ['label' => 'Produk', 'icon' => 'rice_bowl'],
-                                'facility' => ['label' => 'Fasilitas', 'icon' => 'factory'],
+                                'origin' => ['label' => __('Asal Padi'), 'icon' => 'agriculture'],
+                                'processing' => ['label' => __('Produksi'), 'icon' => 'settings_suggest'],
+                                'quality' => ['label' => __('Kualitas'), 'icon' => 'verified'],
+                                'logistics' => ['label' => __('Logistik'), 'icon' => 'local_shipping'],
+                                'product' => ['label' => __('Produk'), 'icon' => 'rice_bowl'],
+                                'facility' => ['label' => __('Fasilitas'), 'icon' => 'factory'],
                             ];
-                            $catInfo = $categoryLabels[$gallery->category] ?? ['label' => 'Galeri', 'icon' => 'image'];
+                            $catInfo = $categoryLabels[$gallery->category] ?? ['label' => __('Galeri'), 'icon' => 'image'];
 
                             $fileUrl = asset('storage/' . $gallery->file_path);
                         @endphp
@@ -194,7 +194,7 @@
                                 {{-- Video badge --}}
                                 <div class="absolute top-3 right-3 bg-black/60 backdrop-blur text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-widest flex items-center gap-1">
                                     <span class="material-symbols-outlined text-xs">videocam</span>
-                                    Video
+                                    {{ __('Video') }}
                                 </div>
                             @else
                                 {{-- Image --}}
@@ -230,12 +230,12 @@
                     <div class="w-20 h-20 bg-surface rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="material-symbols-outlined text-gray-400 text-4xl">image_search</span>
                     </div>
-                    <h3 class="font-heading text-xl font-bold text-charcoal mb-2">Belum ada konten di kategori ini</h3>
-                    <p class="text-sm text-gray-600 mb-6">Konten untuk kategori ini akan segera ditambahkan.</p>
+                    <h3 class="font-heading text-xl font-bold text-charcoal mb-2">{{ __('Belum ada konten di kategori ini') }}</h3>
+                    <p class="text-sm text-gray-600 mb-6">{{ __('Konten untuk kategori ini akan segera ditambahkan.') }}</p>
                     <button @click="setFilter('all')"
                             class="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-full font-bold text-sm hover:bg-primary/90 transition-all active:scale-95">
                         <span class="material-symbols-outlined text-base">apps</span>
-                        Lihat Semua
+                        {{ __('Lihat Semua') }}
                     </button>
                 </div>
 
@@ -245,14 +245,14 @@
                     <div class="w-24 h-24 bg-surface rounded-full flex items-center justify-center mx-auto mb-6">
                         <span class="material-symbols-outlined text-gray-400 text-5xl">photo_library</span>
                     </div>
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-charcoal mb-3">Galeri Sedang Dipersiapkan</h3>
+                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-charcoal mb-3">{{ __('Galeri Sedang Dipersiapkan') }}</h3>
                     <p class="text-base text-gray-600 max-w-md mx-auto mb-8">
-                        Tim kami sedang mengkurasi foto dan video terbaik dari fasilitas produksi. Silakan kembali sebentar lagi!
+                        {{ __('Tim kami sedang mengkurasi foto dan video terbaik dari fasilitas produksi. Silakan kembali sebentar lagi!') }}
                     </p>
-                    <a href="{{ route('products') }}"
+                    <a href="{{ localized_route('products') }}"
                        class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-primary/90 transition-all active:scale-95">
                         <span class="material-symbols-outlined">arrow_forward</span>
-                        Jelajahi Produk Kami
+                        {{ __('Jelajahi Produk Kami') }}
                     </a>
                 </div>
             @endif
@@ -268,12 +268,12 @@
             <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-surface text-center">
                 <div class="flex items-center justify-center gap-2 mb-4">
                     <div class="h-px w-12 bg-primary"></div>
-                    <span class="text-primary font-bold text-xs uppercase tracking-widest">Terverifikasi</span>
+                    <span class="text-primary font-bold text-xs uppercase tracking-widest">{{ __('Terverifikasi') }}</span>
                     <div class="h-px w-12 bg-primary"></div>
                 </div>
 
                 <h2 class="font-heading text-2xl md:text-4xl font-bold text-charcoal mb-8" data-aos="fade-up">
-                    NIB Terdaftar &amp; <span class="text-primary italic">Kualitas Tersertifikasi</span>
+                    {{ __('NIB Terdaftar &') }} <span class="text-primary italic">{{ __('Kualitas Tersertifikasi') }}</span>
                 </h2>
 
                 <div class="flex flex-wrap justify-center gap-8 md:gap-16">
@@ -282,7 +282,7 @@
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gold/20 flex items-center justify-center mb-3">
                             <span class="material-symbols-outlined text-gold text-3xl md:text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
                         </div>
-                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">NIB</span>
+                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">{{ __('NIB') }}</span>
                         <span class="text-xs md:text-sm font-bold text-charcoal">{{ $setting('company_nib', '1412210030165') }}</span>
                     </div>
 
@@ -291,8 +291,8 @@
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gold/20 flex items-center justify-center mb-3">
                             <span class="material-symbols-outlined text-gold text-3xl md:text-4xl" style="font-variation-settings: 'FILL' 1;">eco</span>
                         </div>
-                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Proses</span>
-                        <span class="text-xs md:text-sm font-bold text-charcoal">100% Natural</span>
+                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">{{ __('Proses') }}</span>
+                        <span class="text-xs md:text-sm font-bold text-charcoal">{{ __('100% Natural') }}</span>
                     </div>
 
                     {{-- Mutu Terjamin --}}
@@ -300,8 +300,8 @@
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gold/20 flex items-center justify-center mb-3">
                             <span class="material-symbols-outlined text-gold text-3xl md:text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
                         </div>
-                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Mutu</span>
-                        <span class="text-xs md:text-sm font-bold text-charcoal">Terjamin</span>
+                        <span class="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">{{ __('Mutu') }}</span>
+                        <span class="text-xs md:text-sm font-bold text-charcoal">{{ __('Terjamin') }}</span>
                     </div>
                 </div>
             </div>

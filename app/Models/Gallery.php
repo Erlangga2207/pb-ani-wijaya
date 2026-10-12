@@ -37,14 +37,14 @@ class Gallery extends Model
     public function getCategoryLabelAttribute(): string
     {
         return match ($this->category) {
-            'origin' => '🌾 Origin',
-            'processing' => '⚙️ Processing',
-            'quality' => '✓ Quality Control',
-            'logistics' => '📦 Logistics',
-            'product' => '🍚 Final Product',
-            'facility' => '🏭 Facility',
-            'other' => '📷 Other',
-            default => 'Other',
+            'origin' => __('🌾 Origin'),
+            'processing' => __('⚙️ Processing'),
+            'quality' => __('✓ Quality Control'),
+            'logistics' => __('📦 Logistics'),
+            'product' => __('🍚 Final Product'),
+            'facility' => __('🏭 Facility'),
+            'other' => __('📷 Other'),
+            default => __('Other'),
         };
     }
 }

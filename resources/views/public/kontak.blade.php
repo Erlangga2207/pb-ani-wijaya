@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Kontak - Hubungi PB. Ani Wijaya')
+@section('title', __('Kontak - Hubungi PB. Ani Wijaya'))
 
 @section('content')
 
@@ -15,25 +15,25 @@
     <div class="relative z-10 max-w-5xl mx-auto px-5 md:px-12 text-center">
         {{-- Breadcrumb --}}
         <div class="flex items-center justify-center gap-2 text-white/60 text-sm mb-6 md:mb-8" data-aos="fade-down">
-            <a href="{{ route('home') }}" class="hover:text-gold transition-colors">Beranda</a>
+            <a href="{{ localized_route('home') }}" class="hover:text-gold transition-colors">{{ __('Beranda') }}</a>
             <span class="material-symbols-outlined text-base">chevron_right</span>
-            <span class="text-gold">Kontak</span>
+            <span class="text-gold">{{ __('Kontak') }}</span>
         </div>
 
         {{-- Badge --}}
         <span class="inline-block bg-gold/20 text-gold px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur" data-aos="fade-up">
-            Mari Berkolaborasi
+            {{ __('Mari Berkolaborasi') }}
         </span>
 
         {{-- Title --}}
         <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
-            Hubungi Kami, <br>
-            <span class="text-primary italic">Kami Siap Melayani.</span>
+            {{ __('Hubungi Kami,') }} <br>
+            <span class="text-primary italic">{{ __('Kami Siap Melayani.') }}</span>
         </h1>
 
         {{-- Subtitle --}}
         <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-            Distributor, retailer, atau pelaku UMKM kuliner — tim PB. Ani Wijaya siap merespons setiap pertanyaan kemitraan, harga grosir, atau kunjungan fasilitas.
+            {{ __('Distributor, retailer, atau pelaku UMKM kuliner — tim PB. Ani Wijaya siap merespons setiap pertanyaan kemitraan, harga grosir, atau kunjungan fasilitas.') }}
         </p>
     </div>
 </section>
@@ -55,7 +55,7 @@
                     <span class="material-symbols-outlined text-white">check</span>
                 </div>
                 <div class="flex-1">
-                    <h4 class="font-bold text-green-900 mb-1">Berhasil Terkirim!</h4>
+                    <h4 class="font-bold text-green-900 mb-1">{{ __('Berhasil Terkirim!') }}</h4>
                     <p class="text-sm text-green-800">{{ session('success') }}</p>
                 </div>
                 <button @click="show = false" class="text-green-700 hover:text-green-900 transition-colors p-1">
@@ -71,7 +71,7 @@
                     <span class="material-symbols-outlined text-white">error</span>
                 </div>
                 <div class="flex-1">
-                    <h4 class="font-bold text-red-900 mb-1">Mohon periksa kembali:</h4>
+                    <h4 class="font-bold text-red-900 mb-1">{{ __('Mohon periksa kembali:') }}</h4>
                     <ul class="text-sm text-red-800 list-disc list-inside">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -90,19 +90,20 @@
                     {{-- Header --}}
                     <div class="mb-8">
                         <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-3">
-                            Formulir Pertanyaan
+                            {{ __('Formulir Pertanyaan') }}
                         </span>
                         <h2 class="font-heading text-2xl md:text-4xl font-bold text-charcoal mb-3">
-                            Kirim Pesan ke <span class="text-primary italic">Tim Kami</span>
+                            {{ __('Kirim Pesan ke') }} <span class="text-primary italic">{{ __('Tim Kami') }}</span>
                         </h2>
                         <p class="text-sm md:text-base text-gray-600">
-                            Isi formulir di bawah dan tim sales akan merespons dalam <strong>1×24 jam kerja</strong>.
+                            {{ __('Isi formulir di bawah dan tim sales akan merespons dalam') }} <strong>{{ __('1×24 jam kerja') }}</strong>.
                         </p>
                     </div>
 
                     {{-- Form --}}
                     <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6">
                         @csrf
+                        <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
                         <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                         {{-- Name + Email Grid --}}
@@ -111,13 +112,13 @@
                             <div>
                                 <label for="name" class="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-widest mb-2">
                                     <span class="material-symbols-outlined text-primary text-base">person</span>
-                                    Nama Lengkap <span class="text-primary">*</span>
+                                    {{ __('Nama Lengkap') }} <span class="text-primary">*</span>
                                 </label>
                                 <input type="text"
                                        id="name"
                                        name="name"
                                        value="{{ old('name') }}"
-                                       placeholder="Nama Anda"
+                                       placeholder="{{ __('Nama Anda') }}"
                                        required
                                        class="w-full bg-white border-2 {{ $errors->has('name') ? 'border-red-500' : 'border-gray-200' }} rounded-xl px-4 py-3 md:py-3.5 text-charcoal placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors">
                                 @error('name')
@@ -132,13 +133,13 @@
                             <div>
                                 <label for="email" class="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-widest mb-2">
                                     <span class="material-symbols-outlined text-primary text-base">mail</span>
-                                    Email <span class="text-primary">*</span>
+                                    {{ __('Email') }} <span class="text-primary">*</span>
                                 </label>
                                 <input type="email"
                                        id="email"
                                        name="email"
                                        value="{{ old('email') }}"
-                                       placeholder="email@perusahaan.com"
+                                       placeholder="{{ __('email@perusahaan.com') }}"
                                        required
                                        class="w-full bg-white border-2 {{ $errors->has('email') ? 'border-red-500' : 'border-gray-200' }} rounded-xl px-4 py-3 md:py-3.5 text-charcoal placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors">
                                 @error('email')
@@ -154,13 +155,13 @@
                         <div>
                             <label for="subject" class="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-widest mb-2">
                                 <span class="material-symbols-outlined text-primary text-base">label</span>
-                                Subjek <span class="text-gray-400 normal-case font-normal">(opsional)</span>
+                                {{ __('Subjek') }} <span class="text-gray-400 normal-case font-normal">{{ __('(opsional)') }}</span>
                             </label>
                             <input type="text"
                                    id="subject"
                                    name="subject"
                                    value="{{ old('subject') }}"
-                                   placeholder="Mis. Permintaan Harga Grosir / Kemitraan / Kunjungan Pabrik"
+                                   placeholder="{{ __('Mis. Permintaan Harga Grosir / Kemitraan / Kunjungan Pabrik') }}"
                                    class="w-full bg-white border-2 {{ $errors->has('subject') ? 'border-red-500' : 'border-gray-200' }} rounded-xl px-4 py-3 md:py-3.5 text-charcoal placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors">
                             @error('subject')
                                 <p class="mt-1.5 text-xs text-red-600 flex items-center gap-1">
@@ -174,12 +175,12 @@
                         <div>
                             <label for="message" class="flex items-center gap-1.5 text-xs font-bold text-charcoal uppercase tracking-widest mb-2">
                                 <span class="material-symbols-outlined text-primary text-base">edit_note</span>
-                                Pesan <span class="text-primary">*</span>
+                                {{ __('Pesan') }} <span class="text-primary">*</span>
                             </label>
                             <textarea id="message"
                                       name="message"
                                       rows="6"
-                                      placeholder="Ceritakan kebutuhan Anda — jumlah kebutuhan beras, lokasi pengiriman, jadwal, atau pertanyaan lainnya..."
+                                      placeholder="{{ __('Ceritakan kebutuhan Anda — jumlah kebutuhan beras, lokasi pengiriman, jadwal, atau pertanyaan lainnya...') }}"
                                       required
                                       class="w-full bg-white border-2 {{ $errors->has('message') ? 'border-red-500' : 'border-gray-200' }} rounded-xl px-4 py-3 md:py-3.5 text-charcoal placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors resize-none">{{ old('message') }}</textarea>
                             @error('message')
@@ -188,7 +189,7 @@
                                     {{ $message }}
                                 </p>
                             @enderror
-                            <p class="mt-1.5 text-xs text-gray-500">Maksimal 5000 karakter</p>
+                            <p class="mt-1.5 text-xs text-gray-500">{{ __('Maksimal 5000 karakter') }}</p>
                         </div>
 
                         {{-- Submit Button --}}
@@ -196,11 +197,11 @@
                             <button type="submit"
                                     class="w-full md:w-auto bg-primary text-white px-8 md:px-12 py-4 rounded-xl font-bold text-base hover:bg-primary/90 transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95">
                                 <span class="material-symbols-outlined">send</span>
-                                Kirim Pesan Sekarang
+                                {{ __('Kirim Pesan Sekarang') }}
                             </button>
                             <p class="mt-3 text-xs text-gray-500 flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-sm text-gold">lock</span>
-                                Data Anda aman dan hanya digunakan untuk merespons pertanyaan ini.
+                                {{ __('Data Anda aman dan hanya digunakan untuk merespons pertanyaan ini.') }}
                             </p>
                         </div>
                     </form>
@@ -218,19 +219,19 @@
                     </div>
 
                     <div class="relative z-10">
-                        <h3 class="font-heading text-xl md:text-2xl font-bold mb-2">Kontak Langsung</h3>
-                        <p class="text-xs text-white/60 mb-6">Respons cepat melalui channel berikut</p>
+                        <h3 class="font-heading text-xl md:text-2xl font-bold mb-2">{{ __('Kontak Langsung') }}</h3>
+                        <p class="text-xs text-white/60 mb-6">{{ __('Respons cepat melalui channel berikut') }}</p>
 
                         <div class="space-y-4">
                             {{-- WhatsApp --}}
-                            <a href="https://wa.me/{{ $setting('social_whatsapp', '6281234567890') }}?text=Halo%20PB.%20Ani%20Wijaya,%20saya%20ingin%20bertanya..."
+                            <a href="https://wa.me/{{ $setting('social_whatsapp', '6281234567890') }}?text={{ rawurlencode(__('Halo PB. Ani Wijaya, saya ingin bertanya...')) }}"
                                target="_blank"
                                class="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors group">
                                 <div class="w-11 h-11 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <span class="material-symbols-outlined text-white">chat</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">WhatsApp</p>
+                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">{{ __('WhatsApp') }}</p>
                                     <p class="text-sm font-bold truncate">+{{ $setting('social_whatsapp', '6281234567890') }}</p>
                                 </div>
                                 <span class="material-symbols-outlined text-white/40 group-hover:text-white transition-colors">arrow_outward</span>
@@ -243,7 +244,7 @@
                                     <span class="material-symbols-outlined text-white">call</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">Telepon</p>
+                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">{{ __('Telepon') }}</p>
                                     <p class="text-sm font-bold truncate">{{ $setting('contact_phone', '+62 812-3456-7890') }}</p>
                                 </div>
                                 <span class="material-symbols-outlined text-white/40 group-hover:text-white transition-colors">arrow_outward</span>
@@ -256,7 +257,7 @@
                                     <span class="material-symbols-outlined text-charcoal">mail</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">Email</p>
+                                    <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">{{ __('Email') }}</p>
                                     <p class="text-sm font-bold truncate">{{ $setting('contact_email', 'info@pbaniwijaya.com') }}</p>
                                 </div>
                                 <span class="material-symbols-outlined text-white/40 group-hover:text-white transition-colors">arrow_outward</span>
@@ -272,8 +273,8 @@
                             <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
                         </div>
                         <div>
-                            <h3 class="font-heading text-lg font-bold text-charcoal">Alamat Pabrik</h3>
-                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Kantor &amp; Produksi</p>
+                            <h3 class="font-heading text-lg font-bold text-charcoal">{{ __('Alamat Pabrik') }}</h3>
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ __('Kantor & Produksi') }}</p>
                         </div>
                     </div>
 
@@ -285,7 +286,7 @@
                     <div class="pt-4 border-t border-surface">
                         <div class="flex items-center gap-2 mb-1">
                             <span class="material-symbols-outlined text-gold text-sm">verified</span>
-                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">NIB Terdaftar</span>
+                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ __('NIB Terdaftar') }}</span>
                         </div>
                         <p class="text-sm font-bold text-charcoal">{{ $setting('company_nib', '1412210030165') }}</p>
                     </div>
@@ -298,26 +299,26 @@
                             <span class="material-symbols-outlined text-charcoal" style="font-variation-settings: 'FILL' 1;">schedule</span>
                         </div>
                         <div>
-                            <h3 class="font-heading text-lg font-bold text-charcoal">Jam Operasional</h3>
-                            <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Waktu Pelayanan</p>
+                            <h3 class="font-heading text-lg font-bold text-charcoal">{{ __('Jam Operasional') }}</h3>
+                            <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest">{{ __('Waktu Pelayanan') }}</p>
                         </div>
                     </div>
 
                     <ul class="space-y-3">
                         {{-- Senin - Jumat --}}
                         <li class="flex items-center justify-between pb-3 border-b border-gold/20">
-                            <span class="text-sm font-bold text-charcoal">Senin – Jumat</span>
+                            <span class="text-sm font-bold text-charcoal">{{ __('Senin – Jumat') }}</span>
                             <span class="text-sm text-charcoal/80">08:00 – 17:00</span>
                         </li>
                         {{-- Sabtu --}}
                         <li class="flex items-center justify-between pb-3 border-b border-gold/20">
-                            <span class="text-sm font-bold text-charcoal">Sabtu</span>
+                            <span class="text-sm font-bold text-charcoal">{{ __('Sabtu') }}</span>
                             <span class="text-sm text-charcoal/80">08:00 – 14:00</span>
                         </li>
                         {{-- Minggu --}}
                         <li class="flex items-center justify-between">
-                            <span class="text-sm font-bold text-charcoal">Minggu</span>
-                            <span class="text-sm text-red-600 font-bold">Tutup</span>
+                            <span class="text-sm font-bold text-charcoal">{{ __('Minggu') }}</span>
+                            <span class="text-sm text-red-600 font-bold">{{ __('Tutup') }}</span>
                         </li>
                     </ul>
 
@@ -325,7 +326,7 @@
                     <div class="mt-5 pt-4 border-t border-gold/20 flex items-start gap-2">
                         <span class="material-symbols-outlined text-gold text-base mt-0.5">info</span>
                         <p class="text-xs text-charcoal/80 leading-relaxed">
-                            Untuk kunjungan pabrik, mohon konfirmasi via WhatsApp <strong>minimal 1 hari sebelumnya</strong>.
+                            {{ __('Untuk kunjungan pabrik, mohon konfirmasi via WhatsApp') }} <strong>{{ __('minimal 1 hari sebelumnya') }}</strong>.
                         </p>
                     </div>
                 </div>
@@ -344,10 +345,10 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8" data-aos="fade-up">
             <div>
                 <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-3">
-                    Lokasi Fasilitas
+                    {{ __('Lokasi Fasilitas') }}
                 </span>
                 <h2 class="font-heading text-3xl md:text-4xl font-bold text-charcoal">
-                    Temukan Kami di <span class="text-primary italic">Indramayu</span>
+                    {{ __('Temukan Kami di') }} <span class="text-primary italic">{{ __('Indramayu') }}</span>
                 </h2>
             </div>
 
@@ -362,7 +363,7 @@
                target="_blank"
                class="inline-flex items-center gap-2 bg-charcoal text-white px-5 py-3 rounded-xl font-bold text-sm hover:bg-charcoal/90 transition-all active:scale-95">
                 <span class="material-symbols-outlined text-base">directions</span>
-                Petunjuk Arah
+                {{ __('Petunjuk Arah') }}
             </a>
         </div>
 
@@ -393,7 +394,7 @@
                        target="_blank"
                        class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-primary/90 transition-all active:scale-95">
                         <span class="material-symbols-outlined">map</span>
-                        Buka di Google Maps
+                        {{ __('Buka di Google Maps') }}
                     </a>
                 </div>
             @endif
@@ -403,7 +404,7 @@
                 <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-surface p-4 md:p-5 max-w-[260px] md:max-w-xs">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings: 'FILL' 1;">location_on</span>
-                        <span class="text-[10px] font-bold text-primary uppercase tracking-widest">Lokasi Utama</span>
+                        <span class="text-[10px] font-bold text-primary uppercase tracking-widest">{{ __('Lokasi Utama') }}</span>
                     </div>
                     <h4 class="font-heading text-base md:text-lg font-bold text-charcoal mb-2 leading-tight">
                         {{ $setting('company_name', 'PB. Ani Wijaya') }}
@@ -432,31 +433,31 @@
             <div class="relative z-10 max-w-3xl mx-auto">
                 {{-- Badge --}}
                 <span class="inline-block bg-gold/20 text-gold px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur" data-aos="fade-up">
-                    Mutu Terjamin
+                    {{ __('Mutu Terjamin') }}
                 </span>
 
                 {{-- Heading --}}
                 <h2 class="font-heading text-3xl md:text-5xl font-bold text-white mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
-                    Butuh Respons <span class="text-primary italic">Lebih Cepat?</span>
+                    {{ __('Butuh Respons') }} <span class="text-primary italic">{{ __('Lebih Cepat?') }}</span>
                 </h2>
 
                 {{-- Subtitle --}}
                 <p class="text-base md:text-lg text-white/80 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    Untuk konsultasi mendesak atau permintaan harga grosir hari ini, langsung hubungi tim sales kami via WhatsApp.
+                    {{ __('Untuk konsultasi mendesak atau permintaan harga grosir hari ini, langsung hubungi tim sales kami via WhatsApp.') }}
                 </p>
 
                 {{-- CTA Buttons --}}
                 <div class="flex flex-col sm:flex-row gap-3 justify-center" data-aos="fade-up" data-aos-delay="300">
-                    <a href="https://wa.me/{{ $setting('social_whatsapp', '6281234567890') }}?text=Halo%20PB.%20Ani%20Wijaya,%20saya%20ingin%20konsultasi%20mendesak."
+                    <a href="https://wa.me/{{ $setting('social_whatsapp', '6281234567890') }}?text={{ rawurlencode(__('Halo PB. Ani Wijaya, saya ingin konsultasi mendesak.')) }}"
                        target="_blank"
                        class="bg-green-500 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-600 transition-all shadow-xl flex items-center justify-center gap-2 active:scale-95">
                         <span class="material-symbols-outlined">chat</span>
-                        Chat WhatsApp Sekarang
+                        {{ __('Chat WhatsApp Sekarang') }}
                     </a>
-                    <a href="{{ route('products') }}"
+                    <a href="{{ localized_route('products') }}"
                        class="bg-white/10 backdrop-blur text-white border-2 border-white/30 px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2 active:scale-95">
                         <span class="material-symbols-outlined">grid_view</span>
-                        Lihat Produk Dulu
+                        {{ __('Lihat Produk Dulu') }}
                     </a>
                 </div>
             </div>
