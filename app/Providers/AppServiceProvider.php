@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\SiteSetting;
 use App\Models\User;
 use App\Services\ReportService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -39,5 +41,36 @@ class AppServiceProvider extends ServiceProvider
                 return SiteSetting::get($key, $default);
             });
         });
+
+        $this->bootAdminPanel();
+    }
+
+    // Panel Blade /panel: komponen <x-admin::...>, menu per role, format angka.
+    private function bootAdminPanel(): void
+    {
+        Blade::anonymousComponentPath(resource_path('views/admin/components'), 'admin');
+
+        // Menu dari config/admin-menu.php, disaring per role & route yang sudah ada. Grup kosong dibuang.
+        View::composer('admin.layouts.app', function ($view) {
+            $isOwner = auth()->user()->isOwnerOrAbove();
+
+            $menu = collect(config('admin-menu'))
+                ->map(function (array $group) use ($isOwner) {
+                    $group['item'] = collect($group['item'])
+                        ->filter(fn (array $item) => Route::has($item['route']) && (($item['role'] ?? null) !== 'owner' || $isOwner))
+                        ->values();
+
+                    return $group;
+                })
+                ->filter(fn (array $group) => $group['item']->isNotEmpty());
+
+            $view->with('adminMenu', $menu);
+        });
+
+        // @rupiah(158000) → Rp 158.000
+        Blade::directive('rupiah', fn ($value) => "<?php echo 'Rp '.number_format((float) ($value), 0, ',', '.'); ?>");
+
+        // @angka(1250.50) → 1.250,5 ; @angka(36.00) → 36
+        Blade::directive('angka', fn ($value) => "<?php echo rtrim(rtrim(number_format((float) ($value), 2, ',', '.'), '0'), ','); ?>");
     }
 }
