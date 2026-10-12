@@ -63,7 +63,7 @@
                 @forelse ($movements as $m)
                     <tr>
                         <td class="kartu-judul text-nowrap">{{ $m->movement_date->translatedFormat('j M Y') }}</td>
-                        <td data-label="Dokumen">{{ $m->source?->number ?? class_basename($m->source_type) }}</td>
+                        <td data-label="Dokumen"><x-admin::doc-link :movement="$m" /></td>
                         <td class="kartu-status">
                             <x-admin::pill :label="$m->direction === 'in' ? 'Masuk' : 'Keluar'" :warna="$m->direction === 'in' ? 'success' : 'danger'" />
                         </td>

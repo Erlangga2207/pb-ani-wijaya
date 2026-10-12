@@ -3,7 +3,14 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DebtController;
 use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ProductionController;
+use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\SaleController;
+use App\Http\Controllers\Admin\StockAdjustmentController;
+use App\Http\Controllers\Admin\StockMovementController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +26,29 @@ Route::middleware(['auth', 'active', 'role:super_admin|owner|staff'])->group(fun
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
     Route::get('/', DashboardController::class)->name('dashboard');
+
+    // Transaksi: tanpa edit/hapus. Koreksi = void (alasan wajib). Otorisasi per aksi lewat Policy di controller.
+    Route::resource('pembelian', PurchaseController::class)->only(['index', 'create', 'store', 'show'])->names('purchases')->parameters(['pembelian' => 'purchase']);
+    Route::post('pembelian/{purchase}/batal', [PurchaseController::class, 'void'])->name('purchases.void');
+    Route::post('pembelian/{purchase}/pembayaran', [PaymentController::class, 'storeForPurchase'])->name('purchases.payments.store');
+
+    Route::resource('produksi', ProductionController::class)->only(['index', 'create', 'store', 'show'])->names('productions')->parameters(['produksi' => 'production']);
+    Route::post('produksi/{production}/batal', [ProductionController::class, 'void'])->name('productions.void');
+
+    Route::resource('penjualan', SaleController::class)->only(['index', 'create', 'store', 'show'])->names('sales')->parameters(['penjualan' => 'sale']);
+    Route::post('penjualan/{sale}/batal', [SaleController::class, 'void'])->name('sales.void');
+    Route::post('penjualan/{sale}/pembayaran', [PaymentController::class, 'storeForSale'])->name('sales.payments.store');
+
+    Route::post('pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void');
+
+    // Stok
+    Route::get('kartu-stok', [StockMovementController::class, 'index'])->name('stock-movements.index');
+    Route::resource('opname', StockAdjustmentController::class)->only(['index', 'create', 'store', 'show'])->names('stock-adjustments')->parameters(['opname' => 'stockAdjustment']);
+    Route::post('opname/{stockAdjustment}/batal', [StockAdjustmentController::class, 'void'])->name('stock-adjustments.void');
+
+    // Keuangan
+    Route::get('utang', [DebtController::class, 'payables'])->name('payables.index');
+    Route::get('piutang', [DebtController::class, 'receivables'])->name('receivables.index');
 
     // Master Data (otorisasi per aksi lewat Policy di controller)
     Route::resource('barang', ItemController::class)->names('items')->parameters(['barang' => 'item']);
