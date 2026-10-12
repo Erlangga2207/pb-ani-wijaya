@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Item;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class ItemPolicy
 {
@@ -28,9 +29,15 @@ class ItemPolicy
     }
 
     // Barang yang sudah punya mutasi tidak bisa dihapus (jejak buku besar).
-    public function delete(User $user, Item $item): bool
+    public function delete(User $user, Item $item): bool|Response
     {
-        return $user->isOwnerOrAbove() && ! $item->stockMovements()->exists();
+        if (! $user->isOwnerOrAbove()) {
+            return false;
+        }
+
+        return $item->stockMovements()->exists()
+            ? Response::deny('Barang ini sudah punya riwayat stok, jadi tidak bisa dihapus. Nonaktifkan saja supaya tidak muncul lagi di pilihan.')
+            : true;
     }
 
     public function deleteAny(User $user): bool

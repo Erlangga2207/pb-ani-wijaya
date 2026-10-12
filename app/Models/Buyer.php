@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\BuyerType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Buyer extends Model
 {
@@ -30,4 +31,9 @@ class Buyer extends Model
         'type' => BuyerType::class,
         'is_active' => 'boolean',
     ];
+
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class);
+    }
 }
