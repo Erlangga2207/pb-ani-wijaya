@@ -110,3 +110,13 @@ Kenapa Fase 6 harus sekaligus memindahkan modul Website ke `/panel`: begitu kolo
 - Tailwind di halaman publik via CDN play script — tidak diubah.
 - Kolom `galleries.category` masih `enum` MySQL (melanggar aturan 8 CLAUDE.md) — di luar cakupan PRD-08, tidak disentuh kecuali disuruh.
 - Test i18n (Fase 5/6): 5 route × 5 locale → 200, locale tak dikenal → 404, switcher, fallback ID, `SiteSetting::get` per locale, hreflang lengkap.
+
+---
+
+## 5. Hasil Fase 5 (i18n statis)
+
+- Key terjemahan = teks Blade **apa adanya** (sebagian memang berbahasa Inggris, mis. "Why Choose Us") supaya halaman Indonesia tidak berubah. `lang/id.json` = daftar kanonik 252 key; `en/zh/ja/ko` = draf → `docs/translation-review.md`.
+- Bukti tampilan Indonesia identik: HTML kelima halaman sebelum vs sesudah dibandingkan. Selisihnya hanya tambahan yang diizinkan PRD (canonical, hreflang, pemilih bahasa, field tersembunyi `locale` di form kontak) dan escaping yang tampil sama (`"` → `&quot;`, `&` → `&amp;`, koma di link WhatsApp → `%2C`).
+- Lebar 375px: 5 halaman × 5 bahasa dicek di browser, tidak ada teks yang keluar layar. Font Noto SC/JP/KR hanya dimuat di zh/ja/ko; `word-break: keep-all` hanya di ko.
+- Kalimat yang dipotong `<span>`/`<br>` di desain diterjemahkan per potongan (markup tidak boleh diubah) — urutan kata CJK perlu dicek, daftar khusus ada di bagian 1 `docs/translation-review.md`.
+- Pesan validasi form kontak memakai nama field yang diterjemahkan (mis. "Nama Lengkap wajib diisi.").
