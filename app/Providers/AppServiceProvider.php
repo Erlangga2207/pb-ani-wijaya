@@ -36,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-report', fn (User $user, string $tab) => array_key_exists($tab, ReportService::TABS)
             && ($user->isOwnerOrAbove() || in_array($tab, ReportService::STAFF_TABS, true)));
 
+        // Keuangan › Utang ke Petani & Piutang Pembeli (PRD-08: grup Keuangan owner ke atas).
+        Gate::define('view-debts', fn (User $user) => $user->isOwnerOrAbove());
+
         // Share SiteSetting helper ke semua view sebagai $settings
         View::composer('*', function ($view) {
             $view->with('setting', function (string $key, $default = null) {
