@@ -1,6 +1,6 @@
 # Rencana Multi-bahasa Website (PRD-08 bagian D, Fase 0)
 
-Status: **draf, menunggu persetujuan Erlan**. Belum ada kode aplikasi yang diubah.
+Status: **disetujui Erlan 2026-10-12** (lihat bagian keputusan).
 Bahasa: `id` (default, tanpa prefix), `en`, `zh` (Simplified, atribut `zh-Hans`), `ja`, `ko`.
 
 ---
@@ -13,7 +13,7 @@ Hitungan otomatis (text node + atribut `alt`/`placeholder`/`title`/`aria-label`/
 |---|---:|---:|---:|---|
 | `public/beranda.blade.php` | 317 | ~55 | 7 | fallback deskripsi produk unggulan hardcoded |
 | `public/tentang-kami.blade.php` | 332 | ~59 | 6 | |
-| `public/produk.blade.php` | 454 | ~110 | 5 | **katalog seluruhnya hardcoded** (lihat Q2), 2 link WA `?text=` sudah ter-encode manual |
+| `public/produk.blade.php` | 454 | ~110 | 5 | **katalog seluruhnya hardcoded** (keputusan 2), 2 link WA `?text=` sudah ter-encode manual |
 | `public/galeri.blade.php` | 429 | ~55 | 1 | label kategori di JS Alpine + tombol filter |
 | `public/kontak.blade.php` | 466 | ~84 | 17 | label/placeholder form, 2 link WA `?text=`, flash sukses |
 | `components/navbar.blade.php` | 86 | ~8 | 2 | `$menuItems` di `@php` (5 label) |
@@ -85,24 +85,26 @@ Kenapa Fase 6 harus sekaligus memindahkan modul Website ke `/panel`: begitu kolo
 
 ---
 
-## 4. Temuan & keputusan yang perlu disetujui
+## 4. Keputusan Fase 0 (disetujui Erlan, 2026-10-12)
 
-**Q1. `is_translatable` per key, bukan per type.** PRD bilang "type text/textarea", tapi beberapa setting bertipe `text` sebenarnya angka/ID: `company_name`, `company_nib`, `years_experience`, `partners_count`, `social_whatsapp`. Usul daftar translatable:
-`hero_badge`, `hero_title`, `hero_subtitle`, `hero_description`, `company_tagline`, `about_title`, `about_paragraph_1`, `about_paragraph_2`, `contact_address`, `contact_short_address` (+ meta baru di Q3). Sisanya tidak diterjemahkan.
+1. **`is_translatable` per key (daftar eksplisit).** Daftar final:
 
-**Q2. Halaman `/produk` tidak memakai data `products` dari database.** `HomeController::produk` mengirim `$products` tapi view tidak memakainya — katalog ditulis langsung di Blade. Akibatnya terjemahan kolom `products.name/description` hanya terlihat di **produk unggulan Beranda**. Pilihan:
-- (a) teks katalog di `produk.blade.php` masuk `lang/*.json` seperti teks statis lain (**usul, sesuai aturan "desain publik tetap"**);
-- (b) binding `produk.blade.php` ke tabel `products` — butuh izin eksplisit karena menyentuh struktur view.
+   | Key | Diterjemahkan |
+   |---|---|
+   | `hero_badge`, `hero_title`, `hero_subtitle`, `hero_description` | ✓ |
+   | `company_tagline` | ✓ |
+   | `about_title`, `about_paragraph_1`, `about_paragraph_2` | ✓ |
+   | `seo_meta_title`, `seo_meta_description` (baru) | ✓ |
+   | `company_name`, `company_nib`, `years_experience`, `partners_count` | ✗ |
+   | semua `contact_*` (`contact_phone`, `contact_email`, `contact_address`, `contact_short_address`, `contact_maps_link`) | ✗ |
+   | semua `social_*` (`social_whatsapp`, `social_instagram`, `social_facebook`) | ✗ |
+   | `maps_embed_url` | ✗ |
 
-**Q3. Meta SEO per bahasa.** Belum ada setting `meta_title`/`meta_description`; meta description sekarang dirangkai dari `company_tagline`. Usul: tambah 2 key translatable `seo_meta_title`, `seo_meta_description` di `SiteSettingSeeder` (key lama tetap ada). Judul per halaman dari `__()`.
-
-**Q4. Nilai "Indonesia" di seeder sebagian berbahasa Inggris** (`hero_title` "Heritage of Excellence", `about_paragraph_*`, `company_tagline`, label kategori galeri). Saat migrasi, nilai lama masuk key `id` apa adanya. Apakah:
-- (a) biarkan apa adanya (nanti diedit lewat admin), atau
-- (b) di Fase 6 seeder diberi isi `id` Bahasa Indonesia + `en` dari teks Inggris yang sekarang?
-
-**Q5. Perubahan belum di-commit di halaman publik.** Working tree punya modifikasi di `beranda`, `produk`, `tentang-kami` + 2 gambar baru (`foto_beras.jpeg`, `foto_pabrik.webp`). Fase 5 butuh baseline screenshot "sebelum". Mohon di-commit (atau dibuang) dulu sebelum Fase 5 dimulai.
-
-**Q6. Cache `SiteSetting::get` menyimpan `$default`** bila key tidak ada di DB (default panggilan pertama ikut di-cache 1 jam). Usul diperbaiki sekalian di Fase 6 (cache hanya nilai DB, default diterapkan di luar cache). Signature tetap.
+2. **Katalog `/produk` → `lang/*.json`** seperti teks statis lain. Catatan penting: **nama & deskripsi produk yang diisi di admin (tabel `products`) hanya tampil di produk unggulan Beranda**, tidak di halaman `/produk`.
+3. **Meta SEO:** 2 key baru translatable `seo_meta_title`, `seo_meta_description` di `SiteSettingSeeder`.
+4. **Isi awal bahasa (lewat migration, bukan seeder).** Di migration Fase 6: untuk setting translatable yang nilainya **masih sama persis** dengan default seeder lama, teks Inggris dipindah ke `en` dan `id` diisi draf Bahasa Indonesia. Setting yang sudah diedit admin **tidak disentuh** (nilai lama → `id` saja). Draf ID masuk `docs/translation-review.md`.
+5. Perubahan halaman publik sudah di-commit (`d4c05d1`) — baseline screenshot diambil dari commit ini.
+6. Bug cache default `SiteSetting::get` diperbaiki di Fase 6, signature tetap.
 
 **Catatan lain**
 - Tailwind di halaman publik via CDN play script — tidak diubah.
