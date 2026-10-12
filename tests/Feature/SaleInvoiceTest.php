@@ -35,7 +35,7 @@ class SaleInvoiceTest extends TestCase
 
         // Tamu: redirect login.
         auth()->logout();
-        $this->get($url)->assertRedirect('/admin/login');
+        $this->get($url)->assertRedirect('/panel/login');
     }
 
     public function test_void_invoice_shows_watermark(): void

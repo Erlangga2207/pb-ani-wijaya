@@ -169,4 +169,5 @@ Format: `File::method` — fase — alasan — penggantinya.
 
 | Test | Fase | Perubahan | Pengganti |
 |---|---|---|---|
-| _(belum ada)_ | | | |
+| `PurchaseServiceTest::test_pages_and_receipt_render` | 1 | baris terakhir: tamu di `/pembelian/{id}/bukti` kini diarahkan ke `/panel/login` (bukan `/admin/login`) — keputusan 3. Assertion lain tidak berubah | — |
+| `SaleInvoiceTest::test_invoice_access_rules` | 1 | assertion redirect tamu `/admin/login` → `/panel/login` — keputusan 3 | — |
