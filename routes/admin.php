@@ -4,10 +4,12 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DebtController;
+use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductionController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\StockAdjustmentController;
 use App\Http\Controllers\Admin\StockMovementController;
@@ -49,6 +51,10 @@ Route::middleware(['auth', 'active', 'role:super_admin|owner|staff'])->group(fun
     // Keuangan
     Route::get('utang', [DebtController::class, 'payables'])->name('payables.index');
     Route::get('piutang', [DebtController::class, 'receivables'])->name('receivables.index');
+    Route::resource('biaya', ExpenseController::class)->only(['index', 'create', 'store', 'show'])->names('expenses')->parameters(['biaya' => 'expense']);
+    Route::post('biaya/{expense}/batal', [ExpenseController::class, 'void'])->name('expenses.void');
+    // Cetak & CSV memakai route yang sudah ada: reports.print / reports.csv (routes/web.php).
+    Route::get('laporan', ReportController::class)->name('reports.index');
 
     // Master Data (otorisasi per aksi lewat Policy di controller)
     Route::resource('barang', ItemController::class)->names('items')->parameters(['barang' => 'item']);
