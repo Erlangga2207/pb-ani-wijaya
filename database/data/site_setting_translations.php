@@ -39,7 +39,7 @@ return [
     ],
     'company_tagline' => [
         'old' => 'Premium Rice Producer',
-        'id' => 'Produsen Beras Premium',
+        'id' => 'Premium Rice Producer', // teks brand, sengaja tidak diterjemahkan (keputusan Erlan 2026-10-13)
         'en' => 'Premium Rice Producer',
         'zh' => '优质大米生产商',
         'ja' => 'プレミアム米メーカー',

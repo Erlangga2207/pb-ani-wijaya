@@ -78,6 +78,18 @@ class WebsiteModuleTest extends TestCase
     {
         $this->get('/')->assertSee('<title>Produsen Beras Ketan Premium dari Indramayu - PB. Ani Wijaya</title>', false);
         $this->get('/en')->assertSee('produces premium head-grade white glutinous rice', false);
+
+        // SEO versi ID berbahasa Indonesia dan memuat "beras ketan" (keputusan Erlan 2026-10-13).
+        app()->setLocale('id');
+        $this->assertStringContainsStringIgnoringCase('beras ketan', SiteSetting::get('seo_meta_title'));
+        $this->assertStringContainsStringIgnoringCase('beras ketan', SiteSetting::get('seo_meta_description'));
+    }
+
+    public function test_brand_texts_stay_the_same_in_indonesian(): void
+    {
+        foreach (['hero_badge' => "INDRAMAYU'S FINEST", 'hero_title' => 'Heritage of Excellence', 'company_tagline' => 'Premium Rice Producer'] as $key => $brand) {
+            $this->assertSame($brand, SiteSetting::get($key));
+        }
     }
 
     // ---------- Produk ----------
