@@ -27,8 +27,8 @@ class AdminPagesTest extends TestCase
             '/admin/suppliers', '/admin/suppliers/create', '/admin/buyers', '/admin/buyers/create',
             '/admin/users', '/admin/users/create',
             '/admin/purchases', '/admin/productions', '/admin/sales', '/admin/expenses', '/admin/expenses/create',
-            '/admin/payables', '/admin/receivables', '/admin/reports', '/admin/website-settings',
-            '/admin/contact-messages', '/admin/galleries', '/admin/products', '/admin/products/create',
+            '/admin/payables', '/admin/receivables', '/admin/reports',
+            // Modul Website pindah ke /panel di PRD-08 Fase 6 (diuji di Admin\WebsiteModuleTest).
         ] as $url) {
             $this->get($url)->assertOk();
         }

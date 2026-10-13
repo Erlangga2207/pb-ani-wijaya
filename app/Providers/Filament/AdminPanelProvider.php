@@ -41,7 +41,6 @@ class AdminPanelProvider extends PanelProvider
                 'Stok',
                 'Keuangan',
                 'Master Data',
-                'Website',
                 'Pengaturan',
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')

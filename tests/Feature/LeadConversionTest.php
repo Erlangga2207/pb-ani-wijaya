@@ -3,13 +3,12 @@
 namespace Tests\Feature;
 
 use App\Enums\LeadStatus;
-use App\Filament\Admin\Resources\ContactMessages\Pages\ViewContactMessage;
 use App\Models\Buyer;
 use App\Models\ContactMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
+// PRD-08 Fase 6: aksi "Jadikan Pembeli" & "Tandai Spam" pindah dari Filament ke /panel/pesan. Assertion tetap sama.
 class LeadConversionTest extends TestCase
 {
     use RefreshDatabase;
@@ -25,10 +24,9 @@ class LeadConversionTest extends TestCase
         ]);
         $lead->update(['phone' => '0812-3333-4444', 'company' => 'CV Ketan Jaya', 'country' => 'Malaysia']);
 
-        $this->get('/admin/contact-messages')->assertOk()->assertSee('Budi');
-
-        Livewire::test(ViewContactMessage::class, ['record' => $lead->getRouteKey()])
-            ->callAction('convertToBuyer');
+        $this->get('/panel/pesan')->assertOk()->assertSee('Budi');
+        $this->get("/panel/pesan/{$lead->id}")->assertOk();
+        $this->post("/panel/pesan/{$lead->id}/jadikan-pembeli")->assertRedirect();
 
         $lead->refresh();
         $buyer = Buyer::first();
@@ -45,8 +43,7 @@ class LeadConversionTest extends TestCase
         $this->actingAs($this->userWithRole('owner'));
         $lead = ContactMessage::create(['name' => 'Bot', 'email' => 'bot@x.com', 'message' => 'spam']);
 
-        Livewire::test(ViewContactMessage::class, ['record' => $lead->getRouteKey()])
-            ->callAction('spam');
+        $this->post("/panel/pesan/{$lead->id}/spam")->assertRedirect();
 
         $this->assertSame(LeadStatus::Spam, $lead->fresh()->status);
     }

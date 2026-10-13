@@ -44,7 +44,8 @@ class GalleryCaptionTest extends TestCase
     {
         $this->actingAs($this->userWithRole('owner'));
 
-        $this->get('/admin/galleries')->assertOk();
-        $this->get('/admin/galleries/create')->assertOk();
+        // PRD-08 Fase 6: modul Galeri pindah dari /admin ke /panel.
+        $this->get('/panel/galeri')->assertOk();
+        $this->get('/panel/galeri/create')->assertOk();
     }
 }
