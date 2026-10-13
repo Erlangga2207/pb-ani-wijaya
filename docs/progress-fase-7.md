@@ -9,7 +9,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum · ⛔ menunggu keputusan
 |---|---|---|
 | 1. Perbandingan fitur Filament ↔ `/panel` | ✅ | `29e1822` (celah ditutup di langkah 3) |
 | 2. Cari kode aplikasi yang menulis teks biasa ke kolom translatable | ✅ | tidak ada yang perlu diperbaiki |
-| 3. Dashboard: link "Catat pembelian →" di tile bahan baku yang di bawah minimum (`@can('create', Purchase)`) + test | ✅ | (commit berikut) |
+| 3. Dashboard: link "Catat pembelian →" di tile bahan baku yang di bawah minimum (`@can('create', Purchase)`) + test | ✅ | `6e3b5ce` |
+| 4. Test: semua pemakaian Filament/Livewire di test dialihkan ke `/panel` (assertion sama; label disesuaikan supaya `assertDontSee` tetap bermakna), 3 test akses duplikat dihapus, `TestCase` bebas Filament. Log di `admin-migration-plan.md` bagian 6. 171/171 hijau | ✅ | (commit berikut) |
 
 ## 1. Perbandingan fitur
 
@@ -50,7 +51,7 @@ Filter `/panel` = query string di controller.
 | Widget | `/panel` dashboard | Status |
 |---|---|---|
 | `StockStatsWidget` | tile stok per barang (kg + karung) | ✅ |
-| `LowStockAlertWidget` | tile merah "di bawah minimum" | 🟡 **tanpa tombol "Catat Pembelian"** (aksi `buy`, hanya barang jenis bahan baku → form pembelian) |
+| `LowStockAlertWidget` (+ aksi `buy`) | tile merah "di bawah minimum" + link "Catat pembelian →" untuk bahan baku (langkah 3) | ✅ |
 | `TodayActivityWidget` | tile gabah dibeli/digiling, beras terjual hari ini | ✅ |
 | `YieldTrendChart` | Chart.js `grafikRendemen` | ✅ |
 | `FinanceStatsWidget` (owner+) | tile omzet, laba kotor/bersih, piutang, utang | ✅ |

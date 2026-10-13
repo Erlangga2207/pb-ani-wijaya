@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Exceptions\InsufficientStockException;
-use App\Filament\Admin\Resources\Productions\Pages\CreateProduction;
 use App\Models\Production;
 use App\Services\ProductionService;
 use App\Services\StockService;
@@ -11,7 +10,6 @@ use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class ProductionServiceTest extends TestCase
@@ -105,28 +103,26 @@ class ProductionServiceTest extends TestCase
         $this->artisan('stock:verify')->assertExitCode(0);
     }
 
+    // PRD-08 Fase 7: dulu lewat form & halaman Filament, kini /panel/produksi. Data & assertion sama.
     public function test_staff_creates_via_form_without_seeing_cost(): void
     {
         $this->actingAs($this->userWithRole('staff'));
 
-        Livewire::test(CreateProduction::class)
-            ->fillForm([
-                'production_date' => today()->toDateString(),
-                'input_item_id' => $this->item('GBH')->id,
-                'input_kg' => 1000,
-                'outputs' => [$this->item('BKT')->id => 560, $this->item('SKM')->id => 200],
-            ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+        $this->post('/panel/produksi', [
+            'production_date' => today()->toDateString(),
+            'input_item_id' => $this->item('GBH')->id,
+            'input_kg' => 1000,
+            'outputs' => [$this->item('BKT')->id => 560, $this->item('SKM')->id => 200],
+        ])->assertSessionHasNoErrors();
 
         $p = Production::first();
         $this->assertEquals(56, (float) $p->yield_percent);
 
-        $this->get('/admin/productions')->assertOk();
-        $this->get('/admin/productions/create')->assertOk();
-        $this->get("/admin/productions/{$p->id}")->assertOk()->assertDontSee('HPP')->assertDontSee('Biaya Gabah');
+        $this->get('/panel/produksi')->assertOk();
+        $this->get('/panel/produksi/create')->assertOk();
+        $this->get("/panel/produksi/{$p->id}")->assertOk()->assertDontSee('HPP')->assertDontSee('Biaya gabah');
 
         $this->actingAs($this->userWithRole('owner'));
-        $this->get("/admin/productions/{$p->id}")->assertOk()->assertSee('HPP');
+        $this->get("/panel/produksi/{$p->id}")->assertOk()->assertSee('HPP');
     }
 }

@@ -13,7 +13,6 @@ use App\Services\ProductionService;
 use App\Services\PurchaseService;
 use App\Services\SaleService;
 use Database\Seeders\RoleSeeder;
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -25,8 +24,6 @@ abstract class TestCase extends BaseTestCase
         if (method_exists($this, 'refreshDatabase')) {
             $this->seed(RoleSeeder::class);
         }
-
-        Filament::setCurrentPanel('admin');
     }
 
     protected function userWithRole(string $role, array $attributes = []): User

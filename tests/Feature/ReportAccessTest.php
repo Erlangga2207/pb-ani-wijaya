@@ -2,19 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Filament\Admin\Widgets\FinanceStatsWidget;
-use App\Filament\Admin\Widgets\LowStockAlertWidget;
-use App\Filament\Admin\Widgets\OverdueWidget;
-use App\Filament\Admin\Widgets\SalesTrendChart;
-use App\Filament\Admin\Widgets\StockStatsWidget;
-use App\Filament\Admin\Widgets\TodayActivityWidget;
-use App\Filament\Admin\Widgets\YieldTrendChart;
 use Database\Seeders\ItemSeeder;
 use Database\Seeders\SiteSettingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
+// PRD-08 Fase 7: halaman laporan & widget dashboard dulu di Filament (/admin), kini /panel. Angka yang dicek sama.
 class ReportAccessTest extends TestCase
 {
     use RefreshDatabase;
@@ -32,30 +25,20 @@ class ReportAccessTest extends TestCase
     public function test_owner_sees_all_tabs_print_and_csv(): void
     {
         foreach (['pnl', 'sales', 'purchases', 'yield', 'stock', 'aging'] as $tab) {
-            $this->get("/admin/reports?tab={$tab}")->assertOk();
+            $this->get("/panel/laporan?tab={$tab}")->assertOk();
             $this->get("/laporan/{$tab}/cetak")->assertOk();
             $this->get("/laporan/{$tab}/csv")->assertOk();
         }
 
-        $this->get('/admin/reports?tab=pnl')->assertSee('LABA BERSIH')->assertSee('1.957.142,50');
+        $this->get('/panel/laporan?tab=pnl')->assertSee('LABA BERSIH')->assertSee('1.957.142,50');
     }
 
-    public function test_dashboard_widgets_render_per_role(): void
+    public function test_dashboard_per_role(): void
     {
-        $this->get('/admin')->assertOk();
-        $this->assertTrue(FinanceStatsWidget::canView());
-        Livewire::test(FinanceStatsWidget::class)->assertOk()->assertSee('Rp 5.350.000');
-        foreach ([StockStatsWidget::class, TodayActivityWidget::class, YieldTrendChart::class, SalesTrendChart::class, OverdueWidget::class, LowStockAlertWidget::class] as $widget) {
-            Livewire::test($widget)->assertOk();
-        }
+        $this->get('/panel')->assertOk()->assertSee('Rp 5.350.000');
 
         $this->actingAs($this->userWithRole('staff'));
-        $this->get('/admin')->assertOk();
-        foreach ([FinanceStatsWidget::class, SalesTrendChart::class, OverdueWidget::class] as $widget) {
-            $this->assertFalse($widget::canView());
-        }
-        Livewire::test(StockStatsWidget::class)->assertOk()->assertSee('310 kg')->assertDontSee('Rp ');
-        Livewire::test(TodayActivityWidget::class)->assertOk()->assertDontSee('Rp ');
+        $this->get('/panel')->assertOk()->assertSee('310 kg')->assertDontSee('Rp ');
     }
 
     public function test_csv_is_excel_friendly(): void
@@ -74,10 +57,10 @@ class ReportAccessTest extends TestCase
         foreach (['pnl', 'sales', 'purchases', 'aging'] as $tab) {
             $this->get("/laporan/{$tab}/cetak")->assertForbidden();
             $this->get("/laporan/{$tab}/csv")->assertForbidden();
-            $this->get("/admin/reports?tab={$tab}")->assertOk()->assertDontSee('LABA');
+            $this->get("/panel/laporan?tab={$tab}")->assertForbidden(); // Filament: 200 tanpa angka; /panel: 403 (PRD-08 B)
         }
 
-        $this->get('/admin/reports?tab=stock')->assertOk()->assertSee('Beras Ketan Putih')->assertDontSee('Nilai persediaan');
+        $this->get('/panel/laporan?tab=stock')->assertOk()->assertSee('Beras Ketan Putih')->assertDontSee('Nilai persediaan');
         $this->get('/laporan/stock/csv')->assertOk();
         $this->get('/laporan/yield/cetak')->assertOk()->assertSee('56,00 %');
     }

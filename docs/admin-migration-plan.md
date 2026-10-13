@@ -181,3 +181,21 @@ Format: `File::method` — fase — alasan — penggantinya.
 | `SiteSettingsPageTest::test_staff_cannot_access_website_menu` | 6 | 4 URL `/admin/...` → `/panel/pengaturan-website`, `/panel/pesan`, `/panel/galeri`, `/panel/katalog`. Tetap 403 | — |
 | `AdminPagesTest::test_staff_pages_and_hidden_cost` | 6 | `/admin/items/1` → `/admin/items/{Item::first()->id}`: di MySQL auto-increment tidak di-reset saat `RefreshDatabase` rollback, jadi id ≠ 1. Assertion tidak berubah | — |
 | `GalleryCaptionTest::test_normalize_command_fixes_json_paths` | 6 | insert mentah `title` kini JSON `{"id":"Lama"}` (kolom JSON sejak Fase 6, MySQL menolak teks biasa). Assertion `file_path` tidak berubah | — |
+| `tests/TestCase.php::setUp` | 7 | `Filament::setCurrentPanel('admin')` dihapus | — |
+| `PurchaseServiceTest::test_create_via_filament_form` | 7 | → `test_create_via_panel_form`: Livewire `CreatePurchase` → `POST /panel/pembelian`, data & assertion sama | — |
+| `PurchaseServiceTest::test_pages_and_receipt_render` | 7 | URL `/admin/purchases(/create, /{id})`, `/admin/payables` → `/panel/pembelian(...)`, `/panel/utang` | — |
+| `SaleServiceTest::test_create_via_filament_form` | 7 | → `test_create_via_panel_form`: Livewire `CreateSale` → `POST /panel/penjualan`, data & assertion sama | — |
+| `ProductionServiceTest::test_staff_creates_via_form_without_seeing_cost` | 7 | Livewire `CreateProduction` → `POST /panel/produksi`; URL → `/panel/produksi`; label `'Biaya Gabah'` → `'Biaya gabah'` (label /panel, supaya `assertDontSee` staff tetap bermakna) | — |
+| `ExpenseTest` (2 method) | 7 | Livewire `CreateExpense` → `POST /panel/biaya`; URL → `/panel/biaya` | — |
+| `StockAdjustmentTest::test_owner_creates_and_voids_via_filament` | 7 | → `test_owner_creates_and_voids_via_panel`: `POST /panel/opname` + `POST /panel/opname/{id}/batal` | — |
+| `StockAdjustmentTest::test_staff_cannot_access_stock_opname` | 7 | URL → `/panel/opname(/create)` | — |
+| `UserManagementTest` (6 method) | 7 | Livewire `CreateUser`/`EditUser` → `POST`/`PUT /panel/pengguna`; `assertHasFormErrors` → `assertSessionHasErrors`; URL → `/panel/pengguna` | — |
+| `PanelAccessTest::test_active_user_with_role_can_access_panel` | 7 | `/admin` → `/panel` | — |
+| `PanelAccessTest::test_inactive_user_is_forbidden`, `test_user_without_role_is_forbidden`, `test_guest_is_redirected_to_login` | 7 | **dihapus** — perilaku /panel sudah diuji (user nonaktif di /panel di-logout + redirect login, bukan 403 — disengaja sejak Fase 1) | `Admin\AuthTest::test_inactive_user_is_logged_out`, `test_user_without_role_is_forbidden`, `test_guest_is_redirected_to_panel_login` |
+| `ReportAccessTest::test_owner_sees_all_tabs_print_and_csv` | 7 | `/admin/reports` → `/panel/laporan`; angka sama | — |
+| `ReportAccessTest::test_dashboard_widgets_render_per_role` | 7 | → `test_dashboard_per_role`: widget Livewire → `GET /panel`; owner melihat `Rp 5.350.000`, staff melihat `310 kg` tanpa `Rp ` (nilai sama). `canView()` per widget diganti cek isi halaman (query keuangan staff diuji `Admin\DashboardTest`) | `Admin\DashboardTest::test_staff_does_not_see_or_query_finance` |
+| `ReportAccessTest::test_staff_only_gets_stock_and_yield_without_money` | 7 | `/admin/reports?tab=keuangan` 200 tanpa "LABA" → `/panel/laporan?tab=keuangan` **403** (lebih ketat, PRD-08 B); tab stok sama | — |
+| `SalePolicyTest::test_staff_cannot_void_and_sees_no_cogs` | 7 | URL → `/panel/penjualan`, `/panel/piutang`; label `'Laba Kotor'` → `'Laba kotor'` (label /panel) | — |
+| `AdminPagesTest::test_owner_pages_render` | 7 | daftar URL Filament → URL /panel yang setara; assertion menu Peran (Shield) dihapus (menu dihapus sesuai PRD) | — |
+| `AdminPagesTest::test_staff_pages_and_hidden_cost` | 7 | URL → `/panel/barang`, `/panel/kartu-stok`; label `'Biaya Rata-rata'` → `'Biaya rata-rata'` (label /panel) | — |
+| `Admin\FinancePagesTest::test_report_numbers_identical_to_filament` | 7 | → `test_report_tabs_show_numbers`: pembanding Filament dihapus (Filament tidak ada lagi); cek tab tidak kosong & link cetak/CSV tetap | `ReportAccessTest::test_owner_sees_all_tabs_print_and_csv` (angka laba) |

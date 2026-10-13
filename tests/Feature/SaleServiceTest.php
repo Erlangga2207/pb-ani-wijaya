@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use App\Enums\PaymentStatus;
 use App\Exceptions\InsufficientStockException;
-use App\Filament\Admin\Resources\Sales\Pages\CreateSale;
 use App\Models\Buyer;
 use App\Models\Sale;
 use App\Services\SaleService;
 use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class SaleServiceTest extends TestCase
@@ -93,24 +91,22 @@ class SaleServiceTest extends TestCase
         $this->artisan('stock:verify')->assertExitCode(0);
     }
 
-    public function test_create_via_filament_form(): void
+    // PRD-08 Fase 7: dulu lewat form Filament (Livewire), kini POST /panel/penjualan. Data & assertion sama.
+    public function test_create_via_panel_form(): void
     {
         $buyer = Buyer::create(['name' => 'Toko A', 'phone' => '0812']);
 
-        Livewire::test(CreateSale::class)
-            ->fillForm([
-                'buyer_id' => $buyer->id,
-                'sale_date' => today()->toDateString(),
-                'items' => [
-                    ['item_id' => $this->item('BKT')->id, 'input_quantity' => 10, 'input_unit' => 'sack', 'price_per_kg' => 20000],
-                ],
-                'discount' => 0,
-                'shipping_cost' => 25000,
-                'pay_now' => 5025000,
-                'payment_method' => 'transfer',
-            ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+        $this->post('/panel/penjualan', [
+            'buyer_id' => $buyer->id,
+            'sale_date' => today()->toDateString(),
+            'items' => [
+                ['item_id' => $this->item('BKT')->id, 'input_quantity' => 10, 'input_unit' => 'sack', 'price_per_kg' => 20000],
+            ],
+            'discount' => 0,
+            'shipping_cost' => 25000,
+            'pay_now' => 5025000,
+            'payment_method' => 'transfer',
+        ])->assertSessionHasNoErrors();
 
         $sale = Sale::first();
         $this->assertEquals(5025000, (float) $sale->total);

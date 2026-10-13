@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\DocumentStatus;
 use App\Enums\PaymentStatus;
-use App\Filament\Admin\Resources\Purchases\Pages\CreatePurchase;
 use App\Models\Item;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -14,7 +13,6 @@ use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class PurchaseServiceTest extends TestCase
@@ -113,24 +111,22 @@ class PurchaseServiceTest extends TestCase
         $this->assertEquals(0, (float) $p->paid_amount);
     }
 
-    public function test_create_via_filament_form(): void
+    // PRD-08 Fase 7: dulu lewat form Filament (Livewire), kini POST /panel/pembelian. Data & assertion sama.
+    public function test_create_via_panel_form(): void
     {
         $this->actingAs($this->userWithRole('staff'));
 
-        Livewire::test(CreatePurchase::class)
-            ->fillForm([
-                'supplier_id' => $this->supplier->id,
-                'purchase_date' => today()->toDateString(),
-                'item_id' => $this->gabah->id,
-                'input_quantity' => 40,
-                'input_unit' => 'sack',
-                'price_per_kg' => 7500,
-                'other_cost' => 100000,
-                'pay_now' => 7600000,
-                'payment_method' => 'cash',
-            ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+        $this->post('/panel/pembelian', [
+            'supplier_id' => $this->supplier->id,
+            'purchase_date' => today()->toDateString(),
+            'item_id' => $this->gabah->id,
+            'input_quantity' => 40,
+            'input_unit' => 'sack',
+            'price_per_kg' => 7500,
+            'other_cost' => 100000,
+            'pay_now' => 7600000,
+            'payment_method' => 'cash',
+        ])->assertSessionHasNoErrors();
 
         $p = Purchase::first();
         $this->assertEquals(1000, (float) $p->quantity_kg);
@@ -141,7 +137,7 @@ class PurchaseServiceTest extends TestCase
     {
         $p = $this->purchase();
 
-        foreach (['/admin/purchases', '/admin/purchases/create', "/admin/purchases/{$p->id}", '/admin/payables', "/pembelian/{$p->id}/bukti"] as $url) {
+        foreach (['/panel/pembelian', '/panel/pembelian/create', "/panel/pembelian/{$p->id}", '/panel/utang', "/pembelian/{$p->id}/bukti"] as $url) {
             $this->get($url)->assertOk();
         }
 
