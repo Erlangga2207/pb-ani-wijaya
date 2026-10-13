@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Item;
 use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -27,8 +28,8 @@ class AdminPagesTest extends TestCase
             '/admin/suppliers', '/admin/suppliers/create', '/admin/buyers', '/admin/buyers/create',
             '/admin/users', '/admin/users/create',
             '/admin/purchases', '/admin/productions', '/admin/sales', '/admin/expenses', '/admin/expenses/create',
-            '/admin/payables', '/admin/receivables', '/admin/reports', '/admin/website-settings',
-            '/admin/contact-messages', '/admin/galleries', '/admin/products', '/admin/products/create',
+            '/admin/payables', '/admin/receivables', '/admin/reports',
+            // Modul Website pindah ke /panel di PRD-08 Fase 6 (diuji di Admin\WebsiteModuleTest).
         ] as $url) {
             $this->get($url)->assertOk();
         }
@@ -43,7 +44,7 @@ class AdminPagesTest extends TestCase
         $this->actingAs($this->userWithRole('staff'));
 
         $this->get('/admin/items')->assertOk()->assertDontSee('Biaya Rata-rata');
-        $this->get('/admin/items/1')->assertOk()->assertDontSee('Biaya Rata-rata');
+        $this->get('/admin/items/'.Item::first()->id)->assertOk()->assertDontSee('Biaya Rata-rata'); // id tidak selalu 1 di MySQL
         $this->get('/admin/stock-movements')->assertOk()->assertDontSee('Biaya/kg');
         $this->get('/admin/items/create')->assertForbidden();
     }

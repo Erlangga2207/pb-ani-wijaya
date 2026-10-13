@@ -1,13 +1,13 @@
 @php
     $waNumber = $setting('social_whatsapp', '6281234567890');
-    $waMessage = urlencode('Halo, saya tertarik dengan produk ' . $setting('company_name', 'PB. Ani Wijaya') . '. Mohon info lebih lanjut.');
+    $waMessage = urlencode(__('Halo, saya tertarik dengan produk :company. Mohon info lebih lanjut.', ['company' => $setting('company_name', 'PB. Ani Wijaya')]));
 @endphp
 
 <a href="https://wa.me/{{ $waNumber }}?text={{ $waMessage }}"
    target="_blank"
    rel="noopener"
    class="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95 group"
-   aria-label="Chat WhatsApp">
+   aria-label="{{ __('Chat WhatsApp') }}">
 
     <div class="flex items-center gap-3 pl-4 pr-5 py-3">
         {{-- WhatsApp Icon SVG --}}
@@ -17,7 +17,7 @@
 
         {{-- Text (hidden on mobile, show on desktop) --}}
         <span class="font-bold text-sm hidden md:block">
-            Chat Sekarang
+            {{ __('Chat Sekarang') }}
         </span>
     </div>
 

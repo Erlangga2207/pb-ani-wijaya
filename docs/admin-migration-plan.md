@@ -1,6 +1,6 @@
 # Rencana Migrasi Admin: Filament → Blade (PRD-08, Fase 0)
 
-Status: **draf, menunggu persetujuan Erlan**. Belum ada kode aplikasi yang diubah.
+Status: **disetujui Erlan 2026-10-12** (lihat bagian keputusan).
 Referensi tampilan: `C:\laragon\www\deepsea_florist` (hanya dibaca).
 
 ---
@@ -96,7 +96,7 @@ Semua route di bawah prefix `/panel`, nama `admin.*`.
 | `PurchaseResource` (+ `PaymentsRelationManager`, `RecordPaymentAction`, `VoidAction`, aksi `receipt`) | `PurchaseController` · `pembelian` | I C S V | Filter: tanggal, status, status bayar, petani, desa. Form: buat petani baru inline (`createOptionForm`) → di Blade jadi field "petani baru" opsional atau link ke master. Bukti → route `purchases.receipt` yang ada |
 | `ProductionResource` | `ProductionController` · `produksi` | I C S V | Hitung rendemen live → JS vanilla, nilai final tetap dari `ProductionService`. HPP di show hanya owner |
 | `SaleResource` (+ payments, void, `invoice`, `print`) | `SaleController` · `penjualan` | I C S V | Repeater `items` → `<template>` + JS (pola Deepsea). Nota → route `sales.invoice` yang ada. Kolom HPP/laba di tabel & show hanya owner |
-| `PaymentsRelationManager` + `RecordPaymentAction` | `PaymentController` · `pembayaran` | C (dari show pembelian/penjualan/utang/piutang), V | Lihat pertanyaan **Q4** |
+| `PaymentsRelationManager` + `RecordPaymentAction` | `PaymentController` · `pembayaran` | C (dari show pembelian/penjualan/utang/piutang), V | Tanpa menu sendiri (keputusan 4) |
 
 ### Stok
 | Filament | Controller / route | Aksi | Catatan |
@@ -115,9 +115,9 @@ Semua route di bawah prefix `/panel`, nama `admin.*`.
 ### Master Data
 | Filament | Controller / route | Aksi | Catatan |
 |---|---|---|---|
-| `ItemResource` (+ `StockMovementsRelationManager`) | `ItemController` · `barang` | I C S E D | show = info + kartu stok barang. Delete sudah ditolak policy bila ada mutasi |
-| `SupplierResource` | `SupplierController` · `petani` | I C E D | lihat **Q5** (delete bila sudah dipakai) |
-| `BuyerResource` | `BuyerController` · `pembeli` | I C E D | lihat **Q5** |
+| `ItemResource` (+ `StockMovementsRelationManager`) | `ItemController` · `barang` | I C S E D | show = info + kartu stok barang. Delete ditolak policy bila ada mutasi → pesan + saran nonaktifkan (keputusan 5) |
+| `SupplierResource` | `SupplierController` · `petani` | I C E D | delete ditolak bila sudah dipakai pembelian → pesan + saran nonaktifkan (keputusan 5) |
+| `BuyerResource` | `BuyerController` · `pembeli` | I C E D | delete ditolak bila sudah dipakai penjualan → pesan + saran nonaktifkan (keputusan 5) |
 
 ### Website (owner+) — dikerjakan di **Fase 6** bersama i18n
 | Filament | Controller / route | Catatan |
@@ -152,23 +152,32 @@ Test per fase: tamu → redirect login; staff → 403 di URL owner (akses langsu
 
 ---
 
-## 5. Temuan & keputusan yang perlu disetujui
+## 5. Keputusan Fase 0 (disetujui Erlan, 2026-10-12)
 
-**Q1. Framework CSS admin.** Deepsea = Bootstrap 5 (CDN) + CSS biasa; halaman publik kita = Tailwind (CDN). Usul: **admin pakai Bootstrap 5.3 CDN + `public/css/admin.css`** supaya bisa meniru Deepsea hampir 1:1 dan terpisah total dari halaman publik. Alternatif: tulis ulang gaya Deepsea dengan Tailwind (lebih lama, hasil kurang mirip).
+1. **CSS admin:** Bootstrap 5.3.3 dari CDN jsDelivr, versi dikunci + atribut `integrity` (SRI) + `crossorigin`. Gaya tambahan di `public/css/admin.css`. Chart.js juga dikunci versinya + SRI.
+2. **Test Filament:** test `/panel` ditulis di fase tiap modul; test yang memanggil Filament baru dihapus/diganti di Fase 7. Assertion angka & stok tidak boleh berubah. Setiap method test yang diubah dicatat di bagian 6.
+3. **Redirect tamu → `/panel/login` di Fase 1** (`redirectGuestsTo`). Login Filament punya redirect sendiri, jadi `/admin` tetap aman.
+4. **Pembayaran:** tidak ada menu terpisah. Dicatat & di-void dari detail Pembelian/Penjualan dan dari halaman Utang/Piutang.
+5. **Hapus master data yang sudah dipakai:** `SupplierPolicy`, `BuyerPolicy`, dan `ItemPolicy` menolak delete bila sudah dipakai transaksi/mutasi. Controller menampilkan pesan jelas + saran **nonaktifkan** (`is_active` sudah ada di ketiga tabel). Dikerjakan di Fase 2.
+6. **PWA tidak dibawa.** Bottom nav HP tetap: Dashboard, Pembelian, Penjualan, Stok, Menu.
 
-**Q2. Test yang terikat Filament.** Test ini memakai `Livewire::test(...)` pada halaman Filament atau URL `/admin/...`:
-`ProductionServiceTest`, `PurchaseServiceTest`, `SaleServiceTest`, `StockAdjustmentTest` (masing-masing 1–2 method), serta `AdminPagesTest`, `ExpenseTest`, `GalleryCaptionTest`, `LeadConversionTest`, `PanelAccessTest`, `ProductFormTest`, `ReportAccessTest`, `SaleInvoiceTest`, `SalePolicyTest`, `SiteSettingsPageTest`, `UserManagementTest`.
-PRD F: test service tidak boleh diubah — tapi di Fase 7 method yang memanggil halaman Filament pasti rusak. Usul: sampai Fase 6 semua test lama **tidak disentuh**; di Fase 7 **hanya method yang memanggil Filament** dipindah/diganti dengan test HTTP setara di `/panel` (assertion bisnis sama), method yang murni service tetap utuh. Perlu persetujuan.
+---
 
-**Q3. Redirect tamu.** `bootstrap/app.php` sekarang `redirectGuestsTo('/admin/login')` (dipakai juga route nota/bukti/laporan). Usul: tetap sampai Fase 7, lalu diganti ke `/panel/login`. Login `/panel` punya route sendiri `admin.login`.
+## 6. Log perubahan test lama
 
-**Q4. Menu "Pembayaran".** Di Filament tidak ada halaman Pembayaran sendiri — pembayaran dicatat dari detail pembelian/penjualan (relation manager + action). Usul: **tidak ada menu terpisah**; pembayaran dicatat & di-void dari halaman detail transaksi dan dari Utang/Piutang. Kalau tetap mau menu, isinya daftar riwayat pembayaran read-only + void.
+Format: `File::method` — fase — alasan — penggantinya.
 
-**Q5. Hapus petani/pembeli yang sudah dipakai.** `MasterDataPolicy::delete` hanya cek role; perlindungan sekarang cuma FK `restrictOnDelete` (akan jadi error 500). Usul: tambah cek `! $record->purchases()/sales()->exists()` di `SupplierPolicy` / `BuyerPolicy` (2 method kecil) + pesan flash "sudah dipakai transaksi". Ini perubahan Policy kecil — perlu izin karena PRD bilang Policy dipakai ulang.
-
-**Q6. Fitur Deepsea yang tidak diambil:** PWA/service worker, bottom-nav badge. Bottom nav HP tetap diambil (pintasan: Dashboard, Pembelian, Penjualan, Stok, Menu). Setuju?
-
-**Catatan lain**
-- Path `[PATH_DEEPSEA]` di PRD = `C:\laragon\www\deepsea_florist`.
-- `resources/views/filament/**` (4 view) ikut dihapus di Fase 7.
-- `composer.json` punya script `filament:upgrade` di `post-autoload-dump` → dihapus di Fase 7.
+| Test | Fase | Perubahan | Pengganti |
+|---|---|---|---|
+| `PurchaseServiceTest::test_pages_and_receipt_render` | 1 | baris terakhir: tamu di `/pembelian/{id}/bukti` kini diarahkan ke `/panel/login` (bukan `/admin/login`) — keputusan 3. Assertion lain tidak berubah | — |
+| `SaleInvoiceTest::test_invoice_access_rules` | 1 | assertion redirect tamu `/admin/login` → `/panel/login` — keputusan 3 | — |
+| `AdminPagesTest::test_owner_pages_render` | 6 | 5 URL Filament Website (`website-settings`, `contact-messages`, `galleries`, `products`, `products/create`) dibuang dari daftar — halamannya dihapus (keputusan Erlan 2026-10-13). URL Filament lain tetap | `Admin\WebsiteModuleTest::test_owner_can_open_all_website_pages` |
+| `GalleryCaptionTest::test_owner_gallery_pages_render` | 6 | `/admin/galleries(/create)` → `/panel/galeri(/create)` | — |
+| `LeadConversionTest::test_convert_lead_to_buyer_via_action` | 6 | aksi Livewire `convertToBuyer` → `GET /panel/pesan`, `GET /panel/pesan/{id}`, `POST /panel/pesan/{id}/jadikan-pembeli`. Assertion data pembeli tidak berubah | — |
+| `LeadConversionTest::test_mark_as_spam` | 6 | aksi Livewire `spam` → `POST /panel/pesan/{id}/spam`. Assertion status tidak berubah | — |
+| `ProductFormTest::test_slug_is_generated_from_name` | 6 | form Livewire → `POST /panel/katalog` dengan `name[id]`. Assertion slug tidak berubah | — |
+| `SiteSettingsPageTest::test_owner_updates_value_and_cache_is_reset` | 6 | form Livewire → `PUT /panel/pengaturan-website`; jumlah key 21 → 23 (+2 key SEO, keputusan Fase 0 no. 3). Assertion nilai & reset cache tidak berubah | — |
+| `SiteSettingsPageTest::test_invalid_url_is_rejected` | 6 | form Livewire → `PUT /panel/pengaturan-website`; error di `settings.social_instagram` | — |
+| `SiteSettingsPageTest::test_staff_cannot_access_website_menu` | 6 | 4 URL `/admin/...` → `/panel/pengaturan-website`, `/panel/pesan`, `/panel/galeri`, `/panel/katalog`. Tetap 403 | — |
+| `AdminPagesTest::test_staff_pages_and_hidden_cost` | 6 | `/admin/items/1` → `/admin/items/{Item::first()->id}`: di MySQL auto-increment tidak di-reset saat `RefreshDatabase` rollback, jadi id ≠ 1. Assertion tidak berubah | — |
+| `GalleryCaptionTest::test_normalize_command_fixes_json_paths` | 6 | insert mentah `title` kini JSON `{"id":"Lama"}` (kolom JSON sejak Fase 6, MySQL menolak teks biasa). Assertion `file_path` tidak berubah | — |

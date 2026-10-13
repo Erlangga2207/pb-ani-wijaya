@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // Supplier = petani pemasok gabah.
 class Supplier extends Model
@@ -25,4 +26,9 @@ class Supplier extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

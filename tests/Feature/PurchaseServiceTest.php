@@ -146,6 +146,6 @@ class PurchaseServiceTest extends TestCase
         }
 
         auth()->logout();
-        $this->get("/pembelian/{$p->id}/bukti")->assertRedirect('/admin/login');
+        $this->get("/pembelian/{$p->id}/bukti")->assertRedirect('/panel/login');
     }
 }

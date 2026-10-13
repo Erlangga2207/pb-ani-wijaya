@@ -3,9 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Gallery extends Model
 {
+    use HasTranslations;
+
+    // Teks per bahasa (JSON). Kosong → bahasa default (id).
+    public array $translatable = ['title', 'description'];
+
+    // Label kategori untuk admin (Bahasa Indonesia). Label di website: getCategoryLabelAttribute().
+    public const CATEGORIES = [
+        'origin' => 'Asal padi',
+        'processing' => 'Produksi',
+        'quality' => 'Kontrol kualitas',
+        'logistics' => 'Logistik',
+        'product' => 'Produk jadi',
+        'facility' => 'Fasilitas',
+        'other' => 'Lainnya',
+    ];
+
     protected $fillable = [
         'title',
         'description',
@@ -37,14 +54,14 @@ class Gallery extends Model
     public function getCategoryLabelAttribute(): string
     {
         return match ($this->category) {
-            'origin' => '🌾 Origin',
-            'processing' => '⚙️ Processing',
-            'quality' => '✓ Quality Control',
-            'logistics' => '📦 Logistics',
-            'product' => '🍚 Final Product',
-            'facility' => '🏭 Facility',
-            'other' => '📷 Other',
-            default => 'Other',
+            'origin' => __('🌾 Origin'),
+            'processing' => __('⚙️ Processing'),
+            'quality' => __('✓ Quality Control'),
+            'logistics' => __('📦 Logistics'),
+            'product' => __('🍚 Final Product'),
+            'facility' => __('🏭 Facility'),
+            'other' => __('📷 Other'),
+            default => __('Other'),
         };
     }
 }

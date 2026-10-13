@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 // Master data yang juga diisi staff saat input transaksi (petani/pembeli baru).
 // Menghapus hanya owner ke atas.
@@ -28,7 +29,7 @@ class MasterDataPolicy
         return true;
     }
 
-    public function delete(User $user, $record): bool
+    public function delete(User $user, $record): bool|Response
     {
         return $user->isOwnerOrAbove();
     }

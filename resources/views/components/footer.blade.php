@@ -7,7 +7,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-14 h-14 bg-white rounded-full p-1 flex items-center justify-center">
                         <img src="{{ asset('images/logo.png') }}"
-                             alt="PB. Ani Wijaya Logo"
+                             alt="{{ __('PB. Ani Wijaya Logo') }}"
                              class="w-full h-full object-contain">
                     </div>
                     <div>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <p class="text-gray-400 max-w-md leading-relaxed">
-                    {{ $setting('company_tagline', 'Premium Rice Producer') }} dari {{ $setting('contact_short_address', 'Indramayu, Jawa Barat') }}, melayani distribusi grosir dan retail dengan komitmen kualitas terjamin.
+                    {{ __(':tagline dari :address, melayani distribusi grosir dan retail dengan komitmen kualitas terjamin.', ['tagline' => $setting('company_tagline', 'Premium Rice Producer'), 'address' => $setting('contact_short_address', 'Indramayu, Jawa Barat')]) }}
                 </p>
 
                 {{-- Trust Badges --}}
@@ -27,26 +27,26 @@
                     </div>
                     <div class="inline-flex items-center gap-2 bg-gold/20 px-4 py-2 rounded-full text-xs text-gold">
                         <span class="material-symbols-outlined" style="font-size: 16px; font-variation-settings: 'FILL' 1;">workspace_premium</span>
-                        <span class="font-bold">Mutu Terjamin</span>
+                        <span class="font-bold">{{ __('Mutu Terjamin') }}</span>
                     </div>
                 </div>
             </div>
 
             {{-- Quick Links --}}
             <div class="space-y-4">
-                <h4 class="font-bold text-sm uppercase tracking-widest text-gold">Navigasi</h4>
+                <h4 class="font-bold text-sm uppercase tracking-widest text-gold">{{ __('Navigasi') }}</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="{{ route('home') }}" class="text-gray-300 hover:text-white transition-colors">Beranda</a></li>
-                    <li><a href="{{ route('about') }}" class="text-gray-300 hover:text-white transition-colors">Tentang Kami</a></li>
-                    <li><a href="{{ route('products') }}" class="text-gray-300 hover:text-white transition-colors">Produk</a></li>
-                    <li><a href="{{ route('gallery') }}" class="text-gray-300 hover:text-white transition-colors">Galeri</a></li>
-                    <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white transition-colors">Kontak</a></li>
+                    <li><a href="{{ localized_route('home') }}" class="text-gray-300 hover:text-white transition-colors">{{ __('Beranda') }}</a></li>
+                    <li><a href="{{ localized_route('about') }}" class="text-gray-300 hover:text-white transition-colors">{{ __('Tentang Kami') }}</a></li>
+                    <li><a href="{{ localized_route('products') }}" class="text-gray-300 hover:text-white transition-colors">{{ __('Produk') }}</a></li>
+                    <li><a href="{{ localized_route('gallery') }}" class="text-gray-300 hover:text-white transition-colors">{{ __('Galeri') }}</a></li>
+                    <li><a href="{{ localized_route('contact') }}" class="text-gray-300 hover:text-white transition-colors">{{ __('Kontak') }}</a></li>
                 </ul>
             </div>
 
             {{-- Contact --}}
             <div class="space-y-4">
-                <h4 class="font-bold text-sm uppercase tracking-widest text-gold">Hubungi Kami</h4>
+                <h4 class="font-bold text-sm uppercase tracking-widest text-gold">{{ __('Hubungi Kami') }}</h4>
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-start gap-3">
                         <span class="material-symbols-outlined text-primary mt-0.5" style="font-size: 18px;">location_on</span>
@@ -70,8 +70,8 @@
 
         {{-- Copyright --}}
         <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-            <p>&copy; {{ date('Y') }} {{ $setting('company_name', 'PB. Ani Wijaya') }}. All Rights Reserved.</p>
-            <p class="text-xs">Mutu Terjamin — {{ $setting('contact_short_address', 'Indramayu') }}</p>
+            <p>&copy; {{ date('Y') }} {{ $setting('company_name', 'PB. Ani Wijaya') }}. {{ __('All Rights Reserved.') }}</p>
+            <p class="text-xs">{{ __('Mutu Terjamin') }} — {{ $setting('contact_short_address', 'Indramayu') }}</p>
         </div>
     </div>
 </footer>

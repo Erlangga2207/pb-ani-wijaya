@@ -32,6 +32,7 @@ class ItemForm
                 Select::make('product_id')
                     ->label('Produk di Katalog Website')
                     ->relationship('product', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                     ->helperText('Opsional, untuk menghubungkan barang ke halaman produk.'),
                 TextInput::make('weight_per_sack_kg')
                     ->label('Berat per Karung')

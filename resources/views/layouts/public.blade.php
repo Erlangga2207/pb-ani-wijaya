@@ -1,11 +1,25 @@
+@php
+    $locales = config('locales');
+    $currentLocale = $locales[app()->getLocale()];
+    // Nama route dasar halaman ini (tanpa prefix "localized.") untuk canonical, hreflang & pemilih bahasa.
+    $basePage = Str::after(request()->route()?->getName() ?? 'home', 'localized.');
+    $basePage = in_array($basePage, ['home', 'about', 'products', 'gallery', 'contact'], true) ? $basePage : 'home';
+@endphp
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="{{ $currentLocale['hreflang'] }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ $setting('company_tagline', 'Premium Rice Producer') }} - {{ $setting('company_name', 'PB. Ani Wijaya') }} di Indramayu, Jawa Barat.">
+    <meta name="description" content="{{ $setting('seo_meta_description', $setting('company_tagline', 'Premium Rice Producer').' - '.__(':company di Indramayu, Jawa Barat.', ['company' => $setting('company_name', 'PB. Ani Wijaya')])) }}">
 
     <title>@yield('title', 'PB. Ani Wijaya') - {{ $setting('company_name', 'PB. Ani Wijaya') }}</title>
+
+    {{-- SEO multi-bahasa: canonical + versi bahasa lain + x-default (bahasa default) --}}
+    <link rel="canonical" href="{{ localized_route($basePage) }}">
+    @foreach ($locales as $code => $locale)
+        <link rel="alternate" hreflang="{{ $locale['hreflang'] }}" href="{{ localized_route($basePage, [], $code) }}">
+    @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ localized_route($basePage, [], array_key_first($locales)) }}">
 
     {{-- Favicon (placeholder, ganti nanti) --}}
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -77,6 +91,21 @@
         ::-webkit-scrollbar-thumb { background: #ba0013; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #93000d; }
     </style>
+
+    {{-- EB Garamond & Manrope tidak punya huruf CJK: font Noto hanya dimuat untuk zh/ja/ko --}}
+    @if ($currentLocale['fonts'])
+        <link href="https://fonts.googleapis.com/css2?family={{ urlencode($currentLocale['fonts']['sans']) }}:wght@400;500;700&family={{ urlencode($currentLocale['fonts']['serif']) }}:wght@600;700&display=swap" rel="stylesheet">
+        <style>
+            body { font-family: 'Manrope', '{{ $currentLocale['fonts']['sans'] }}', sans-serif; }
+            .font-heading { font-family: 'EB Garamond', '{{ $currentLocale['fonts']['serif'] }}', serif !important; }
+            .font-body { font-family: 'Manrope', '{{ $currentLocale['fonts']['sans'] }}', sans-serif !important; }
+            h1, h2, h3, h4, p, li, span, a, label { overflow-wrap: anywhere; }
+            @if (app()->getLocale() === 'ko')
+                /* Korea: jangan memotong di tengah kata */
+                p, li, h1, h2, h3, h4 { word-break: keep-all; }
+            @endif
+        </style>
+    @endif
 
     @stack('styles')
 </head>

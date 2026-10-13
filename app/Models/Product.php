@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 // Katalog produk untuk website. Stok ada di App\Models\Item.
 class Product extends Model
 {
+    use HasTranslations;
+
+    // Teks per bahasa (JSON). Kosong → bahasa default (id).
+    public array $translatable = ['name', 'description'];
+
     protected $fillable = [
         'name',
         'slug',
