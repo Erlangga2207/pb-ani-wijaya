@@ -7,8 +7,9 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum · ⛔ menunggu keputusan
 ## Log langkah
 | Langkah | Status | Commit |
 |---|---|---|
-| 1. Perbandingan fitur Filament ↔ `/panel` | ⛔ | 1 celah kecil — lihat "Pertanyaan" |
+| 1. Perbandingan fitur Filament ↔ `/panel` | ✅ | `29e1822` (celah ditutup di langkah 3) |
 | 2. Cari kode aplikasi yang menulis teks biasa ke kolom translatable | ✅ | tidak ada yang perlu diperbaiki |
+| 3. Dashboard: link "Catat pembelian →" di tile bahan baku yang di bawah minimum (`@can('create', Purchase)`) + test | ✅ | (commit berikut) |
 
 ## 1. Perbandingan fitur
 
@@ -96,5 +97,5 @@ Referensi Filament di luar `app/Filament`:
 9. `CLAUDE.md`: aturan admin Blade + i18n.
 10. Verifikasi: `route:list`, `composer install`, `optimize:clear`, test di MySQL (DB sementara) + SQLite, grep "filament".
 
-## Pertanyaan
-1. **Tombol "Catat Pembelian" di stok menipis** belum ada di dashboard `/panel`. Usul: tambahkan link kecil "Catat pembelian →" di tile barang jenis bahan baku yang di bawah minimum (ke `admin.purchases.create`, hanya tampil bila user boleh membuat pembelian). Tambahkan, atau tidak perlu?
+## Pertanyaan (dijawab)
+1. Tombol "Catat Pembelian" → **ditambahkan** (Erlan, 2026-10-13).

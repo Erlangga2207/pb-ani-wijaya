@@ -26,6 +26,11 @@
                 <x-admin::tile :label="$item->name" :nilai="$kg($item->stock_kg)"
                                :sub="'≈ '.number_format($item->stockInSacks(), 1, ',', '.').' karung'.($item->isLowStock() ? ' · di bawah minimum' : '')"
                                :nada="$item->isLowStock() ? 'merah' : null" />
+                @if ($item->isLowStock() && $item->type === App\Enums\ItemType::Raw)
+                    @can('create', App\Models\Purchase::class)
+                        <a href="{{ route('admin.purchases.create') }}" class="small fw-semibold d-inline-block mt-1">Catat pembelian →</a>
+                    @endcan
+                @endif
             </div>
         @endforeach
     </div>
