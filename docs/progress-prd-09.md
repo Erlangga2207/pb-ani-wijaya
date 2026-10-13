@@ -16,10 +16,30 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | A5. `.env.production.example`: isi PRD + key yang dipakai project. Tambahan di luar daftar PRD: **`APP_KEY=`** (wajib ada agar `key:generate` bisa mengisi), `LOG_DAILY_DAYS=14`, `MAIL_MAILER=log` (aplikasi tidak mengirim email), `SESSION_*` bawaan, `PRODUCTION_YIELD_*` (dikomentari). Semua nilai rahasia kosong; file tidak di-ignore | ✅ | `ab933c7` |
 | A6. `DatabaseSeeder` hanya berisi seeder wajib (Role, SiteSetting, Item, super admin dari env); **tidak ada seeder dummy**. Ditemukan & diperbaiki: `SiteSettingSeeder` memakai `updateOrCreate` → `db:seed` ulang **menimpa Pengaturan Website yang diedit admin**. Kini key baru dibuat lengkap, key lama hanya diperbarui label/grup/tipe/deskripsi/urutan. `RoleSeeder`/`ItemSeeder`/super admin sudah `firstOrCreate` (tidak menimpa password/nama). Test `ProductionSeederTest` (seed 2×: jumlah sama, editan admin & password tetap). 178/178 hijau | ✅ | `df0ec09` |
 | A7. `deploy/deploy.sh`: variabel bisa di-override lewat env; cek PHP ≥ 8.3, composer2→composer, `.env` & `public_html/index.php` ada (sebelum down); `artisan down --retry=60` + `trap EXIT` → selalu `artisan up`; `git pull --ff-only`; `composer install --no-dev`; `migrate --force`; salin `public/` (rsync, fallback `cp -r`) **tanpa** `index.php`, `.htaccess`, `storage`, tanpa `--delete`; `optimize:clear && optimize`; ringkasan commit. `bash -n` lolos; mode git 755; LF | ✅ | `83d485a` |
-| A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | (commit berikut) |
+| A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | `06a1dfb` |
+| Perbaikan dari simulasi: `deploy.sh` menjalankan `artisan config:clear` sebelum `migrate` (sebelumnya migrasi memakai config cache rilis lama) | ✅ | `975d0c1` |
 | A9. `deploy/FIRST_DEPLOY.md` | ⬜ | |
 | Verifikasi: test MySQL, simulasi `public_html`, `bash -n`, cek rahasia | ⬜ | |
 
 ## Catatan
 - Pemakaian `public_path()` saat runtime hanya `filemtime(public_path('css/admin.css'))` di `admin/layouts/aset.blade.php` → di server file itu harus ada di `public_html/css/` (disalin `deploy.sh`).
 - `config/filesystems.php` `links` dihitung saat config dimuat (sebelum provider) → tetap `base_path('public/storage')`. Hanya dipakai `php artisan storage:link`, yang memang tidak bisa dipakai di Hostinger (`symlink()` dimatikan); symlink dibuat manual dengan `ln -s`.
+
+## Simulasi lokal (2026-10-13)
+Struktur meniru server di scratchpad (bukan di repo, supaya tidak mungkin ter-commit): `sim/pb-ani-wijaya` = `git clone` branch ini, `sim/public_html` = folder web. MySQL 8.0.30 database sementara `pb_ani_wijaya_prd09_tmp`. Web server: `php -S` dari `public_html` dengan router Laravel (`server.php` → `public_html/index.php` versi server). Semua dihapus setelahnya; `pb_ani_wijaya` dan repo tidak disentuh.
+
+| Langkah (mengikuti B5) | Hasil |
+|---|---|
+| `composer install --no-dev --optimize-autoloader` | 80 paket |
+| `cp .env.production.example .env` → `key:generate --force` | `APP_KEY` terisi (baris `APP_KEY=` di template berfungsi). Diubah untuk laptop saja: `APP_URL`, `APP_PUBLIC_PATH`, DB sementara, `SESSION_SECURE_COOKIE=false` (http), akun admin dummy. `APP_ENV=production` tetap |
+| `cp -r public/. ../public_html/` + `cp deploy/public_html/{index.php,.htaccess}` + link `storage` | Windows tanpa hak admin tidak bisa `ln -s` → dipakai **junction** (`mklink /J`), setara untuk tes ini. Di server tetap `ln -s` |
+| `migrate --force`, `db:seed --force`, `optimize` | 29 migration, 3 seeder + super admin; `public_path()` tetap `public_html` **setelah `config:cache`** |
+| Folder `public/` milik clone di-rename selama uji web | membuktikan website tidak memakai `public/` asli |
+| `/`, `/en`, `/zh/produk`, `/ja/galeri`, `/ko/kontak`, `/tentang-kami`, `/sitemap.xml`, `/robots.txt`, `/css/admin.css`, `/panel/login` | semua 200; `admin.css?v=<filemtime>` terbaca dari `public_html` |
+| `/abc123` | 404 tanpa detail error (`APP_DEBUG=false`) |
+| `/admin` | 301 → `/panel` (Location relatif, jadi di server mengikuti https) |
+| Login `/panel` (curl + CSRF) → upload foto galeri (PNG 237.879 byte) | 302 sukses; file di `pb-ani-wijaya/storage/app/public/gallery/…`; `GET /storage/gallery/…` lewat `public_html/storage` → 200, ukuran sama; tampil di `/panel/galeri` dan `/galeri` |
+| `deploy.sh` jalur sukses (rsync & composer2 tidak ada → jalur fallback `cp -r` & `composer` ikut teruji) | exit 0; `index.php` & `.htaccess` server tidak tertimpa (sha1 sama); file baru di `public/` tersalin; junction `storage` & foto tetap ada; website live |
+| `deploy.sh` jalur gagal (migration rusak sementara) | exit 1, pesan "Deploy GAGAL — website sudah dinaikkan lagi", tidak tertinggal di mode perawatan, beranda 200 |
+| `deploy.sh` cek awal: `public_html/index.php` tidak ada; PHP 8.1 | berhenti dengan pesan jelas **sebelum** `artisan down` |
+| `.htaccess` | diuji terpisah di Apache sementara (lihat A3) |
