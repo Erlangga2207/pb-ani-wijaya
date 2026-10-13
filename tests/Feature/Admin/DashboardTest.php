@@ -57,7 +57,7 @@ class DashboardTest extends TestCase
     {
         $this->actingAs($this->userWithRole('staff'))->get('/panel')
             ->assertSee('Dashboard')
-            ->assertSee('Panel lama');
+            ->assertDontSee('Panel lama'); // link ke Filament dihapus di PRD-08 Fase 7
     }
 
     public function test_today_activity_and_finance_numbers(): void

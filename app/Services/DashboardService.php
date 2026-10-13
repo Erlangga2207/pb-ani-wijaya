@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-// Angka ringkasan dashboard panel. Query sama dengan widget Filament (dihapus di Fase 7).
+// Angka ringkasan dashboard panel.
 class DashboardService
 {
     public function __construct(private ReportService $reports) {}

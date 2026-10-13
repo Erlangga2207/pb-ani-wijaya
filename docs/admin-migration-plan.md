@@ -199,3 +199,4 @@ Format: `File::method` — fase — alasan — penggantinya.
 | `AdminPagesTest::test_owner_pages_render` | 7 | daftar URL Filament → URL /panel yang setara; assertion menu Peran (Shield) dihapus (menu dihapus sesuai PRD) | — |
 | `AdminPagesTest::test_staff_pages_and_hidden_cost` | 7 | URL → `/panel/barang`, `/panel/kartu-stok`; label `'Biaya Rata-rata'` → `'Biaya rata-rata'` (label /panel) | — |
 | `Admin\FinancePagesTest::test_report_numbers_identical_to_filament` | 7 | → `test_report_tabs_show_numbers`: pembanding Filament dihapus (Filament tidak ada lagi); cek tab tidak kosong & link cetak/CSV tetap | `ReportAccessTest::test_owner_sees_all_tabs_print_and_csv` (angka laba) |
+| `Admin\DashboardTest::test_sidebar_follows_role` | 7 | `assertSee('Panel lama')` → `assertDontSee` (link ke Filament dihapus) | — |

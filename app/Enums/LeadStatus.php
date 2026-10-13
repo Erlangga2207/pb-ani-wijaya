@@ -2,10 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Contracts\HasLabel;
-
-enum LeadStatus: string implements HasColor, HasLabel
+enum LeadStatus: string
 {
     case New = 'new';
     case Contacted = 'contacted';

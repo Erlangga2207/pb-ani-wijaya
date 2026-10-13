@@ -10,7 +10,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum · ⛔ menunggu keputusan
 | 1. Perbandingan fitur Filament ↔ `/panel` | ✅ | `29e1822` (celah ditutup di langkah 3) |
 | 2. Cari kode aplikasi yang menulis teks biasa ke kolom translatable | ✅ | tidak ada yang perlu diperbaiki |
 | 3. Dashboard: link "Catat pembelian →" di tile bahan baku yang di bawah minimum (`@can('create', Purchase)`) + test | ✅ | `6e3b5ce` |
-| 4. Test: semua pemakaian Filament/Livewire di test dialihkan ke `/panel` (assertion sama; label disesuaikan supaya `assertDontSee` tetap bermakna), 3 test akses duplikat dihapus, `TestCase` bebas Filament. Log di `admin-migration-plan.md` bagian 6. 171/171 hijau | ✅ | (commit berikut) |
+| 4. Test: semua pemakaian Filament/Livewire di test dialihkan ke `/panel` (assertion sama; label disesuaikan supaya `assertDontSee` tetap bermakna), 3 test akses duplikat dihapus, `TestCase` bebas Filament. Log di `admin-migration-plan.md` bagian 6. 171/171 hijau | ✅ | `da3b565` |
+| 5. Lepas ketergantungan kode: 8 enum tanpa interface Filament (method `getLabel/getColor` tetap), `User` tanpa `FilamentUser`/`canAccessPanel`, link "Panel lama" di layout dihapus, fallback route Filament di dashboard dihapus, komentar disesuaikan. 171/171 hijau | ✅ | (commit berikut) |
 
 ## 1. Perbandingan fitur
 

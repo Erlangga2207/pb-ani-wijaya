@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum ExpenseCategory: string implements HasLabel
+enum ExpenseCategory: string
 {
     case Wages = 'wages';
     case Electricity = 'electricity';
