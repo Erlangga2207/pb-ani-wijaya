@@ -98,7 +98,7 @@ class ItemController extends Controller
     {
         return view('admin.items.form', [
             'item' => $item,
-            'products' => Product::orderBy('name')->pluck('name', 'id'),
+            'products' => Product::orderBy('id')->get()->pluck('name', 'id'), // name = JSON terjemahan, ambil lewat model
         ]);
     }
 

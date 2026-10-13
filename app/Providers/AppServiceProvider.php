@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Translatable\Facades\Translatable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,8 +37,14 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-report', fn (User $user, string $tab) => array_key_exists($tab, ReportService::TABS)
             && ($user->isOwnerOrAbove() || in_array($tab, ReportService::STAFF_TABS, true)));
 
+        // Konten dinamis (produk, galeri): terjemahan kosong → bahasa default website, bukan app.fallback_locale.
+        Translatable::fallback(fallbackLocale: array_key_first(config('locales')));
+
         // Keuangan › Utang ke Petani & Piutang Pembeli (PRD-08: grup Keuangan owner ke atas).
         Gate::define('view-debts', fn (User $user) => $user->isOwnerOrAbove());
+
+        // Website › Galeri, Katalog, Pengaturan Website, Pesan (owner ke atas, sama dengan Policy masing-masing).
+        Gate::define('manage-website', fn (User $user) => $user->isOwnerOrAbove());
 
         // Share SiteSetting helper ke semua view sebagai $settings
         View::composer('*', function ($view) {

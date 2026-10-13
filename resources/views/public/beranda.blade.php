@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', __('Beranda'))
+@section('title', $setting('seo_meta_title', __('Beranda')))
 
 @section('content')
 
