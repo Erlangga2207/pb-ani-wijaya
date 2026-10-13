@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\SiteSetting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 
 class SiteSettingSeeder extends Seeder
 {
@@ -55,10 +56,15 @@ class SiteSettingSeeder extends Seeder
                 $setting['value'] = json_encode(array_intersect_key($translations[$setting['key']], config('locales')), JSON_UNESCAPED_UNICODE);
             }
 
-            SiteSetting::updateOrCreate(
-                ['key' => $setting['key']],
-                $setting
-            );
+            // Aman dijalankan ulang di produksi: key baru dibuat lengkap; key yang sudah ada hanya
+            // diperbarui label/grup/tipe/deskripsi/urutan — nilai yang diedit admin tidak ditimpa.
+            $existing = SiteSetting::firstWhere('key', $setting['key']);
+
+            if ($existing) {
+                $existing->update(Arr::except($setting, ['key', 'value', 'is_translatable']));
+            } else {
+                SiteSetting::create($setting);
+            }
         }
     }
 }
