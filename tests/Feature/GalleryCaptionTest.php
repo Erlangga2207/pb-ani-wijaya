@@ -31,7 +31,7 @@ class GalleryCaptionTest extends TestCase
     public function test_normalize_command_fixes_json_paths(): void
     {
         $id = DB::table('galleries')->insertGetId([
-            'title' => 'Lama', 'category' => 'other', 'file_type' => 'image',
+            'title' => json_encode(['id' => 'Lama']), 'category' => 'other', // title = JSON per bahasa sejak PRD-08 Fase 6 'file_type' => 'image',
             'file_path' => '["gallery\/lama.jpg"]', 'created_at' => now(), 'updated_at' => now(),
         ]);
 

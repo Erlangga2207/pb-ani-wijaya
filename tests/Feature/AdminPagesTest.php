@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Item;
 use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -43,7 +44,7 @@ class AdminPagesTest extends TestCase
         $this->actingAs($this->userWithRole('staff'));
 
         $this->get('/admin/items')->assertOk()->assertDontSee('Biaya Rata-rata');
-        $this->get('/admin/items/1')->assertOk()->assertDontSee('Biaya Rata-rata');
+        $this->get('/admin/items/'.Item::first()->id)->assertOk()->assertDontSee('Biaya Rata-rata'); // id tidak selalu 1 di MySQL
         $this->get('/admin/stock-movements')->assertOk()->assertDontSee('Biaya/kg');
         $this->get('/admin/items/create')->assertForbidden();
     }

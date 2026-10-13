@@ -106,7 +106,8 @@ class WebsiteModuleTest extends TestCase
         ])->assertSessionHasNoErrors();
 
         $product = Product::firstOrFail();
-        $this->assertSame(['id' => 'Ketan Putih Kepala', 'en' => 'Premium White Sticky Rice'], $product->getTranslations('name'));
+        // assertEquals: kolom JSON MySQL menyimpan key berurutan abjad, urutan tidak penting.
+        $this->assertEquals(['id' => 'Ketan Putih Kepala', 'en' => 'Premium White Sticky Rice'], $product->getTranslations('name'));
 
         $this->get('/')->assertSee('Ketan Putih Kepala');
         $this->get('/en')->assertSee('Premium White Sticky Rice');

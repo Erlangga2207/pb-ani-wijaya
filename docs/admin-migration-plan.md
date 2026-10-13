@@ -179,3 +179,5 @@ Format: `File::method` — fase — alasan — penggantinya.
 | `SiteSettingsPageTest::test_owner_updates_value_and_cache_is_reset` | 6 | form Livewire → `PUT /panel/pengaturan-website`; jumlah key 21 → 23 (+2 key SEO, keputusan Fase 0 no. 3). Assertion nilai & reset cache tidak berubah | — |
 | `SiteSettingsPageTest::test_invalid_url_is_rejected` | 6 | form Livewire → `PUT /panel/pengaturan-website`; error di `settings.social_instagram` | — |
 | `SiteSettingsPageTest::test_staff_cannot_access_website_menu` | 6 | 4 URL `/admin/...` → `/panel/pengaturan-website`, `/panel/pesan`, `/panel/galeri`, `/panel/katalog`. Tetap 403 | — |
+| `AdminPagesTest::test_staff_pages_and_hidden_cost` | 6 | `/admin/items/1` → `/admin/items/{Item::first()->id}`: di MySQL auto-increment tidak di-reset saat `RefreshDatabase` rollback, jadi id ≠ 1. Assertion tidak berubah | — |
+| `GalleryCaptionTest::test_normalize_command_fixes_json_paths` | 6 | insert mentah `title` kini JSON `{"id":"Lama"}` (kolom JSON sejak Fase 6, MySQL menolak teks biasa). Assertion `file_path` tidak berubah | — |
