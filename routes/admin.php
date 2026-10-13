@@ -19,9 +19,15 @@ use App\Http\Controllers\Admin\StockAdjustmentController;
 use App\Http\Controllers\Admin\StockMovementController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Expense;
+use App\Models\Item;
+use App\Models\StockAdjustment;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 // Didaftarkan di bootstrap/app.php: prefix /panel, nama admin.*, middleware web.
+// Otorisasi: Policy dicek di controller untuk setiap aksi. Aksi yang memakai Form Request juga dicek di route ("can:")
+// supaya pengguna tanpa hak langsung mendapat 403, bukan pesan validasi.
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'create'])->name('login');
@@ -33,35 +39,41 @@ Route::middleware(['auth', 'active', 'role:super_admin|owner|staff'])->group(fun
 
     Route::get('/', DashboardController::class)->name('dashboard');
 
-    // Transaksi: tanpa edit/hapus. Koreksi = void (alasan wajib). Otorisasi per aksi lewat Policy di controller.
+    // Transaksi: tanpa edit/hapus. Koreksi = void (alasan wajib, owner ke atas).
     Route::resource('pembelian', PurchaseController::class)->only(['index', 'create', 'store', 'show'])->names('purchases')->parameters(['pembelian' => 'purchase']);
-    Route::post('pembelian/{purchase}/batal', [PurchaseController::class, 'void'])->name('purchases.void');
-    Route::post('pembelian/{purchase}/pembayaran', [PaymentController::class, 'storeForPurchase'])->name('purchases.payments.store');
+    Route::post('pembelian/{purchase}/batal', [PurchaseController::class, 'void'])->name('purchases.void')->middleware('can:void,purchase');
+    Route::post('pembelian/{purchase}/pembayaran', [PaymentController::class, 'storeForPurchase'])->name('purchases.payments.store')->middleware('can:view,purchase');
 
     Route::resource('produksi', ProductionController::class)->only(['index', 'create', 'store', 'show'])->names('productions')->parameters(['produksi' => 'production']);
-    Route::post('produksi/{production}/batal', [ProductionController::class, 'void'])->name('productions.void');
+    Route::post('produksi/{production}/batal', [ProductionController::class, 'void'])->name('productions.void')->middleware('can:void,production');
 
     Route::resource('penjualan', SaleController::class)->only(['index', 'create', 'store', 'show'])->names('sales')->parameters(['penjualan' => 'sale']);
-    Route::post('penjualan/{sale}/batal', [SaleController::class, 'void'])->name('sales.void');
-    Route::post('penjualan/{sale}/pembayaran', [PaymentController::class, 'storeForSale'])->name('sales.payments.store');
+    Route::post('penjualan/{sale}/batal', [SaleController::class, 'void'])->name('sales.void')->middleware('can:void,sale');
+    Route::post('penjualan/{sale}/pembayaran', [PaymentController::class, 'storeForSale'])->name('sales.payments.store')->middleware('can:view,sale');
 
-    Route::post('pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void');
+    Route::post('pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void')->middleware('can:void,payment');
 
     // Stok
     Route::get('kartu-stok', [StockMovementController::class, 'index'])->name('stock-movements.index');
-    Route::resource('opname', StockAdjustmentController::class)->only(['index', 'create', 'store', 'show'])->names('stock-adjustments')->parameters(['opname' => 'stockAdjustment']);
-    Route::post('opname/{stockAdjustment}/batal', [StockAdjustmentController::class, 'void'])->name('stock-adjustments.void');
+    Route::middleware('can:viewAny,'.StockAdjustment::class)->group(function () {
+        Route::resource('opname', StockAdjustmentController::class)->only(['index', 'create', 'store', 'show'])->names('stock-adjustments')->parameters(['opname' => 'stockAdjustment']);
+        Route::post('opname/{stockAdjustment}/batal', [StockAdjustmentController::class, 'void'])->name('stock-adjustments.void');
+    });
 
     // Keuangan
     Route::get('utang', [DebtController::class, 'payables'])->name('payables.index');
     Route::get('piutang', [DebtController::class, 'receivables'])->name('receivables.index');
-    Route::resource('biaya', ExpenseController::class)->only(['index', 'create', 'store', 'show'])->names('expenses')->parameters(['biaya' => 'expense']);
-    Route::post('biaya/{expense}/batal', [ExpenseController::class, 'void'])->name('expenses.void');
+    Route::middleware('can:viewAny,'.Expense::class)->group(function () {
+        Route::resource('biaya', ExpenseController::class)->only(['index', 'create', 'store', 'show'])->names('expenses')->parameters(['biaya' => 'expense']);
+        Route::post('biaya/{expense}/batal', [ExpenseController::class, 'void'])->name('expenses.void');
+    });
     // Cetak & CSV memakai route yang sudah ada: reports.print / reports.csv (routes/web.php).
     Route::get('laporan', ReportController::class)->name('reports.index');
 
-    // Master Data (otorisasi per aksi lewat Policy di controller)
-    Route::resource('barang', ItemController::class)->names('items')->parameters(['barang' => 'item']);
+    // Master Data
+    Route::resource('barang', ItemController::class)->names('items')->parameters(['barang' => 'item'])
+        ->middlewareFor(['create', 'store'], 'can:create,'.Item::class)
+        ->middlewareFor(['edit', 'update'], 'can:update,item');
     Route::resource('petani', SupplierController::class)->except('show')->names('suppliers')->parameters(['petani' => 'supplier']);
     Route::resource('pembeli', BuyerController::class)->except('show')->names('buyers')->parameters(['pembeli' => 'buyer']);
 
@@ -77,5 +89,7 @@ Route::middleware(['auth', 'active', 'role:super_admin|owner|staff'])->group(fun
     });
 
     // Pengaturan
-    Route::resource('pengguna', UserController::class)->except('show')->names('users')->parameters(['pengguna' => 'user']);
+    Route::resource('pengguna', UserController::class)->except('show')->names('users')->parameters(['pengguna' => 'user'])
+        ->middleware('can:viewAny,'.User::class)
+        ->middlewareFor(['edit', 'update'], 'can:update,user');
 });
