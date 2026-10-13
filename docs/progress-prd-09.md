@@ -18,7 +18,7 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | A7. `deploy/deploy.sh`: variabel bisa di-override lewat env; cek PHP ≥ 8.3, composer2→composer, `.env` & `public_html/index.php` ada (sebelum down); `artisan down --retry=60` + `trap EXIT` → selalu `artisan up`; `git pull --ff-only`; `composer install --no-dev`; `migrate --force`; salin `public/` (rsync, fallback `cp -r`) **tanpa** `index.php`, `.htaccess`, `storage`, tanpa `--delete`; `optimize:clear && optimize`; ringkasan commit. `bash -n` lolos; mode git 755; LF | ✅ | `83d485a` |
 | A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | `06a1dfb` |
 | Perbaikan dari simulasi: `deploy.sh` menjalankan `artisan config:clear` sebelum `migrate` (sebelumnya migrasi memakai config cache rilis lama) | ✅ | `975d0c1` |
-| A9. `deploy/FIRST_DEPLOY.md` | ⬜ | |
+| A9. `deploy/FIRST_DEPLOY.md`: checklist B1–B9 + tabel "Kalau ada masalah". Disesuaikan dari simulasi: `key:generate --force` (di production artisan minta konfirmasi), cek `echo $HOME` untuk `APP_PUBLIC_PATH`, cek symlink & `public_path()` setelah deploy, B4 build Vite saat ini tidak diperlukan, cara memakai `PHP_BIN` bila `php` bukan 8.3, salin manual bila template `deploy/public_html` berubah, cek `/composer.json` 403 & canonical di B7 | ✅ | (commit berikut) |
 | Verifikasi: test MySQL, simulasi `public_html`, `bash -n`, cek rahasia | ⬜ | |
 
 ## Catatan
