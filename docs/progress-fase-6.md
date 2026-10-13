@@ -15,7 +15,9 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 ## Log langkah
 | Langkah | Status | Commit |
 |---|---|---|
-| Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | (commit berikut) |
+| Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | `45eadbd` |
+| 2a. Uji migration pada **salinan** `database/database.sqlite` (DB `.env` = SQLite, bukan MySQL) + data contoh (2 produk, 1 galeri, `about_title` diedit): migrate → rollback → bandingkan snapshot → migrate → `migrate:fresh --seed`. Ditemukan & diperbaiki: `down()` mengembalikan draf ID, bukan teks lama, untuk setting default → kini roundtrip identik. File asli tidak berubah (sha1 sama). | ✅ | (commit berikut) |
+| 2b. Uji yang sama di MySQL `pb_ani_wijaya_fase6_tmp` | ⏸ | MySQL Laragon mati (port 3306) — menunggu Erlan menyalakan |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
 
 Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum

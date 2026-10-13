@@ -75,7 +75,7 @@ class TranslatableMigrationTest extends TestCase
 
         $this->assertSame('Heritage of Excellence', $value('hero_title')->value);
         $this->assertSame('Hero Main Title', $value('hero_title')->label);
-        $this->assertStringStartsWith('Meningkatkan standar', $value('hero_description')->value);
+        $this->assertSame($oldDescription, $value('hero_description')->value); // draf belum diedit → teks lama kembali
         $this->assertSame('Hero Description', $value('hero_description')->label);
         $this->assertSame('Judul Buatan Admin', $value('about_title')->value);
         $this->assertNull($value('seo_meta_title'));

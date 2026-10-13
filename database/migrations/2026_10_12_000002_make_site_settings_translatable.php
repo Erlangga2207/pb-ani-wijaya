@@ -84,11 +84,19 @@ return new class extends Migration
 
     public function down(): void
     {
+        $drafts = require database_path('data/site_setting_translations.php');
+
         foreach (DB::table('site_settings')->where('is_translatable', true)->get() as $row) {
             $translations = json_decode((string) $row->value, true);
-            DB::table('site_settings')->where('id', $row->id)->update([
-                'value' => is_array($translations) ? ($translations['id'] ?? null) : $row->value,
-            ]);
+            $value = is_array($translations) ? ($translations['id'] ?? null) : $row->value;
+
+            // Versi ID masih draf bawaan (belum diedit admin) → kembalikan teks lama, supaya rollback tidak mengubah isi website.
+            $draft = $drafts[$row->key] ?? null;
+            if ($draft && $draft['old'] !== null && $value === $draft['id']) {
+                $value = $draft['old'];
+            }
+
+            DB::table('site_settings')->where('id', $row->id)->update(['value' => $value]);
         }
 
         DB::table('site_settings')->whereIn('key', array_keys(self::NEW_KEYS))->delete();
