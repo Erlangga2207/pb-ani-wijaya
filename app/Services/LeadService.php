@@ -32,6 +32,12 @@ class LeadService
         });
     }
 
+    /** Tindak lanjut admin: status, data kontak tambahan, catatan internal. */
+    public function updateFollowUp(ContactMessage $lead, array $data, User $user): void
+    {
+        $lead->update($data + ['handled_by' => $user->id, 'is_read' => true]);
+    }
+
     public function markAsSpam(ContactMessage $lead, User $user): void
     {
         $lead->update(['status' => LeadStatus::Spam, 'handled_by' => $user->id]);
