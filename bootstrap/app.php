@@ -11,7 +11,7 @@ use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
-return Application::configure(basePath: dirname(__DIR__))
+$app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
@@ -40,3 +40,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
     })->create();
+
+// Server Hostinger: repo ada di public_html, jadi .env disimpan SATU tingkat di atasnya
+// (domains/aniwijaya.com/.env.pb-ani-wijaya) supaya tidak pernah ada di folder web.
+// Di laptop file itu tidak ada → tetap memakai .env biasa. key:generate & config:cache ikut memakai file ini.
+$serverEnvDir = dirname(__DIR__, 2);
+
+if (is_file($serverEnvDir.'/.env.pb-ani-wijaya')) {
+    $app->useEnvironmentPath($serverEnvDir);
+    $app->loadEnvironmentFrom('.env.pb-ani-wijaya');
+}
+
+return $app;
