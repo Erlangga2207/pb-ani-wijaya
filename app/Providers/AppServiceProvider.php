@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Translatable\Facades\Translatable;
@@ -30,6 +31,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Produksi: semua URL (canonical, hreflang, sitemap, nota, redirect) memakai APP_URL + https,
+        // bukan host/skema request (mis. www. atau http di belakang proxy).
+        if ($this->app->environment('production')) {
+            URL::forceRootUrl(config('app.url'));
+            URL::forceScheme('https');
+        }
+
         // User nonaktif / tanpa role tidak lolos policy apa pun (termasuk route cetak di luar panel).
         Gate::before(function (User $user) {
             return $user->is_active && $user->hasAnyRole(User::ROLES) ? null : false;

@@ -9,8 +9,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | Langkah | Status | Commit |
 |---|---|---|
 | PRD dipindah `docs/PRD-09-deploy-hostinger.md` → `docs/prd/` (sejajar PRD lain) | ✅ | `7275a74` |
-| A1. `config('app.public_path')` ← `APP_PUBLIC_PATH`; `AppServiceProvider::register()` → `usePublicPath()`. Test `PublicPathTest` | ✅ | (commit berikut) |
-| A2. HTTPS & domain kanonik | ⬜ | |
+| A1. `config('app.public_path')` ← `APP_PUBLIC_PATH`; `AppServiceProvider::register()` → `usePublicPath()`. Test `PublicPathTest` | ✅ | `5be298c` |
+| A2. Produksi: `URL::forceRootUrl(config('app.url'))` + `forceScheme('https')`. Semua URL absolut (canonical, hreflang, sitemap, nota) lewat URL generator → otomatis `APP_URL`. Tag Open Graph belum ada di layout publik (tidak ditambah: desain publik tidak boleh diubah). Test `CanonicalUrlTest` (request via `http://www.` → `https://aniwijaya.com`) | ✅ | (commit berikut) |
 | A3. `deploy/public_html/{index.php,.htaccess}` | ⬜ | |
 | A4. `public/build` ikut di-commit + README | ⬜ | |
 | A5. `.env.production.example` | ⬜ | |
