@@ -20,8 +20,10 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 | 3. `docs/translation-review.md` bagian 3: 10 key pengaturan × (teks lama, id, en, zh, ja, ko), dibuat otomatis dari file data | ✅ | `debb34c` |
 | 4. Log 8 method test di `admin-migration-plan.md` bagian 6 + "Hasil Fase 6" di `i18n-plan.md` | ✅ | `2440da7` |
 | 5. Pint (file Fase 6) + `php artisan test` 172/172 hijau | ✅ | style: commit terpisah |
-| 2b. Uji yang sama di MySQL `pb_ani_wijaya_fase6_tmp` | ⏸ | MySQL Laragon mati (port 3306) — menunggu Erlan menyalakan |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
+| `company_tagline` versi `id` = "Premium Rice Producer" (teks brand); test: teks brand tetap + SEO versi ID memuat "beras ketan" | ✅ | `a2ef787` |
+| 2b. Uji di MySQL 8.0.30 `pb_ani_wijaya_fase6_tmp` (target diverifikasi sebelum tiap perintah): skema Fase 5 (migrate + rollback 2) + seeder pengaturan versi Fase 5 (dari git `84b8a37`) + data contoh (2 produk incl. teks Unicode, 1 galeri, `about_title` diedit) → **migrate** (kolom jadi `json`, data utuh, fallback jalan) → **rollback** (isi, label & tipe kolom **identik** dengan snapshot Fase 5) → **migrate lagi** ✅ → **`migrate:fresh --seed`** ✅ (23 setting) → **`php artisan test` di MySQL**: awalnya 3 gagal (masalah test, bukan aplikasi), diperbaiki → **173/173**. SQLite juga 173/173. Database tmp **dihapus**; `pb_ani_wijaya` & `database.sqlite` tidak disentuh. | ✅ | `32a1366` |
+| Langkah pindah `.env` lokal SQLite → MySQL `pb_ani_wijaya` (ditulis, **tidak dijalankan**) | ✅ | bagian "Pindah lokal ke MySQL" di bawah |
 
 Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 
@@ -50,7 +52,7 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | Nilai yang sudah diedit admin → hanya dibungkus ke `id` | ✅ | test yang sama |
 | Label setting → Bahasa Indonesia | ✅ | migration 000002 + seeder |
 | Draf ID/en/zh/ja/ko setting masuk `docs/translation-review.md` | ✅ | bagian 3 |
-| Uji migration di database nyata: salinan SQLite ✅, MySQL ⏸ (lihat log langkah 2b) | 🟡 | |
+| Uji migration di database nyata: salinan SQLite ✅, MySQL ✅ (lihat log langkah 2b) | ✅ | |
 
 ## D4 — Admin: tab bahasa + modul Website di /panel
 | Item | Status | Bukti |
@@ -71,7 +73,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 |---|---|
 | Log perubahan test lama di `docs/admin-migration-plan.md` bagian 6 | ✅ |
 | Bagian "Hasil Fase 6" di `docs/i18n-plan.md` | ✅ |
-| `migrate:fresh --seed` sukses di database **sementara** (bukan DB `.env`) | ✅ salinan SQLite · ⏸ MySQL |
+| `migrate:fresh --seed` sukses di database **sementara** (bukan DB `.env`) | ✅ salinan SQLite · ✅ MySQL |
+| `php artisan test` di SQLite **dan** MySQL | ✅ 173/173 keduanya |
 | Pint | ✅ |
 | Commit bertahap (Conventional Commits) | ✅ |
 | Cek manual di browser (oleh Erlan) | ⬜ |
@@ -89,8 +92,63 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 ## Pertanyaan
 Sudah dijawab — lihat "Keputusan Erlan" di atas.
 
+## Pindah lokal ke MySQL (dijalankan Erlan, bukan Claude)
+
+Kondisi saat dicek (2026-10-13, hanya baca):
+- `database/database.sqlite` (DB `.env` sekarang): 3 user test `@pbaniwijaya.test` (super_admin, owner, staff), 5 barang dari `ItemSeeder`,
+  21 pengaturan **tidak ada yang diedit**, 0 produk/galeri/pesan/transaksi → **tidak ada data yang perlu dipindah**; cukup `migrate:fresh --seed`.
+- MySQL `pb_ani_wijaya` **sudah ada tapi basi**: 21 tabel dari migration awal saja (tabel transaksi belum ada), 2 user. Akan ditimpa → di-backup dulu.
+- `.env` belum punya `ADMIN_EMAIL` / `ADMIN_PASSWORD` → tanpa itu seeder **tidak membuat super admin**.
+
+Perintah untuk **PowerShell** di root proyek (`C:\laragon\www\pb-ani-wijaya`), MySQL Laragon menyala:
+
+```powershell
+# 1. Backup (di luar folder repo supaya tidak ter-commit)
+$bak = "C:\laragon\backup-pb-ani-wijaya\$(Get-Date -Format yyyyMMdd-HHmm)"
+New-Item -ItemType Directory -Force $bak
+Copy-Item database\database.sqlite "$bak\database.sqlite"
+Copy-Item .env "$bak\.env.sqlite"
+# --result-file, bukan ">": di PowerShell 5.1 ">" menulis UTF-16 dan file SQL jadi rusak
+& "C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe" -uroot --result-file="$bak\pb_ani_wijaya-lama.sql" pb_ani_wijaya
+Get-ChildItem $bak    # pastikan 3 file ada dan ukurannya > 0
+
+# 2. Catat user lokal (untuk dibuat ulang di langkah 6)
+php artisan tinker --execute="App\Models\User::with('roles')->get()->each(fn(`$u) => print `$u->name.' | '.`$u->email.' | '.`$u->roles->pluck('name')->join(',').PHP_EOL);"
+```
+
+3. Edit `.env` (ganti baris `DB_CONNECTION=sqlite`, tambahkan sisanya; hapus baris `DB_*` lain yang dikomentari agar tidak bingung):
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=pb_ani_wijaya
+   DB_USERNAME=root
+   DB_PASSWORD=
+
+   ADMIN_EMAIL=email-super-admin-kamu
+   ADMIN_PASSWORD=password-kuat-kamu
+   ```
+
+```powershell
+# 4. Muat ulang config & pastikan targetnya benar SEBELUM menghapus apa pun
+php artisan config:clear
+php artisan db:show          # harus: MySQL, database pb_ani_wijaya. Kalau masih SQLite → berhenti, cek .env
+
+# 5. Buat ulang semua tabel + data awal (MENGHAPUS isi pb_ani_wijaya lama — sudah di-backup di langkah 1)
+php artisan migrate:fresh --seed
+php artisan migrate:status   # semua "Ran", termasuk 2026_10_12_000001 & 000002
+php artisan cache:clear
+```
+
+6. Login `/panel/login` dengan `ADMIN_EMAIL`, buat ulang user owner/staff di **Pengaturan › Pengguna** (sesi login lama otomatis keluar karena tabel `sessions` baru).
+7. Buka `/` dan `/en` — teks hero, tagline, judul SEO tampil.
+8. `php artisan test` tetap memakai SQLite in-memory (`phpunit.xml`), tidak menyentuh `pb_ani_wijaya`.
+
+**Kembali ke SQLite** bila ada masalah: salin `"$bak\.env.sqlite"` ke `.env`, lalu `php artisan config:clear`. `database\database.sqlite` tidak diubah oleh langkah di atas.
+Database `pb_ani_wijaya_test` (sudah ada di MySQL) tidak dipakai oleh proyek ini.
+
 ## Cek manual di browser (Erlan)
-Persiapan: backup `database/database.sqlite`, lalu `php artisan migrate` (2 migration Fase 6 masih Pending di DB lokal). Login owner di `/panel`.
+Persiapan: jalankan langkah "Pindah lokal ke MySQL" di atas (atau, bila tetap SQLite: backup `database/database.sqlite` lalu `php artisan migrate`). Login owner di `/panel`.
 
 1. **Pengaturan Website** `/panel/pengaturan-website`: klik tab ID / EN / 中文 / 日本語 / 한국어 di beberapa field — isi berganti, tab aktif bergaris merah, titik hijau muncul pada bahasa yang terisi. Badge kelengkapan di atas form.
 2. Kosongkan tab ID sebuah field → simpan → error tampil dan tab ID otomatis aktif.
