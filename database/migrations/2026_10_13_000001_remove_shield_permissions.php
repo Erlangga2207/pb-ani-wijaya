@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
 
-// PRD-08 Fase 7: Filament Shield dihapus. Permission buatan `shield:generate` tidak dipakai lagi
+// PRD-08 Fase 7: paket Shield (panel admin lama) dihapus. Permission buatan `shield:generate` tidak dipakai lagi
 // (otorisasi lewat role super_admin/owner/staff + Policy). Role tidak disentuh.
 return new class extends Migration
 {

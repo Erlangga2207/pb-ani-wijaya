@@ -15,7 +15,40 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum · ⛔ menunggu keputusan
 | 6. `composer remove filament/filament bezhansalleh/filament-shield --no-update-with-dependencies --minimal-changes` → **34 paket dihapus, 0 paket lain berubah versi** (percobaan pertama tanpa flag ikut meng-upgrade 23 paket Symfony dll. → dibatalkan dengan mengembalikan `composer.json`/`composer.lock` dari HEAD via `git show`). `livewire/livewire` & `blade-heroicons` ikut terhapus (hanya dibutuhkan Filament); `spatie/laravel-permission` tetap. Dihapus: `app/Filament`, `app/Providers/Filament`, `resources/views/filament`, `config/filament-shield.php`, `public/{js,css,fonts}/filament`, script `filament:upgrade`, provider di `bootstrap/providers.php` (termasuk `YesPanelProvider` yang tidak pernah ada). `composer validate` OK, `composer install` "Nothing to install", 171/171 hijau | ✅ | `37c0170` |
 | 7. Migration `2026_10_13_000001_remove_shield_permissions`: hapus permission pola Shield (`Aksi:Model` + format lama `view_any_x`/`page_`/`widget_`) beserta pivot `role_has_permissions`/`model_has_permissions`; role tetap; `down()` sengaja kosong. Seeder tidak pernah membuat permission (DB baru: tidak ada yang dihapus). Pola dicek terhadap 97 permission asli di MySQL `pb_ani_wijaya` (hanya baca): 97/97 cocok. Test `RemoveShieldPermissionsTest` | ✅ | `87f11b3` |
 | 8. `routes/web.php`: `Route::permanentRedirect` `/admin` & `/admin/{any}` → `/panel` (301). Test `LegacyAdminRedirectTest` | ✅ | `8dd634b` |
-| 9. `CLAUDE.md`: stack & struktur admin Blade; aturan 3 (Filament v5) → aturan admin Blade (/panel, Form Request, Policy + `can:` di route, Bootstrap + `admin.css`, komponen `x-admin::`); aturan 4, 6, 8, 9 disesuaikan (tanpa Filament/Shield); aturan 13 baru: i18n (`config/locales.php`, `lang/*.json`, field translatable, larangan teks biasa ke kolom JSON, `lang-tabs`); perintah `shield:generate` dihapus | ✅ | (commit berikut) |
+| 9. `CLAUDE.md`: stack & struktur admin Blade; aturan 3 (Filament v5) → aturan admin Blade (/panel, Form Request, Policy + `can:` di route, Bootstrap + `admin.css`, komponen `x-admin::`); aturan 4, 6, 8, 9 disesuaikan (tanpa Filament/Shield); aturan 13 baru: i18n (`config/locales.php`, `lang/*.json`, field translatable, larangan teks biasa ke kolom JSON, `lang-tabs`); perintah `shield:generate` dihapus | ✅ | `0cef5ba` |
+| 10. Verifikasi akhir (lihat tabel di bawah) + 2 komentar terakhir yang menyebut "Filament" diganti, Pint `bootstrap/providers.php` | ✅ | (commit berikut) |
+
+## Verifikasi akhir (2026-10-13)
+| Cek | Hasil |
+|---|---|
+| `php artisan route:list` | 99 route, **0** berisi filament/livewire/shield; `/admin` & `/admin/{any}` hanya redirect |
+| `grep -ri "filament" app config routes resources database` | **0** baris |
+| `composer validate` | valid |
+| `composer install` di folder kosong (`--dry-run`) | 113 paket, tanpa Filament/Livewire |
+| `composer install` di proyek | "Nothing to install, update or remove" |
+| `php artisan optimize:clear` lalu `php artisan test` — **MySQL 8.0.30** (DB sementara `pb_ani_wijaya_fase7_tmp`, dibuat & dihapus; `pb_ani_wijaya` tidak disentuh) | **173/173** hijau (bukti DB dipakai: `site_settings` berubah) |
+| `migrate:fresh --seed` di MySQL sementara | sukses, 28 migration termasuk `remove_shield_permissions` |
+| `php artisan test` — SQLite in-memory | **173/173** hijau |
+| Pint (file PHP yang berubah di Fase 7) | lolos |
+
+## Catatan deploy (Hostinger)
+- Setelah `git pull`: `composer install --no-dev --optimize-autoloader`, `php artisan migrate --force` (menjalankan penghapusan permission Shield), `php artisan optimize:clear`.
+- Hapus folder `public/js/filament`, `public/css/filament`, `public/fonts/filament` di server bila tidak ikut terhapus oleh deploy.
+- Bila `bootstrap/cache/packages.php`/`services.php` di server masih menyebut Filament: `php artisan optimize:clear` (atau hapus kedua file itu) — keduanya dibuat ulang otomatis.
+
+## Cek manual di browser (Erlan)
+Persiapan: `composer install`, `php artisan migrate`, `php artisan optimize:clear`. Login owner di `/panel`.
+
+1. Buka `/admin`, `/admin/login`, `/admin/items` → semua langsung pindah ke `/panel` (tab Network: status **301**).
+2. Topbar & menu HP `/panel`: link **"Panel lama"** sudah tidak ada.
+3. Dashboard: set "Stok minimum" Gabah Ketan (Master Data › Barang › Edit) di atas stok saat ini → tile gabah merah + link **"Catat pembelian →"** membuka form pembelian. Barang jadi (beras) yang di bawah minimum **tidak** punya link itu.
+4. Login **staff**: link "Catat pembelian →" tetap tampil (staff boleh mencatat pembelian), angka keuangan tidak tampil.
+5. Badge status (pill) di daftar Pembelian, Penjualan, Barang, Pesan masih berwarna & berlabel Indonesia (enum tanpa Filament).
+6. Alur utama tetap jalan: catat pembelian → produksi → penjualan → cetak nota → catat pembayaran → batalkan (alasan wajib).
+7. Pengguna: owner membuat staff baru; owner tidak bisa membuka edit super admin.
+8. Laporan: tab, cetak, CSV; login staff → hanya tab Stok & Rendemen.
+9. Website publik `/`, `/en`, `/zh` tetap normal (tidak tersentuh Fase 7).
+10. Browser console di `/panel` tidak ada error 404 untuk file `filament/*` atau `livewire`.
 
 ## 1. Perbandingan fitur
 
@@ -81,7 +114,7 @@ Filter `/panel` = query string di controller.
 | Command | `NormalizeGalleryPaths` (file_path), `VerifyStock` (tidak menyentuh) | tidak perlu |
 | `create/update` model translatable di `app` | lewat model (`HasTranslations`) di controller/service Fase 6 | tidak perlu |
 
-## Temuan untuk rencana penghapusan (belum dikerjakan)
+## Temuan untuk rencana penghapusan (sudah dikerjakan di langkah 4–6)
 Referensi Filament di luar `app/Filament`:
 - `app/Enums/*` (8 enum) implement `Filament\Support\Contracts\HasLabel/HasColor` → hapus `implements`/`use`, **method `getLabel()`/`getColor()` tetap** (dipakai `x-admin::pill` & view).
 - `app/Models/User.php` implements `FilamentUser` (`canAccessPanel`) → hapus interface & method.
@@ -93,7 +126,7 @@ Referensi Filament di luar `app/Filament`:
 - `composer why`: `livewire/livewire` & `blade-ui-kit/blade-heroicons` hanya dibutuhkan `filament/support` → ikut terhapus.
 - Test: `tests/TestCase.php` (`Filament::setCurrentPanel`) + 14 file memanggil `/admin/...`/`Livewire::test` (termasuk test service: `PurchaseServiceTest`, `SaleServiceTest`, `ProductionServiceTest`, `StockAdjustmentTest`, `ExpenseTest`) → bagian Filament diganti `/panel` dengan assertion sama, atau dihapus bila murni smoke test Filament; semua dicatat di `admin-migration-plan.md` bagian 6.
 
-## Rencana langkah (setelah disetujui)
+## Rencana langkah (disetujui 2026-10-13 — semua selesai)
 3. Tutup celah dashboard (bila disetujui).
 4. Test: ganti/hapus bagian Filament, catat di log.
 5. Lepas ketergantungan kode ke Filament (enum, User, dashboard, providers, komentar).
