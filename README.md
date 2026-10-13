@@ -1,7 +1,7 @@
 # PB. Ani Wijaya
 
 Website company profile + sistem internal pabrik penggilingan beras ketan PB. Ani Wijaya (Losarang, Indramayu).
-Laravel 13 · Filament v5 (panel `/admin`) · Filament Shield / spatie-permission.
+Laravel 13 · admin panel Blade di `/panel` (Bootstrap) · spatie/laravel-permission (role) · website 5 bahasa (spatie/laravel-translatable).
 
 Rencana & keputusan desain ada di [`docs/prd/`](docs/prd). Aturan kerja untuk Claude Code ada di [`CLAUDE.md`](CLAUDE.md).
 
@@ -12,7 +12,7 @@ composer install
 cp .env.example .env         # isi DB_*, ADMIN_EMAIL, ADMIN_PASSWORD
 php artisan key:generate
 php artisan migrate --seed   # role, site settings, 5 barang, super admin dari .env
-php artisan storage:link
+php artisan storage:link     # di Hostinger tidak bisa: symlink dibuat manual, lihat deploy/FIRST_DEPLOY.md
 php artisan test
 ```
 
@@ -47,11 +47,11 @@ Pembelian gabah (PB) ─▶ Produksi / giling (PR) ─▶ Penjualan (PJ)
 
 | Role | Akses |
 |---|---|
-| `super_admin` | Semua, termasuk menu Roles |
+| `super_admin` | Semua |
 | `owner` | Semua data, laporan keuangan, void, kelola staff. Tidak bisa menyentuh akun super_admin |
 | `staff` | Input pembelian, produksi, penjualan, pembayaran; lihat stok & rendemen. Tanpa HPP/laba/biaya, laporan keuangan, pengguna, menu Website |
 
-Policy ditulis manual berbasis role di `app/Policies` (`config/filament-shield.php` → `policies.generate = false`), jadi `shield:generate` tidak akan menimpanya.
+Policy ditulis manual berbasis role di `app/Policies`. Role dibuat oleh `RoleSeeder`.
 
 ## Perintah berguna
 
@@ -60,3 +60,11 @@ php artisan stock:verify              # cocokkan cache stok item dengan buku bes
 php artisan gallery:normalize-paths   # sekali jalan: bersihkan file_path galeri lama yang berbentuk JSON
 ./vendor/bin/pint                     # format kode
 ```
+
+## Asset frontend & deploy
+
+Server produksi (Hostinger) **tidak punya Node**, jadi hasil build ikut di-commit:
+
+- Setiap mengubah CSS/JS yang dibangun Vite (`resources/css`, `resources/js`) → `npm run build` → commit folder `public/build`.
+- Saat ini halaman publik memakai Tailwind via CDN dan admin memakai Bootstrap via CDN + `public/css/admin.css` (file biasa, tanpa build). `public/build` baru berisi sesuatu bila nanti ada halaman yang memakai `@vite`.
+- Deploy pertama: [`deploy/FIRST_DEPLOY.md`](deploy/FIRST_DEPLOY.md). Update berikutnya: `bash deploy/deploy.sh` di server.

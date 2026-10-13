@@ -1,0 +1,41 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # --- Tambahan server Hostinger (PRD-09) -------------------------------
+
+    # Tolak file tersembunyi (.env, .git*, ...) kecuali .well-known (verifikasi sertifikat SSL),
+    # serta composer.* dan package*.json.
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+    RewriteRule (^|/)(composer\.(json|lock)|package(-lock)?\.json)$ - [F,L,NC]
+
+    # Satu domain kanonik: http:// dan www. diarahkan (301) ke https://aniwijaya.com
+    # (kecuali .well-known, supaya perpanjangan sertifikat SSL lewat http tetap jalan).
+    RewriteCond %{REQUEST_URI} !^/\.well-known/
+    RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://aniwijaya.com%{REQUEST_URI} [L,R=301]
+
+    # --- Aturan bawaan Laravel --------------------------------------------
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
