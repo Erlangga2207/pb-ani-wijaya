@@ -18,7 +18,8 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 | Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | `45eadbd` |
 | 2a. Uji migration pada **salinan** `database/database.sqlite` (DB `.env` = SQLite, bukan MySQL) + data contoh (2 produk, 1 galeri, `about_title` diedit): migrate → rollback → bandingkan snapshot → migrate → `migrate:fresh --seed`. Ditemukan & diperbaiki: `down()` mengembalikan draf ID, bukan teks lama, untuk setting default → kini roundtrip identik. File asli tidak berubah (sha1 sama). | ✅ | `ec47478` |
 | 3. `docs/translation-review.md` bagian 3: 10 key pengaturan × (teks lama, id, en, zh, ja, ko), dibuat otomatis dari file data | ✅ | `debb34c` |
-| 4. Log 8 method test di `admin-migration-plan.md` bagian 6 + "Hasil Fase 6" di `i18n-plan.md` | ✅ | (commit berikut) |
+| 4. Log 8 method test di `admin-migration-plan.md` bagian 6 + "Hasil Fase 6" di `i18n-plan.md` | ✅ | `2440da7` |
+| 5. Pint (file Fase 6) + `php artisan test` 172/172 hijau | ✅ | style: commit terpisah |
 | 2b. Uji yang sama di MySQL `pb_ani_wijaya_fase6_tmp` | ⏸ | MySQL Laragon mati (port 3306) — menunggu Erlan menyalakan |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
 
@@ -71,11 +72,11 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | Log perubahan test lama di `docs/admin-migration-plan.md` bagian 6 | ✅ |
 | Bagian "Hasil Fase 6" di `docs/i18n-plan.md` | ✅ |
 | `migrate:fresh --seed` sukses di database **sementara** (bukan DB `.env`) | ✅ salinan SQLite · ⏸ MySQL |
-| Pint | ⬜ |
+| Pint | ✅ |
 | Commit bertahap (Conventional Commits) | ✅ |
 | Cek manual di browser (oleh Erlan) | ⬜ |
 
-## Rencana sisa pekerjaan (menunggu persetujuan)
+## Rencana sisa pekerjaan (disetujui 2026-10-13 — selesai kecuali 2b MySQL & cek browser)
 1. Commit pekerjaan yang sudah ada, dipecah: (a) `feat(i18n)` translatable kolom + migration + `SiteSetting::get` per locale/fix cache;
    (b) `feat(admin)` modul Website di /panel + tab bahasa; (c) `refactor(admin)` hapus resource Filament Website + test pindah ke /panel;
    (d) `test(admin)` otorisasi sebelum validasi.
@@ -87,3 +88,17 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 
 ## Pertanyaan
 Sudah dijawab — lihat "Keputusan Erlan" di atas.
+
+## Cek manual di browser (Erlan)
+Persiapan: backup `database/database.sqlite`, lalu `php artisan migrate` (2 migration Fase 6 masih Pending di DB lokal). Login owner di `/panel`.
+
+1. **Pengaturan Website** `/panel/pengaturan-website`: klik tab ID / EN / 中文 / 日本語 / 한국어 di beberapa field — isi berganti, tab aktif bergaris merah, titik hijau muncul pada bahasa yang terisi. Badge kelengkapan di atas form.
+2. Kosongkan tab ID sebuah field → simpan → error tampil dan tab ID otomatis aktif.
+3. Ubah `hero_description` tab EN → simpan → buka `/en`: teks baru tampil; `/` tetap versi Indonesia. Kosongkan EN → `/en` menampilkan versi Indonesia (tidak kosong).
+4. Beranda `/`: lencana "INDRAMAYU'S FINEST" & judul "Heritage of Excellence" tetap; deskripsi hero berbahasa Indonesia. Judul tab browser = judul SEO.
+5. **Katalog** `/panel/katalog`: tambah produk dengan nama ID + EN → produk unggulan di `/` dan `/en` sesuai bahasa; badge "EN ✓ 中文 ✗" di daftar.
+6. **Galeri** `/panel/galeri`: unggah foto, isi judul ID saja → tampil di `/galeri` dan `/ja/galeri` (fallback ID).
+7. **Pesan** `/panel/pesan`: buka pesan, ubah status, coba "Jadikan Pembeli".
+8. Semua halaman di atas di lebar **375px**: tab bahasa bisa digeser, tidak ada yang keluar layar.
+9. Login **staff**: menu Website tidak tampil; buka `/panel/galeri` langsung → 403.
+10. `/admin` (Filament): sidebar tidak punya grup/link Website.
