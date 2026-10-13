@@ -39,6 +39,8 @@ step "Install dependency PHP ($COMPOSER_BIN)"
 "$COMPOSER_BIN" install --no-dev --optimize-autoloader --no-interaction
 
 step "Migrasi database"
+# Buang config cache rilis lama dulu, supaya migrasi memakai config & .env terbaru.
+"$PHP_BIN" artisan config:clear
 "$PHP_BIN" artisan migrate --force
 
 # index.php & .htaccess di public_html adalah versi server (deploy/public_html/);
