@@ -10,8 +10,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 |---|---|---|
 | PRD dipindah `docs/PRD-09-deploy-hostinger.md` → `docs/prd/` (sejajar PRD lain) | ✅ | `7275a74` |
 | A1. `config('app.public_path')` ← `APP_PUBLIC_PATH`; `AppServiceProvider::register()` → `usePublicPath()`. Test `PublicPathTest` | ✅ | `5be298c` |
-| A2. Produksi: `URL::forceRootUrl(config('app.url'))` + `forceScheme('https')`. Semua URL absolut (canonical, hreflang, sitemap, nota) lewat URL generator → otomatis `APP_URL`. Tag Open Graph belum ada di layout publik (tidak ditambah: desain publik tidak boleh diubah). Test `CanonicalUrlTest` (request via `http://www.` → `https://aniwijaya.com`) | ✅ | (commit berikut) |
-| A3. `deploy/public_html/{index.php,.htaccess}` | ⬜ | |
+| A2. Produksi: `URL::forceRootUrl(config('app.url'))` + `forceScheme('https')`. Semua URL absolut (canonical, hreflang, sitemap, nota) lewat URL generator → otomatis `APP_URL`. Tag Open Graph belum ada di layout publik (tidak ditambah: desain publik tidak boleh diubah). Test `CanonicalUrlTest` (request via `http://www.` → `https://aniwijaya.com`) | ✅ | `5e3211e` |
+| A3. `deploy/public_html/index.php` (3 path → `../pb-ani-wijaya/`) + `.htaccess` (tolak file tersembunyi kecuali `.well-known`, tolak `composer.*`/`package*.json`, 1× redirect 301 `http`/`www` → `https://aniwijaya.com` kecuali `.well-known`). **Diuji di Apache 2.4.54 sementara** (port 8098, config di scratchpad, Laragon tidak disentuh): `/.env`, `/.git/config`, `/composer.json`, `/COMPOSER.LOCK`, `/package-lock.json` → 403; `/.well-known/acme-challenge/x` → 200; `http://aniwijaya.com/produk?x=1` & `http://www.aniwijaya.com/en/produk` → 301 `https://aniwijaya.com/...` (path + query terbawa). Jalur https asli hanya bisa dicek di server | ✅ | (commit berikut) |
 | A4. `public/build` ikut di-commit + README | ⬜ | |
 | A5. `.env.production.example` | ⬜ | |
 | A6. Seeder aman untuk produksi | ⬜ | |
