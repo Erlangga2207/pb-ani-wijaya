@@ -1,4 +1,4 @@
-{{-- Badge status. warna = nama warna Filament dari enum getColor() (success/warning/danger/info/gray). --}}
+{{-- Badge status. warna = nama warna dari enum getColor() (success/warning/danger/info/gray). --}}
 @props(['label', 'warna' => 'gray'])
 
 @php

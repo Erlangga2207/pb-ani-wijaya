@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum QuantityUnit: string implements HasLabel
+enum QuantityUnit: string
 {
     case Kg = 'kg';
     case Sack = 'sack';

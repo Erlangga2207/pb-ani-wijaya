@@ -2,10 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Contracts\HasLabel;
-
-enum ItemType: string implements HasColor, HasLabel
+enum ItemType: string
 {
     case Raw = 'raw';
     case Finished = 'finished';

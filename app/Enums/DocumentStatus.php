@@ -2,10 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Contracts\HasLabel;
-
-enum DocumentStatus: string implements HasColor, HasLabel
+enum DocumentStatus: string
 {
     case Posted = 'posted';
     case Void = 'void';

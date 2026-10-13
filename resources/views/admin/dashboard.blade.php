@@ -5,10 +5,7 @@
 @php
     $kg = fn ($v) => number_format((float) $v, 0, ',', '.').' kg';
     $rp = fn ($v) => 'Rp '.number_format((float) $v, 0, ',', '.');
-    // Halaman detail transaksi pindah ke /panel di Fase 3; sampai itu tautan ke panel lama.
-    $docUrl = fn (string $resource, $record) => Route::has("admin.$resource.show")
-        ? route("admin.$resource.show", $record)
-        : route("filament.admin.resources.$resource.view", ['record' => $record]);
+    $docUrl = fn (string $resource, $record) => route("admin.$resource.show", $record);
 @endphp
 
 @section('konten')
@@ -26,6 +23,11 @@
                 <x-admin::tile :label="$item->name" :nilai="$kg($item->stock_kg)"
                                :sub="'≈ '.number_format($item->stockInSacks(), 1, ',', '.').' karung'.($item->isLowStock() ? ' · di bawah minimum' : '')"
                                :nada="$item->isLowStock() ? 'merah' : null" />
+                @if ($item->isLowStock() && $item->type === App\Enums\ItemType::Raw)
+                    @can('create', App\Models\Purchase::class)
+                        <a href="{{ route('admin.purchases.create') }}" class="small fw-semibold d-inline-block mt-1">Catat pembelian →</a>
+                    @endcan
+                @endif
             </div>
         @endforeach
     </div>

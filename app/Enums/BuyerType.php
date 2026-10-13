@@ -2,10 +2,7 @@
 
 namespace App\Enums;
 
-use Filament\Support\Contracts\HasColor;
-use Filament\Support\Contracts\HasLabel;
-
-enum BuyerType: string implements HasColor, HasLabel
+enum BuyerType: string
 {
     case Retail = 'retail';
     case Wholesale = 'wholesale';

@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Filament\Admin\Resources\Users\Pages\CreateUser;
-use App\Filament\Admin\Resources\Users\Pages\EditUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Tests\TestCase;
 
+// PRD-08 Fase 7: dulu lewat form Filament (Livewire) & /admin/users, kini /panel/pengguna. Data & assertion sama.
 class UserManagementTest extends TestCase
 {
     use RefreshDatabase;
@@ -28,23 +26,20 @@ class UserManagementTest extends TestCase
         $owner = $this->userWithRole('owner');
         $super = $this->userWithRole('super_admin');
 
-        $this->actingAs($owner)->get("/admin/users/{$super->id}/edit")->assertForbidden();
+        $this->actingAs($owner)->get("/panel/pengguna/{$super->id}/edit")->assertForbidden();
     }
 
     public function test_owner_cannot_assign_super_admin_role(): void
     {
         $this->actingAs($this->userWithRole('owner'));
 
-        Livewire::test(CreateUser::class)
-            ->fillForm([
-                'name' => 'Penyusup',
-                'email' => 'x@example.com',
-                'password' => 'rahasia123',
-                'password_confirmation' => 'rahasia123',
-                'role' => 'super_admin',
-            ])
-            ->call('create')
-            ->assertHasFormErrors(['role']);
+        $this->post('/panel/pengguna', [
+            'name' => 'Penyusup',
+            'email' => 'x@example.com',
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
+            'role' => 'super_admin',
+        ])->assertSessionHasErrors(['role']);
 
         $this->assertDatabaseMissing('users', ['email' => 'x@example.com']);
     }
@@ -53,16 +48,13 @@ class UserManagementTest extends TestCase
     {
         $this->actingAs($this->userWithRole('owner'));
 
-        Livewire::test(CreateUser::class)
-            ->fillForm([
-                'name' => 'Staff Baru',
-                'email' => 'staff@example.com',
-                'password' => 'rahasia123',
-                'password_confirmation' => 'rahasia123',
-                'role' => 'staff',
-            ])
-            ->call('create')
-            ->assertHasNoFormErrors();
+        $this->post('/panel/pengguna', [
+            'name' => 'Staff Baru',
+            'email' => 'staff@example.com',
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
+            'role' => 'staff',
+        ])->assertSessionHasNoErrors();
 
         $user = User::where('email', 'staff@example.com')->first();
         $this->assertSame(['staff'], $user->getRoleNames()->all());
@@ -72,16 +64,13 @@ class UserManagementTest extends TestCase
     {
         $this->actingAs($this->userWithRole('owner'));
 
-        Livewire::test(CreateUser::class)
-            ->fillForm([
-                'name' => 'A',
-                'email' => 'a@example.com',
-                'password' => 'short',
-                'password_confirmation' => 'short',
-                'role' => 'staff',
-            ])
-            ->call('create')
-            ->assertHasFormErrors(['password']);
+        $this->post('/panel/pengguna', [
+            'name' => 'A',
+            'email' => 'a@example.com',
+            'password' => 'short',
+            'password_confirmation' => 'short',
+            'role' => 'staff',
+        ])->assertSessionHasErrors(['password']);
     }
 
     public function test_user_cannot_deactivate_or_delete_self(): void
@@ -91,15 +80,18 @@ class UserManagementTest extends TestCase
 
         $this->assertFalse($owner->can('delete', $owner));
 
-        Livewire::test(EditUser::class, ['record' => $owner->getRouteKey()])
-            ->fillForm(['is_active' => false])
-            ->call('save');
+        $this->put("/panel/pengguna/{$owner->id}", [
+            'name' => $owner->name,
+            'email' => $owner->email,
+            'role' => 'owner',
+            'is_active' => '0',
+        ]);
 
         $this->assertTrue($owner->fresh()->is_active);
     }
 
     public function test_staff_cannot_manage_users(): void
     {
-        $this->actingAs($this->userWithRole('staff'))->get('/admin/users')->assertForbidden();
+        $this->actingAs($this->userWithRole('staff'))->get('/panel/pengguna')->assertForbidden();
     }
 }

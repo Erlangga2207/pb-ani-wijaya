@@ -28,8 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'active' => EnsureUserIsActive::class,
         ]);
 
-        // Halaman internal (panel, nota, bukti, laporan) diarahkan ke login panel Blade.
-        // Panel Filament di /admin punya redirect login sendiri.
+        // Halaman internal (panel, nota, bukti, laporan) diarahkan ke login panel.
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
         $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
     })

@@ -66,7 +66,8 @@ class FinancePagesTest extends TestCase
 
     // ---------- Laporan ----------
 
-    public function test_report_numbers_identical_to_filament(): void
+    // Fase 4 membandingkan angka tiap tab dengan Filament (identik). Filament dihapus di Fase 7; angka kunci dicek di ReportAccessTest.
+    public function test_report_tabs_show_numbers(): void
     {
         $this->actingAs($this->userWithRole('owner'));
         $this->buyGabah();
@@ -76,10 +77,7 @@ class FinancePagesTest extends TestCase
 
         foreach (array_keys(ReportService::TABS) as $tab) {
             $panel = $this->get("/panel/laporan?tab={$tab}")->assertOk()->getContent();
-            $filament = $this->get("/admin/reports?tab={$tab}")->assertOk()->getContent();
-
             $this->assertNotEmpty($this->cells($panel), "Tab {$tab} kosong");
-            $this->assertSame($this->cells($filament), $this->cells($panel), "Angka tab {$tab} berbeda dengan Filament");
         }
 
         $this->get('/panel/laporan?tab=pnl')->assertSee('LABA BERSIH')

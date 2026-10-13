@@ -25,14 +25,14 @@ class SalePolicyTest extends TestCase
         $this->assertFalse($staff->can('update', $sale));
         $this->assertFalse($staff->can('delete', $sale));
 
-        $this->get('/admin/sales')->assertOk()->assertSee($sale->number);
-        $this->get('/admin/sales/create')->assertOk();
-        $this->get("/admin/sales/{$sale->id}")->assertOk()->assertDontSee('HPP')->assertDontSee('Laba Kotor');
-        $this->get('/admin/receivables')->assertForbidden();
+        $this->get('/panel/penjualan')->assertOk()->assertSee($sale->number);
+        $this->get('/panel/penjualan/create')->assertOk();
+        $this->get("/panel/penjualan/{$sale->id}")->assertOk()->assertDontSee('HPP')->assertDontSee('Laba kotor');
+        $this->get('/panel/piutang')->assertForbidden();
 
         $owner = $this->userWithRole('owner');
         $this->assertTrue($owner->can('void', $sale));
-        $this->actingAs($owner)->get("/admin/sales/{$sale->id}")->assertOk()->assertSee('HPP')->assertSee('Laba Kotor');
-        $this->get('/admin/receivables')->assertOk()->assertSee($sale->number);
+        $this->actingAs($owner)->get("/panel/penjualan/{$sale->id}")->assertOk()->assertSee('HPP')->assertSee('Laba kotor');
+        $this->get('/panel/piutang')->assertOk()->assertSee($sale->number);
     }
 }

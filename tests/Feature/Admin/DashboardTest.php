@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Item;
 use App\Services\DashboardService;
 use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,6 +27,17 @@ class DashboardTest extends TestCase
             ->assertSee('Lewat Jatuh Tempo');
     }
 
+    public function test_low_raw_stock_shows_purchase_shortcut(): void
+    {
+        $this->actingAs($this->userWithRole('owner'));
+        $this->get('/panel')->assertDontSee('Catat pembelian');
+
+        // Stok 0 kg ≤ minimum → tombol hanya untuk bahan baku (gabah), tidak untuk beras jadi.
+        Item::whereIn('code', ['GBH', 'BKT'])->update(['min_stock_kg' => 100]);
+        $html = $this->get('/panel')->assertOk()->assertSee(route('admin.purchases.create'))->getContent();
+        $this->assertSame(1, substr_count($html, 'Catat pembelian'));
+    }
+
     public function test_staff_does_not_see_or_query_finance(): void
     {
         // Data keuangan tidak boleh di-query untuk staff (bukan cuma disembunyikan di Blade).
@@ -45,7 +57,7 @@ class DashboardTest extends TestCase
     {
         $this->actingAs($this->userWithRole('staff'))->get('/panel')
             ->assertSee('Dashboard')
-            ->assertSee('Panel lama');
+            ->assertDontSee('Panel lama'); // link ke Filament dihapus di PRD-08 Fase 7
     }
 
     public function test_today_activity_and_finance_numbers(): void

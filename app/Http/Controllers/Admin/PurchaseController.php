@@ -63,7 +63,7 @@ class PurchaseController extends Controller
         $data = $request->validated();
 
         $purchase = DB::transaction(function () use ($data, $request) {
-            // Petani baru langsung dari form pembelian (seperti tombol "+" di Filament).
+            // Petani baru langsung dari form pembelian.
             if (empty($data['supplier_id'])) {
                 Gate::authorize('create', Supplier::class);
                 $data['supplier_id'] = Supplier::create([

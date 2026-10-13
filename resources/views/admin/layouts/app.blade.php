@@ -38,8 +38,6 @@
                 <span>PB. Ani Wijaya</span>
             </a>
             <div class="d-none d-lg-flex align-items-center gap-3">
-                {{-- Sementara selama migrasi; hapus di Fase 7 --}}
-                <a href="{{ url('/admin') }}" class="small">Panel lama</a>
                 <span class="text-ink-2 small">{{ $user->name }} · {{ $roleLabel }}</span>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
@@ -99,7 +97,6 @@
         </nav>
         <div class="admin-offcanvas-user">
             <span class="text-ink-2">{{ $user->name }} · {{ $roleLabel }}</span>
-            <a href="{{ url('/admin') }}" class="small">Panel lama</a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-garis">Keluar</button>

@@ -51,3 +51,7 @@ Route::middleware(['auth', 'can:view-report,tab'])->prefix('laporan/{tab}')->gro
     Route::get('/cetak', [ReportController::class, 'print'])->name('reports.print');
     Route::get('/csv', [ReportController::class, 'csv'])->name('reports.csv');
 });
+
+// Panel admin lama (/admin) dihapus di PRD-08 Fase 7: bookmark lama diarahkan permanen ke panel baru.
+Route::permanentRedirect('/admin', '/panel');
+Route::permanentRedirect('/admin/{any}', '/panel')->where('any', '.*');

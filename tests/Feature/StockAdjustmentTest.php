@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Enums\DocumentStatus;
-use App\Filament\Admin\Resources\StockAdjustments\Pages\CreateStockAdjustment;
-use App\Filament\Admin\Resources\StockAdjustments\Pages\ViewStockAdjustment;
 use App\Models\Item;
 use App\Models\StockAdjustment;
 use App\Services\StockAdjustmentService;
@@ -13,7 +11,6 @@ use Database\Seeders\ItemSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class StockAdjustmentTest extends TestCase
@@ -77,18 +74,16 @@ class StockAdjustmentTest extends TestCase
         $this->assertEquals(1000, (float) $this->gabah->fresh()->stock_kg);
     }
 
-    public function test_owner_creates_and_voids_via_filament(): void
+    // PRD-08 Fase 7: dulu lewat form & aksi void Filament, kini /panel/opname. Data & assertion sama.
+    public function test_owner_creates_and_voids_via_panel(): void
     {
-        Livewire::test(CreateStockAdjustment::class)
-            ->fillForm(['adjustment_date' => today()->toDateString(), 'item_id' => $this->gabah->id, 'physical_kg' => 980, 'reason' => 'opname bulanan'])
-            ->call('create')
-            ->assertHasNoFormErrors();
+        $this->post('/panel/opname', ['adjustment_date' => today()->toDateString(), 'item_id' => $this->gabah->id, 'physical_kg' => 980, 'reason' => 'opname bulanan'])
+            ->assertSessionHasNoErrors();
 
         $adj = StockAdjustment::first();
         $this->assertEquals(980, (float) $this->gabah->fresh()->stock_kg);
 
-        Livewire::test(ViewStockAdjustment::class, ['record' => $adj->getRouteKey()])
-            ->callAction('void', ['reason' => 'salah hitung']);
+        $this->post("/panel/opname/{$adj->id}/batal", ['reason' => 'salah hitung'])->assertSessionHasNoErrors();
 
         $this->assertTrue($adj->fresh()->isVoid());
         $this->assertEquals(1000, (float) $this->gabah->fresh()->stock_kg);
@@ -98,7 +93,7 @@ class StockAdjustmentTest extends TestCase
     {
         $this->actingAs($this->userWithRole('staff'));
 
-        $this->get('/admin/stock-adjustments')->assertForbidden();
-        $this->get('/admin/stock-adjustments/create')->assertForbidden();
+        $this->get('/panel/opname')->assertForbidden();
+        $this->get('/panel/opname/create')->assertForbidden();
     }
 }
