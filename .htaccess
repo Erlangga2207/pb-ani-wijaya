@@ -1,0 +1,37 @@
+# Root repo = public_html di Hostinger (deploy lewat fitur Git hPanel, PRD-09).
+# Semua request diteruskan ke public/; kode, konfigurasi, dan data tidak boleh bisa dibuka dari web.
+# Sengaja TIDAK ada redirect HTTPS/www di sini: situs memakai CDN Hostinger dan HTTPS dipaksa dari hPanel
+# (redirect di sini bisa menyebabkan redirect loop).
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Verifikasi sertifikat SSL (hPanel menaruh file di public_html/.well-known) — layani apa adanya.
+    RewriteRule ^\.well-known/ - [L]
+
+    # File tersembunyi (.git, .env*, .gitignore, .htaccess, ...) → 403
+    RewriteRule (^|/)\.env - [F,L,NC]
+    RewriteRule (^|/)\. - [F,L]
+
+    # File proyek di root → 403
+    RewriteRule ^(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|vite\.config\.js)$ - [F,L,NC]
+    RewriteRule \.md$ - [F,L,NC]
+
+    # Folder kode & data → 403
+    RewriteRule ^(\.git|app|bootstrap|config|database|lang|resources|routes|tests|vendor|deploy|docs|node_modules)(/|$) - [F,L,NC]
+
+    # storage/: isi internal → 403. URL /storage/<file> tetap diteruskan ke public/storage
+    # (symlink ke storage/app/public — foto galeri), lihat aturan terakhir.
+    RewriteRule ^storage/(app|framework|logs)(/|$) - [F,L,NC]
+
+    # Sisanya → public/ (Laravel: public/.htaccess + public/index.php)
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Tanpa mod_rewrite: jangan sampai kode terbuka.
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>

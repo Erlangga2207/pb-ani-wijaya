@@ -1,0 +1,3 @@
+# Lapis kedua (PRD-09): folder ini tidak boleh bisa dibuka dari web.
+# Foto galeri tetap tampil lewat symlink public/storage -> storage/app/public (jalur itu tidak melewati file ini).
+Require all denied

@@ -19,7 +19,7 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | `06a1dfb` |
 | Perbaikan dari simulasi: `deploy.sh` menjalankan `artisan config:clear` sebelum `migrate` (sebelumnya migrasi memakai config cache rilis lama) | ✅ | `975d0c1` |
 | A9. `deploy/FIRST_DEPLOY.md`: checklist B1–B9 + tabel "Kalau ada masalah". Disesuaikan dari simulasi: `key:generate --force` (di production artisan minta konfirmasi), cek `echo $HOME` untuk `APP_PUBLIC_PATH`, cek symlink & `public_path()` setelah deploy, B4 build Vite saat ini tidak diperlukan, cara memakai `PHP_BIN` bila `php` bukan 8.3, salin manual bila template `deploy/public_html` berubah, cek `/composer.json` 403 & canonical di B7 | ✅ | `43f0370` |
-| Verifikasi akhir (tabel di bawah) + Pint `config/app.php` | ✅ | (commit berikut) |
+| Verifikasi akhir (tabel di bawah) + Pint `config/app.php` | ✅ | `a60f0b1` |
 
 ## Catatan
 - Pemakaian `public_path()` saat runtime hanya `filemtime(public_path('css/admin.css'))` di `admin/layouts/aset.blade.php` → di server file itu harus ada di `public_html/css/` (disalin `deploy.sh`).
@@ -67,4 +67,5 @@ Keputusan tambahan: root `.htaccess` **tidak** memblokir seluruh `/storage` (fot
 
 | Langkah | Status | Commit |
 |---|---|---|
-| R1. Batalkan A1 (`APP_PUBLIC_PATH`, `usePublicPath`, `PublicPathTest`) & A3 (`deploy/public_html/`) | ✅ | (commit berikut) |
+| R1. Batalkan A1 (`APP_PUBLIC_PATH`, `usePublicPath`, `PublicPathTest`) & A3 (`deploy/public_html/`) | ✅ | `e16606e` |
+| R2. Root `.htaccess`: `.well-known` dilayani langsung; 403 untuk file tersembunyi (`.git*`, `.env*`, ...), `composer.*`, `package*.json`, `artisan`, `phpunit.xml`, `vite.config.js`, `*.md`, folder `.git|app|bootstrap|config|database|lang|resources|routes|tests|vendor|deploy|docs|node_modules`, dan `storage/app|framework|logs`; sisanya → `public/$1`; `Options -Indexes`; tanpa mod_rewrite → semua ditolak; **tanpa redirect HTTPS/www**. Lapis kedua: `storage/.htaccess` & `bootstrap/.htaccess` `Require all denied` | ✅ | (commit berikut) |
