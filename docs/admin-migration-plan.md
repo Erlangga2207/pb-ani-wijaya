@@ -171,3 +171,11 @@ Format: `File::method` — fase — alasan — penggantinya.
 |---|---|---|---|
 | `PurchaseServiceTest::test_pages_and_receipt_render` | 1 | baris terakhir: tamu di `/pembelian/{id}/bukti` kini diarahkan ke `/panel/login` (bukan `/admin/login`) — keputusan 3. Assertion lain tidak berubah | — |
 | `SaleInvoiceTest::test_invoice_access_rules` | 1 | assertion redirect tamu `/admin/login` → `/panel/login` — keputusan 3 | — |
+| `AdminPagesTest::test_owner_pages_render` | 6 | 5 URL Filament Website (`website-settings`, `contact-messages`, `galleries`, `products`, `products/create`) dibuang dari daftar — halamannya dihapus (keputusan Erlan 2026-10-13). URL Filament lain tetap | `Admin\WebsiteModuleTest::test_owner_can_open_all_website_pages` |
+| `GalleryCaptionTest::test_owner_gallery_pages_render` | 6 | `/admin/galleries(/create)` → `/panel/galeri(/create)` | — |
+| `LeadConversionTest::test_convert_lead_to_buyer_via_action` | 6 | aksi Livewire `convertToBuyer` → `GET /panel/pesan`, `GET /panel/pesan/{id}`, `POST /panel/pesan/{id}/jadikan-pembeli`. Assertion data pembeli tidak berubah | — |
+| `LeadConversionTest::test_mark_as_spam` | 6 | aksi Livewire `spam` → `POST /panel/pesan/{id}/spam`. Assertion status tidak berubah | — |
+| `ProductFormTest::test_slug_is_generated_from_name` | 6 | form Livewire → `POST /panel/katalog` dengan `name[id]`. Assertion slug tidak berubah | — |
+| `SiteSettingsPageTest::test_owner_updates_value_and_cache_is_reset` | 6 | form Livewire → `PUT /panel/pengaturan-website`; jumlah key 21 → 23 (+2 key SEO, keputusan Fase 0 no. 3). Assertion nilai & reset cache tidak berubah | — |
+| `SiteSettingsPageTest::test_invalid_url_is_rejected` | 6 | form Livewire → `PUT /panel/pengaturan-website`; error di `settings.social_instagram` | — |
+| `SiteSettingsPageTest::test_staff_cannot_access_website_menu` | 6 | 4 URL `/admin/...` → `/panel/pengaturan-website`, `/panel/pesan`, `/panel/galeri`, `/panel/katalog`. Tetap 403 | — |

@@ -120,3 +120,14 @@ Kenapa Fase 6 harus sekaligus memindahkan modul Website ke `/panel`: begitu kolo
 - Lebar 375px: 5 halaman × 5 bahasa dicek di browser, tidak ada teks yang keluar layar. Font Noto SC/JP/KR hanya dimuat di zh/ja/ko; `word-break: keep-all` hanya di ko.
 - Kalimat yang dipotong `<span>`/`<br>` di desain diterjemahkan per potongan (markup tidak boleh diubah) — urutan kata CJK perlu dicek, daftar khusus ada di bagian 1 `docs/translation-review.md`.
 - Pesan validasi form kontak memakai nama field yang diterjemahkan (mis. "Nama Lengkap wajib diisi.").
+
+---
+
+## 6. Hasil Fase 6 (konten dinamis + modul Website di /panel)
+
+- `spatie/laravel-translatable` 6.14: `products.name/description`, `galleries.title/description` jadi JSON; nilai lama → `id`. Terjemahan kosong → versi `id` (`Translatable::fallback`).
+- `site_settings.is_translatable` hanya untuk 10 key keputusan no. 1 + 2 key SEO baru. `SiteSetting::get($key, $default)` signature sama, cache `setting.{locale}.{key}`, `$default` tidak lagi ikut di-cache (bug lama), forget semua bahasa saat simpan.
+- Isi awal: `database/data/site_setting_translations.php` (dipakai migration & seeder). Keputusan Erlan 2026-10-13: `hero_badge`/`hero_title` versi `id` tetap tagline brand Inggris; teks lain `id` = draf Indonesia, `en` = teks lama. Semua draf di bagian 3 `docs/translation-review.md`.
+- Migration diuji di salinan database lokal (SQLite) dengan data contoh: migrate → rollback menghasilkan snapshot identik; nilai yang sudah diedit admin tidak disentuh. `down()` mengembalikan teks lama untuk setting yang belum diedit.
+- Admin `/panel` grup Website (owner+): Galeri, Katalog Produk, Pengaturan Website, Pesan & Calon Pembeli. Tab bahasa `ID | EN | 中文 | 日本語 | 한국어` (`admin/components/lang-tabs`), badge kelengkapan (`lang-status`). Resource/page Filament Website dihapus.
+- Route Website dan aksi owner lain memakai middleware `can:` sehingga staff mendapat 403 sebelum validasi.

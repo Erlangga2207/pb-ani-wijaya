@@ -17,7 +17,8 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 |---|---|---|
 | Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | `45eadbd` |
 | 2a. Uji migration pada **salinan** `database/database.sqlite` (DB `.env` = SQLite, bukan MySQL) + data contoh (2 produk, 1 galeri, `about_title` diedit): migrate → rollback → bandingkan snapshot → migrate → `migrate:fresh --seed`. Ditemukan & diperbaiki: `down()` mengembalikan draf ID, bukan teks lama, untuk setting default → kini roundtrip identik. File asli tidak berubah (sha1 sama). | ✅ | `ec47478` |
-| 3. `docs/translation-review.md` bagian 3: 10 key pengaturan × (teks lama, id, en, zh, ja, ko), dibuat otomatis dari file data | ✅ | (commit berikut) |
+| 3. `docs/translation-review.md` bagian 3: 10 key pengaturan × (teks lama, id, en, zh, ja, ko), dibuat otomatis dari file data | ✅ | `debb34c` |
+| 4. Log 8 method test di `admin-migration-plan.md` bagian 6 + "Hasil Fase 6" di `i18n-plan.md` | ✅ | (commit berikut) |
 | 2b. Uji yang sama di MySQL `pb_ani_wijaya_fase6_tmp` | ⏸ | MySQL Laragon mati (port 3306) — menunggu Erlan menyalakan |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
 
@@ -67,11 +68,11 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 ## Penutupan fase
 | Item | Status |
 |---|---|
-| Log perubahan test lama di `docs/admin-migration-plan.md` bagian 6 (AdminPagesTest, GalleryCaptionTest, LeadConversionTest, ProductFormTest, SiteSettingsPageTest) | ⬜ |
-| Bagian "Hasil Fase 6" di `docs/i18n-plan.md` | ⬜ |
-| `migrate:fresh --seed` sukses di database **sementara** (bukan DB `.env`) | ⬜ |
+| Log perubahan test lama di `docs/admin-migration-plan.md` bagian 6 | ✅ |
+| Bagian "Hasil Fase 6" di `docs/i18n-plan.md` | ✅ |
+| `migrate:fresh --seed` sukses di database **sementara** (bukan DB `.env`) | ✅ salinan SQLite · ⏸ MySQL |
 | Pint | ⬜ |
-| Commit bertahap (Conventional Commits) | ⬜ |
+| Commit bertahap (Conventional Commits) | ✅ |
 | Cek manual di browser (oleh Erlan) | ⬜ |
 
 ## Rencana sisa pekerjaan (menunggu persetujuan)
