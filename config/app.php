@@ -127,7 +127,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-
     // Akun super admin awal untuk DatabaseSeeder (kosongkan untuk melewati).
     'admin' => [
         'email' => env('ADMIN_EMAIL'),

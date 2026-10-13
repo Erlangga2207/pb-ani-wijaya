@@ -18,8 +18,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | A7. `deploy/deploy.sh`: variabel bisa di-override lewat env; cek PHP ≥ 8.3, composer2→composer, `.env` & `public_html/index.php` ada (sebelum down); `artisan down --retry=60` + `trap EXIT` → selalu `artisan up`; `git pull --ff-only`; `composer install --no-dev`; `migrate --force`; salin `public/` (rsync, fallback `cp -r`) **tanpa** `index.php`, `.htaccess`, `storage`, tanpa `--delete`; `optimize:clear && optimize`; ringkasan commit. `bash -n` lolos; mode git 755; LF | ✅ | `83d485a` |
 | A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | `06a1dfb` |
 | Perbaikan dari simulasi: `deploy.sh` menjalankan `artisan config:clear` sebelum `migrate` (sebelumnya migrasi memakai config cache rilis lama) | ✅ | `975d0c1` |
-| A9. `deploy/FIRST_DEPLOY.md`: checklist B1–B9 + tabel "Kalau ada masalah". Disesuaikan dari simulasi: `key:generate --force` (di production artisan minta konfirmasi), cek `echo $HOME` untuk `APP_PUBLIC_PATH`, cek symlink & `public_path()` setelah deploy, B4 build Vite saat ini tidak diperlukan, cara memakai `PHP_BIN` bila `php` bukan 8.3, salin manual bila template `deploy/public_html` berubah, cek `/composer.json` 403 & canonical di B7 | ✅ | (commit berikut) |
-| Verifikasi: test MySQL, simulasi `public_html`, `bash -n`, cek rahasia | ⬜ | |
+| A9. `deploy/FIRST_DEPLOY.md`: checklist B1–B9 + tabel "Kalau ada masalah". Disesuaikan dari simulasi: `key:generate --force` (di production artisan minta konfirmasi), cek `echo $HOME` untuk `APP_PUBLIC_PATH`, cek symlink & `public_path()` setelah deploy, B4 build Vite saat ini tidak diperlukan, cara memakai `PHP_BIN` bila `php` bukan 8.3, salin manual bila template `deploy/public_html` berubah, cek `/composer.json` 403 & canonical di B7 | ✅ | `43f0370` |
+| Verifikasi akhir (tabel di bawah) + Pint `config/app.php` | ✅ | (commit berikut) |
 
 ## Catatan
 - Pemakaian `public_path()` saat runtime hanya `filemtime(public_path('css/admin.css'))` di `admin/layouts/aset.blade.php` → di server file itu harus ada di `public_html/css/` (disalin `deploy.sh`).
@@ -43,3 +43,14 @@ Struktur meniru server di scratchpad (bukan di repo, supaya tidak mungkin ter-co
 | `deploy.sh` jalur gagal (migration rusak sementara) | exit 1, pesan "Deploy GAGAL — website sudah dinaikkan lagi", tidak tertinggal di mode perawatan, beranda 200 |
 | `deploy.sh` cek awal: `public_html/index.php` tidak ada; PHP 8.1 | berhenti dengan pesan jelas **sebelum** `artisan down` |
 | `.htaccess` | diuji terpisah di Apache sementara (lihat A3) |
+
+## Verifikasi akhir — "Selesai jika" PRD-09
+| Kriteria | Hasil |
+|---|---|
+| `php artisan test` hijau (MySQL) | **180/180** di MySQL 8.0.30 (DB sementara `pb_ani_wijaya_prd09_test`: `migrate:fresh --seed` → `optimize:clear` → test → drop) dan 180/180 di SQLite |
+| Simulasi lokal `public_html` + `APP_PUBLIC_PATH` | lolos — website 5 bahasa & `/panel` tampil, upload galeri berhasil tanpa `public/` asli (lihat "Simulasi lokal"); folder simulasi dihapus |
+| `bash -n deploy/deploy.sh` | lolos (plus dijalankan sungguhan di simulasi: jalur sukses, gagal, cek awal) |
+| Tidak ada rahasia di file yang di-commit | dipindai di seluruh diff `main..HEAD`: tidak ada `APP_KEY`, password, token, atau kunci privat. Satu-satunya temuan = nilai dummy di `ProductionSeederTest` (user `@aniwijaya.test` di DB test) |
+| Pint (file PHP yang berubah) | lolos |
+
+Catatan: `optimize:clear` pada DB MySQL kosong gagal karena `.env` lokal memakai `CACHE_STORE=database` (tabel `cache` belum ada) — jalankan setelah migrasi. Di server `CACHE_STORE=file`, jadi tidak terpengaruh.
