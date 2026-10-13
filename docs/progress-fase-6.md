@@ -16,7 +16,8 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 | Langkah | Status | Commit |
 |---|---|---|
 | Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | `45eadbd` |
-| 2a. Uji migration pada **salinan** `database/database.sqlite` (DB `.env` = SQLite, bukan MySQL) + data contoh (2 produk, 1 galeri, `about_title` diedit): migrate → rollback → bandingkan snapshot → migrate → `migrate:fresh --seed`. Ditemukan & diperbaiki: `down()` mengembalikan draf ID, bukan teks lama, untuk setting default → kini roundtrip identik. File asli tidak berubah (sha1 sama). | ✅ | (commit berikut) |
+| 2a. Uji migration pada **salinan** `database/database.sqlite` (DB `.env` = SQLite, bukan MySQL) + data contoh (2 produk, 1 galeri, `about_title` diedit): migrate → rollback → bandingkan snapshot → migrate → `migrate:fresh --seed`. Ditemukan & diperbaiki: `down()` mengembalikan draf ID, bukan teks lama, untuk setting default → kini roundtrip identik. File asli tidak berubah (sha1 sama). | ✅ | `ec47478` |
+| 3. `docs/translation-review.md` bagian 3: 10 key pengaturan × (teks lama, id, en, zh, ja, ko), dibuat otomatis dari file data | ✅ | (commit berikut) |
 | 2b. Uji yang sama di MySQL `pb_ani_wijaya_fase6_tmp` | ⏸ | MySQL Laragon mati (port 3306) — menunggu Erlan menyalakan |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
 
@@ -46,8 +47,8 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | Nilai = default seeder lama → teks Inggris ke `en`, `id` diisi draf Indonesia (+ zh/ja/ko) | ✅ | migration 000002 + `TranslatableMigrationTest::test_site_settings_defaults_get_drafts_and_edited_values_are_kept` |
 | Nilai yang sudah diedit admin → hanya dibungkus ke `id` | ✅ | test yang sama |
 | Label setting → Bahasa Indonesia | ✅ | migration 000002 + seeder |
-| Draf ID/en/zh/ja/ko setting masuk `docs/translation-review.md` | ⬜ | doc masih menulis "konten dinamis belum termasuk" |
-| Uji migration di **MySQL** (bukan hanya SQLite test): database salinan, `migrate` lalu `migrate:rollback` | ⬜ | sesi lalu terhenti di langkah ini |
+| Draf ID/en/zh/ja/ko setting masuk `docs/translation-review.md` | ✅ | bagian 3 |
+| Uji migration di database nyata: salinan SQLite ✅, MySQL ⏸ (lihat log langkah 2b) | 🟡 | |
 
 ## D4 — Admin: tab bahasa + modul Website di /panel
 | Item | Status | Bukti |
