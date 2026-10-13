@@ -7,7 +7,7 @@
 return [
     'hero_badge' => [
         'old' => "INDRAMAYU'S FINEST",
-        'id' => 'TERBAIK DARI INDRAMAYU',
+        'id' => "INDRAMAYU'S FINEST", // tagline brand, sengaja tidak diterjemahkan (keputusan Erlan 2026-10-13)
         'en' => "INDRAMAYU'S FINEST",
         'zh' => '英德拉马尤精选',
         'ja' => 'インドラマユ最高品質',
@@ -15,7 +15,7 @@ return [
     ],
     'hero_title' => [
         'old' => 'Heritage of Excellence',
-        'id' => 'Warisan Keunggulan',
+        'id' => 'Heritage of Excellence', // tagline brand, sengaja tidak diterjemahkan
         'en' => 'Heritage of Excellence',
         'zh' => '卓越传承',
         'ja' => '受け継がれる卓越',

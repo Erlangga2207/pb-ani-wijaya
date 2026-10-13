@@ -15,6 +15,7 @@ Branch: `feature/prd-08-fase6-i18n-dinamis` · Dicek ulang: 2026-10-13
 ## Log langkah
 | Langkah | Status | Commit |
 |---|---|---|
+| Keputusan 2: `id` hero_badge/hero_title = teks brand; test disesuaikan (172/172 hijau) | ✅ | (commit berikut) |
 | 1. Commit pekerjaan yang sudah ada (4 commit) | ✅ | `4c9b428` feat(i18n), `bac39da` feat(admin), `19ca515` refactor(admin) (+ grup nav "Website" Filament dihapus), `b696170` fix(admin) |
 
 Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
@@ -81,5 +82,4 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 5. Pint, `php artisan test`, ringkasan + daftar cek browser.
 
 ## Pertanyaan
-1. File Filament Website **dihapus**, padahal rencana menulis "disembunyikan". Alasannya: begitu kolom jadi JSON, form Filament itu rusak, dan Fase 7 menghapus Filament seluruhnya. Boleh tetap dihapus?
-2. Sesuai keputusan no. 4, judul hero versi Indonesia berubah dari "Heritage of Excellence" → "Warisan Keunggulan" (dan teks hero/about lain jadi Bahasa Indonesia). Ini bertentangan dengan acceptance "tampilan Indonesia identik", tapi sudah disetujui di keputusan no. 4 — konfirmasi saja bahwa ini memang diinginkan.
+Sudah dijawab — lihat "Keputusan Erlan" di atas.

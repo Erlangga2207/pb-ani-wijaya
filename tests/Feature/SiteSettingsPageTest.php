@@ -22,9 +22,9 @@ class SiteSettingsPageTest extends TestCase
     public function test_owner_updates_value_and_cache_is_reset(): void
     {
         $this->actingAs($this->userWithRole('owner'));
-        $this->assertSame('Warisan Keunggulan', SiteSetting::get('hero_title')); // isi cache
+        $this->assertSame('Heritage of Excellence', SiteSetting::get('hero_title')); // isi cache
 
-        $this->get('/panel/pengaturan-website')->assertOk()->assertSee('Warisan Keunggulan');
+        $this->get('/panel/pengaturan-website')->assertOk()->assertSee('Heritage of Excellence');
         $this->put('/panel/pengaturan-website', $this->formData(['hero_title' => ['id' => 'Ketan Terbaik Indramayu']]))
             ->assertRedirect('/panel/pengaturan-website')
             ->assertSessionHasNoErrors();

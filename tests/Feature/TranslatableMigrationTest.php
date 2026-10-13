@@ -43,10 +43,12 @@ class TranslatableMigrationTest extends TestCase
     {
         $migration = $this->migration('2026_10_12_000002_make_site_settings_translatable.php');
         $migration->down();
+        $oldDescription = (require database_path('data/site_setting_translations.php'))['hero_description']['old'];
 
         $row = fn (string $key, ?string $value, string $label = 'Label') => ['key' => $key, 'value' => $value, 'label' => $label, 'group' => 'hero', 'type' => 'text'];
         DB::table('site_settings')->insert([
-            $row('hero_title', 'Heritage of Excellence', 'Hero Main Title'), // masih default lama
+            $row('hero_title', 'Heritage of Excellence', 'Hero Main Title'), // masih default lama (tagline brand)
+            $row('hero_description', $oldDescription, 'Hero Description'),  // masih default lama
             $row('about_title', 'Judul Buatan Admin'),                       // sudah diedit admin
             $row('company_name', 'PB. Ani Wijaya'),                          // tidak diterjemahkan
         ]);
@@ -55,9 +57,14 @@ class TranslatableMigrationTest extends TestCase
 
         $value = fn (string $key) => DB::table('site_settings')->where('key', $key)->first();
 
-        $this->assertSame('Warisan Keunggulan', json_decode($value('hero_title')->value, true)['id']);
+        // Tagline brand: versi ID tetap teks Inggris (keputusan Erlan 2026-10-13).
+        $this->assertSame('Heritage of Excellence', json_decode($value('hero_title')->value, true)['id']);
         $this->assertSame('Heritage of Excellence', json_decode($value('hero_title')->value, true)['en']);
         $this->assertSame('Judul utama hero', $value('hero_title')->label);
+        // Teks lain: ID = draf Indonesia, EN = teks Inggris lama.
+        $this->assertStringStartsWith('Meningkatkan standar', json_decode($value('hero_description')->value, true)['id']);
+        $this->assertSame($oldDescription, json_decode($value('hero_description')->value, true)['en']);
+        $this->assertSame('Deskripsi hero', $value('hero_description')->label);
         $this->assertSame(['id' => 'Judul Buatan Admin'], json_decode($value('about_title')->value, true));
         $this->assertSame('PB. Ani Wijaya', $value('company_name')->value);
         $this->assertEquals(0, $value('company_name')->is_translatable);
@@ -66,8 +73,10 @@ class TranslatableMigrationTest extends TestCase
 
         $migration->down();
 
-        $this->assertSame('Warisan Keunggulan', $value('hero_title')->value);
+        $this->assertSame('Heritage of Excellence', $value('hero_title')->value);
         $this->assertSame('Hero Main Title', $value('hero_title')->label);
+        $this->assertStringStartsWith('Meningkatkan standar', $value('hero_description')->value);
+        $this->assertSame('Hero Description', $value('hero_description')->label);
         $this->assertSame('Judul Buatan Admin', $value('about_title')->value);
         $this->assertNull($value('seo_meta_title'));
 

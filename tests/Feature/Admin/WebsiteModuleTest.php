@@ -29,9 +29,12 @@ class WebsiteModuleTest extends TestCase
 
     public function test_site_setting_follows_active_locale_with_fallback(): void
     {
-        $this->assertSame('Warisan Keunggulan', SiteSetting::get('hero_title'));
+        // hero_title = tagline brand: versi ID sengaja sama dengan EN (keputusan Erlan 2026-10-13).
+        $this->assertSame('Heritage of Excellence', SiteSetting::get('hero_title'));
+        $this->assertStringStartsWith('Meningkatkan standar', SiteSetting::get('hero_description'));
         app()->setLocale('en');
         $this->assertSame('Heritage of Excellence', SiteSetting::get('hero_title'));
+        $this->assertStringStartsWith('Elevating the standard', SiteSetting::get('hero_description'));
         app()->setLocale('ja');
         $this->assertSame('受け継がれる卓越', SiteSetting::get('hero_title'));
 
@@ -52,15 +55,15 @@ class WebsiteModuleTest extends TestCase
     public function test_editing_english_setting_shows_on_english_site_and_empty_falls_back(): void
     {
         $this->actingAs($this->userWithRole('owner'));
-        $this->get('/en')->assertSee('Heritage of Excellence');
+        $this->get('/en')->assertSee('Elevating the standard');
 
-        $this->put('/panel/pengaturan-website', $this->settingsForm(['hero_title' => ['en' => 'Finest Sticky Rice']]))->assertSessionHasNoErrors();
+        $this->put('/panel/pengaturan-website', $this->settingsForm(['hero_description' => ['en' => 'Finest Sticky Rice']]))->assertSessionHasNoErrors();
         $this->get('/en')->assertSee('Finest Sticky Rice');
-        $this->get('/')->assertSee('Warisan Keunggulan')->assertDontSee('Finest Sticky Rice');
+        $this->get('/')->assertSee('Meningkatkan standar')->assertDontSee('Finest Sticky Rice');
 
         // EN dikosongkan → /en menampilkan versi ID, bukan string kosong.
-        $this->put('/panel/pengaturan-website', $this->settingsForm(['hero_title' => ['en' => '']]))->assertSessionHasNoErrors();
-        $this->get('/en')->assertSee('Warisan Keunggulan');
+        $this->put('/panel/pengaturan-website', $this->settingsForm(['hero_description' => ['en' => '']]))->assertSessionHasNoErrors();
+        $this->get('/en')->assertSee('Meningkatkan standar');
     }
 
     public function test_indonesian_setting_text_is_required(): void
