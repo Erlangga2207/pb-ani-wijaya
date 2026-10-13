@@ -54,3 +54,17 @@ Struktur meniru server di scratchpad (bukan di repo, supaya tidak mungkin ter-co
 | Pint (file PHP yang berubah) | lolos |
 
 Catatan: `optimize:clear` pada DB MySQL kosong gagal karena `.env` lokal memakai `CACHE_STORE=database` (tabel `cache` belum ada) — jalankan setelah migrasi. Di server `CACHE_STORE=file`, jadi tidak terpengaruh.
+
+---
+
+# Revisi: deploy lewat fitur Git Hostinger (2026-10-13)
+
+Branch: `feature/prd-09-git-deploy` (dari `main` @ `c608622`).
+Keputusan Erlan: seluruh repo di-clone oleh fitur Git hPanel ke `/home/u838281704/domains/aniwijaya.com/public_html`.
+`public/` tetap di repo seperti biasa; root `.htaccess` meneruskan request ke `public/`.
+Keputusan tambahan: root `.htaccess` **tidak** memblokir seluruh `/storage` (foto galeri memakai URL `/storage/gallery/...` lewat symlink
+`public/storage`), melainkan isi internal `storage/app|framework|logs` + `storage/.htaccess` "Require all denied".
+
+| Langkah | Status | Commit |
+|---|---|---|
+| R1. Batalkan A1 (`APP_PUBLIC_PATH`, `usePublicPath`, `PublicPathTest`) & A3 (`deploy/public_html/`) | ✅ | (commit berikut) |
