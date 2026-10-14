@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Enums\LeadStatus;
+use App\Mail\NewContactMessage;
 use App\Models\ContactMessage;
 use Database\Seeders\SiteSettingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ContactFormTest extends TestCase
@@ -21,6 +23,33 @@ class ContactFormTest extends TestCase
         $lead = ContactMessage::first();
         $this->assertSame(LeadStatus::New, $lead->status);
         $this->assertNotNull($lead->ip_address);
+    }
+
+    public function test_valid_message_is_emailed_to_sales_with_reply_to_sender(): void
+    {
+        Mail::fake();
+
+        $this->post('/kontak', $this->valid)->assertRedirect();
+
+        Mail::assertSent(NewContactMessage::class, fn ($mail) => $mail->hasTo('sales@aniwijaya.com')
+            && $mail->hasReplyTo('siti@example.com'));
+    }
+
+    public function test_spam_is_not_emailed(): void
+    {
+        Mail::fake();
+
+        $this->post('/kontak', $this->valid + ['website' => 'http://spam.example'])->assertRedirect();
+
+        Mail::assertNothingSent();
+    }
+
+    public function test_mail_failure_still_saves_lead(): void
+    {
+        Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP down'));
+
+        $this->post('/kontak', $this->valid)->assertRedirect(route('contact'))->assertSessionHas('success');
+        $this->assertSame(1, ContactMessage::count());
     }
 
     public function test_validation(): void
