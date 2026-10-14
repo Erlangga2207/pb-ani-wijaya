@@ -31,8 +31,8 @@ class SiteSettingSeeder extends Seeder
 
             // Contact
             ['key' => 'contact_phone', 'value' => '+62 813-2431-4300', 'group' => 'contact', 'label' => 'Telepon', 'type' => 'phone', 'order' => 1],
-            ['key' => 'contact_email', 'value' => 'info@pbaniwijaya.com', 'group' => 'contact', 'label' => 'Email', 'type' => 'email', 'order' => 2],
-            ['key' => 'contact_address', 'value' => "Kec. Losarang, Kab. Indramayu\nJawa Barat, Indonesia 45253", 'group' => 'contact', 'label' => 'Alamat lengkap', 'type' => 'textarea', 'order' => 3],
+            ['key' => 'contact_email', 'value' => 'sales@aniwijaya.com', 'group' => 'contact', 'label' => 'Email', 'type' => 'email', 'order' => 2],
+            ['key' => 'contact_address', 'value' => "Kec. Sukra, Kab. Indramayu\nJawa Barat, Indonesia 45259", 'group' => 'contact', 'label' => 'Alamat lengkap', 'type' => 'textarea', 'order' => 3],
             ['key' => 'contact_short_address', 'value' => 'Indramayu, Jawa Barat', 'group' => 'contact', 'label' => 'Alamat singkat (untuk footer)', 'type' => 'text', 'order' => 4],
             ['key' => 'maps_embed_url', 'value' => '', 'group' => 'contact', 'label' => 'URL embed Google Maps', 'type' => 'url', 'description' => 'Paste embed URL dari Google Maps (untuk iframe)', 'order' => 5],
             ['key' => 'contact_maps_link', 'value' => 'https://maps.app.goo.gl/f9F7nw54f1uvdswc6', 'group' => 'contact', 'label' => 'Link Google Maps (tombol Petunjuk Arah)', 'type' => 'url', 'description' => 'URL share/shortlink Google Maps untuk tombol Petunjuk Arah', 'order' => 6],

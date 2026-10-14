@@ -1,6 +1,6 @@
 # PB. Ani Wijaya
 
-Website company profile + sistem internal pabrik penggilingan beras ketan PB. Ani Wijaya (Losarang, Indramayu).
+Website company profile + sistem internal pabrik penggilingan beras ketan PB. Ani Wijaya (Sukra, Indramayu).
 Laravel 13 · admin panel Blade di `/panel` (Bootstrap) · spatie/laravel-permission (role) · website 5 bahasa (spatie/laravel-translatable).
 
 Rencana & keputusan desain ada di [`docs/prd/`](docs/prd). Aturan kerja untuk Claude Code ada di [`CLAUDE.md`](CLAUDE.md).
