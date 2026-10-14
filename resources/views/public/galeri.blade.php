@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Galeri - Dokumentasi Fasilitas & Produk'))
+@section('title', __('Galeri - Pabrik Beras Ketan Indramayu'))
+@section('description', __('Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di Indramayu, Jawa Barat.'))
 
 @section('content')
 

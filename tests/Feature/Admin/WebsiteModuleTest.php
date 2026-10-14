@@ -76,8 +76,8 @@ class WebsiteModuleTest extends TestCase
 
     public function test_seo_meta_follows_locale(): void
     {
-        $this->get('/')->assertSee('<title>Produsen Beras Ketan Premium dari Indramayu - PB. Ani Wijaya</title>', false);
-        $this->get('/en')->assertSee('produces premium head-grade white glutinous rice', false);
+        $this->get('/')->assertSee('<title>Pabrik &amp; Supplier Beras Ketan Premium di Indramayu - PB. Ani Wijaya</title>', false);
+        $this->get('/en')->assertSee('Indonesian glutinous rice supplier', false);
 
         // SEO versi ID berbahasa Indonesia dan memuat "beras ketan" (keputusan Erlan 2026-10-13).
         app()->setLocale('id');

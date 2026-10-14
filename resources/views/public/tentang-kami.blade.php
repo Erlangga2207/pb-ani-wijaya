@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Tentang Kami'))
+@section('title', __('Tentang Kami - Pabrik Beras Ketan Indramayu'))
+@section('description', __('Profil PB. Ani Wijaya, pabrik penggilingan beras ketan di Kec. Sukra, Indramayu, perbatasan Indramayu–Subang. Mengolah gabah ketan dari petani lokal menjadi beras ketan premium.'))
 
 @section('content')
 
