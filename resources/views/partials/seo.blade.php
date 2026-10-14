@@ -25,7 +25,8 @@
     @php
         $address = (string) $setting('contact_address', '');
         $phone = $setting('contact_phone');
-        // Alamat resmi selalu Indramayu, Jawa Barat; baris pertama setting = kecamatan & kabupaten.
+        // Alamat bisnis = kantor di Subang (contact_address); pabrik di Indramayu sengaja tidak dicantumkan.
+        // Baris pertama setting = jalan/desa/kecamatan, kode pos diambil dari angka 5 digit.
         $business = array_filter([
             '@context' => 'https://schema.org',
             '@type' => 'LocalBusiness',
@@ -39,7 +40,7 @@
             'address' => array_filter([
                 '@type' => 'PostalAddress',
                 'streetAddress' => trim(preg_split('/\R/', $address)[0]),
-                'addressLocality' => 'Indramayu',
+                'addressLocality' => 'Subang',
                 'addressRegion' => 'Jawa Barat',
                 'postalCode' => preg_match('/\b\d{5}\b/', $address, $match) ? $match[0] : null,
                 'addressCountry' => 'ID',

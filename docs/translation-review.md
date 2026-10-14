@@ -35,7 +35,7 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | «Temukan Kami di» + «Indramayu» | «Find Us in» + «Indramayu» | «欢迎前往» + «英德拉马尤» | «アクセス：» + «インドラマユ» | «찾아오시는 길:» + «인드라마유» | |
 | «Butuh Respons» + «Lebih Cepat?» | «Need a» + «Faster Response?» | «需要» + «更快的回复吗？» | «もっと» + «早い返信が必要ですか？» | «더 빠른» + «응답이 필요하신가요?» | |
 
-## 2. Semua teks (249 key; judul halaman dipindah ke bagian 4)
+## 2. Semua teks (248 key; judul halaman & label alamat dipindah ke bagian 4)
 
 | # | Indonesia (key) | en | zh | ja | ko | Cek |
 |---|---|---|---|---|---|---|
@@ -59,7 +59,6 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | 18 | :tagline dari :address, melayani distribusi grosir dan retail dengan komitmen kualitas terjamin. | :tagline from :address, serving wholesale and retail distribution with a commitment to guaranteed quality. | 来自 :address 的 :tagline，以品质保证的承诺服务批发与零售分销。 | :address の :tagline。品質保証へのこだわりをもって卸売・小売流通に対応しています。 | :address의 :tagline. 품질 보증을 약속하며 도매 및 소매 유통을 지원합니다. | |
 | 19 | AAA | AAA | AAA | AAA | AAA | |
 | 20 | Adhesi Sempurna | Perfect Stickiness | 完美黏性 | 理想的な粘り | 완벽한 찰기 | |
-| 21 | Alamat Pabrik | Factory Address | 工厂地址 | 工場所在地 | 공장 주소 | |
 | 22 | All Rights Reserved. | All Rights Reserved. | 版权所有。 | All Rights Reserved. | All Rights Reserved. | |
 | 23 | Apa yang ingin kami capai, dan bagaimana cara kami mencapainya. | What we aim to achieve, and how we get there. | 我们的目标，以及实现目标的方式。 | 私たちが目指すもの、そしてその実現方法。 | 저희가 이루고자 하는 것, 그리고 그 방법. | |
 | 24 | Arah Langkah | Our Direction | 前进方向 | 進むべき道 | 나아갈 방향 | |
@@ -325,3 +324,11 @@ Tampil di `<title>`, meta description, dan Open Graph — tidak terlihat di isi 
 | Kontak - Pesan Beras Ketan Grosir | Contact - Wholesale Glutinous Rice Orders | 联系我们 - 糯米批发订购 | お問い合わせ - もち米の卸売注文 | 문의 - 찹쌀 도매 주문 | |
 | Profil PB. Ani Wijaya, pabrik penggilingan beras ketan di perbatasan Subang–Indramayu, Jawa Barat. Mengolah gabah ketan dari petani lokal menjadi beras ketan premium. | Meet PB. Ani Wijaya, a glutinous rice mill on the Subang–Indramayu border in West Java. We mill glutinous paddy from local farmers into premium glutinous rice. | PB. Ani Wijaya 是位于西爪哇苏邦与英德拉马尤交界处的糯米加工厂，将当地农户的糯稻加工成优质糯米。 | PB. Ani Wijaya は西ジャワ州スバンとインドラマユの境にあるもち米精米所です。地元農家のもち籾を高品質なもち米に仕上げています。 | PB. Ani Wijaya는 서자바 수방과 인드라마유 경계에 있는 찹쌀 정미소입니다. 지역 농가의 찹쌀 벼를 프리미엄 찹쌀로 가공합니다. | |
 | Tentang Kami - Pabrik Beras Ketan Subang–Indramayu | About Us - Glutinous Rice Mill in West Java | 关于我们 - 苏邦–英德拉马尤糯米加工厂 | 会社概要 - スバン・インドラマユのもち米精米所 | 회사 소개 - 수방·인드라마유 찹쌀 정미소 | |
+
+Label kartu alamat halaman Kontak (menggantikan «Alamat Pabrik»):
+
+| Indonesia | en | zh | ja | ko | Cek |
+|---|---|---|---|---|---|
+| Alamat | Address | 地址 | 所在地 | 주소 | |
+| Kantor | Office | 办公室 | 事務所 | 사무소 | |
+| Pabrik | Mill | 工厂 | 精米所 | 정미소 | |

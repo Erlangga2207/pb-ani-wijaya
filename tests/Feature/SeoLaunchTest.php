@@ -111,13 +111,30 @@ class SeoLaunchTest extends TestCase
         $this->assertSame('PB. Ani Wijaya', $data['name']);
         $this->assertSame('+62 813-2431-4300', $data['telephone']);
         $this->assertSame(asset('images/logo.png'), $data['logo']);
-        $this->assertSame('Kec. Sukra, Kab. Indramayu', $data['address']['streetAddress']);
-        $this->assertSame('Indramayu', $data['address']['addressLocality']);
+        // Alamat bisnis = kantor di Subang, bukan pabrik.
+        $this->assertSame('Desa Rangdu Rt04/02, Rangdu, Kec. Pusakajaya', $data['address']['streetAddress']);
+        $this->assertSame('Subang', $data['address']['addressLocality']);
         $this->assertSame('Jawa Barat', $data['address']['addressRegion']);
-        $this->assertSame('45259', $data['address']['postalCode']);
+        $this->assertSame('41255', $data['address']['postalCode']);
         $this->assertSame('ID', $data['address']['addressCountry']);
-        $this->assertStringNotContainsString('Subang', $data['address']['streetAddress']);
+        $this->assertStringNotContainsString('Sukra', $match[1]);
 
         $this->get('/produk')->assertDontSee('application/ld+json', false);
+    }
+
+    public function test_contact_page_shows_office_and_factory_address(): void
+    {
+        $this->seed(SiteSettingSeeder::class);
+
+        $this->get('/kontak')->assertOk()->assertSeeInOrder([
+            'Alamat', 'Kantor', 'Desa Rangdu Rt04/02, Rangdu, Kec. Pusakajaya',
+            'Pabrik', 'Kec. Sukra, Kab. Indramayu',
+        ]);
+        $this->get('/en/kontak')->assertOk()->assertSeeInOrder(['Address', 'Office', 'Pusakajaya', 'Mill', 'Sukra']);
+    }
+
+    public function test_factory_address_setting_exists_after_migration(): void
+    {
+        $this->assertDatabaseHas('site_settings', ['key' => 'factory_address', 'group' => 'contact', 'label' => 'Alamat pabrik']);
     }
 }

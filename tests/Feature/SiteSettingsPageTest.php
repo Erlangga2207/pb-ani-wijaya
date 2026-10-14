@@ -31,7 +31,7 @@ class SiteSettingsPageTest extends TestCase
 
         $this->assertSame('Ketan Terbaik Indramayu', SiteSetting::get('hero_title'));
         $this->get('/')->assertSee('Ketan Terbaik Indramayu');
-        $this->assertSame(23, SiteSetting::count()); // 21 key lama + 2 key SEO, tidak ada yang hilang
+        $this->assertSame(24, SiteSetting::count()); // 21 key lama + 2 key SEO + alamat pabrik, tidak ada yang hilang
     }
 
     public function test_invalid_url_is_rejected(): void

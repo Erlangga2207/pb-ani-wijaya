@@ -267,21 +267,29 @@
                     </div>
                 </div>
 
-                {{-- Card 2: Alamat Pabrik --}}
+                {{-- Card 2: Alamat (kantor & pabrik) --}}
                 <div class="bg-white border-2 border-surface rounded-2xl p-6 md:p-8 hover:border-primary/30 transition-colors">
                     <div class="flex items-start gap-3 mb-4">
                         <div class="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
                             <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
                         </div>
                         <div>
-                            <h3 class="font-heading text-lg font-bold text-charcoal">{{ __('Alamat Pabrik') }}</h3>
+                            <h3 class="font-heading text-lg font-bold text-charcoal">{{ __('Alamat') }}</h3>
                             <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ __('Kantor & Produksi') }}</p>
                         </div>
                     </div>
 
+                    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ __('Kantor') }}</span>
                     <p class="text-sm text-gray-700 leading-relaxed mb-4">
                         {{ $setting('contact_address', 'Indramayu, Jawa Barat, Indonesia') }}
                     </p>
+
+                    @if (filled($setting('factory_address')))
+                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ __('Pabrik') }}</span>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                            {{ $setting('factory_address') }}
+                        </p>
+                    @endif
 
                     {{-- NIB Verification --}}
                     <div class="pt-4 border-t border-surface">
