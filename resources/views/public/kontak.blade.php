@@ -357,7 +357,7 @@
                     {{ __('Lokasi Fasilitas') }}
                 </span>
                 <h2 class="font-heading text-3xl md:text-4xl font-bold text-charcoal">
-                    {{ __('Temukan Kami di') }} <span class="text-primary italic">{{ __('Indramayu') }}</span>
+                    {{ __('Temukan Kami di') }} <span class="text-primary italic">{{ __('Subang') }}</span>
                 </h2>
             </div>
 

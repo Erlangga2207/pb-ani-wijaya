@@ -332,3 +332,4 @@ Label kartu alamat halaman Kontak (menggantikan «Alamat Pabrik»):
 | Alamat | Address | 地址 | 所在地 | 주소 | |
 | Kantor | Office | 办公室 | 事務所 | 사무소 | |
 | Pabrik | Mill | 工厂 | 精米所 | 정미소 | |
+| Subang (judul peta Kontak: «Temukan Kami di» + «Subang») | Subang | 苏邦 | スバン | 수방 | |

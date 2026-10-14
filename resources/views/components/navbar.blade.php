@@ -10,7 +10,7 @@
             <a href="{{ localized_route('home') }}" class="flex items-center gap-3 group">
                 <img src="{{ asset('images/logo.png') }}"
                      alt="{{ __('PB. Ani Wijaya Logo') }}"
-                     class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300">
+                     class="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300">
                 <div class="hidden sm:block">
                     <div class="font-heading text-xl font-bold text-primary leading-tight">
                         {{ $setting('company_name', 'PB. Ani Wijaya') }}
