@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\LeadStatus;
+use App\Mail\NewContactMessage;
 use App\Models\ContactMessage;
 use App\Models\Gallery;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -94,10 +96,20 @@ class HomeController extends Controller
         // Pura-pura sukses, simpan sebagai spam supaya tidak masuk daftar lead baru.
         $isSpam = filled($request->input('website'));
 
-        ContactMessage::create($validated + [
+        $contactMessage = ContactMessage::create($validated + [
             'ip_address' => $request->ip(),
             'status' => $isSpam ? LeadStatus::Spam : LeadStatus::New,
         ]);
+
+        // Dikirim langsung (bukan queue) karena hosting tidak menjalankan queue worker.
+        // Gagal kirim tidak boleh menggagalkan form: pesan sudah tersimpan di panel.
+        if (! $isSpam) {
+            try {
+                Mail::to(config('mail.contact_to'))->send(new NewContactMessage($contactMessage));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
 
         return redirect(localized_route('contact'))
             ->with('success', __('Pesan Anda berhasil dikirim! Tim kami akan menghubungi Anda segera.'));

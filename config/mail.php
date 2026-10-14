@@ -115,4 +115,7 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    // Penerima notifikasi form kontak website.
+    'contact_to' => env('MAIL_CONTACT_TO', 'sales@aniwijaya.com'),
+
 ];
