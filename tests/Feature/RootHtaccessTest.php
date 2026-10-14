@@ -36,15 +36,18 @@ class RootHtaccessTest extends TestCase
             'vite.config.js' => ['vite.config.js', 'deny'],
             'README.md' => ['README.md', 'deny'],
             'CLAUDE.md' => ['CLAUDE.md', 'deny'],
-            // Diteruskan ke public/
+            // Asset statis diteruskan ke public/
+            'gambar' => ['images/logo.png', 'public'],
             'foto galeri' => ['storage/gallery/foto-abc123.jpg', 'public'],
             'css admin' => ['css/admin.css', 'public'],
-            'beranda' => ['', 'public'],
-            'halaman bahasa' => ['en/produk', 'public'],
-            'sitemap' => ['sitemap.xml', 'public'],
-            'robots' => ['robots.txt', 'public'],
-            'panel' => ['panel/login', 'public'],
-            // Verifikasi SSL hPanel dilayani langsung dari root
+            // Halaman → index.php di root
+            'beranda' => ['', 'app'],
+            'halaman bahasa' => ['en/produk', 'app'],
+            'sitemap' => ['sitemap.xml', 'app'],
+            'panel' => ['panel/login', 'app'],
+            // Dilayani langsung dari root
+            'robots' => ['robots.txt', 'pass'],
+            'favicon' => ['favicon.ico', 'pass'],
             '.well-known' => ['.well-known/acme-challenge/token', 'pass'],
         ];
     }
@@ -61,7 +64,7 @@ class RootHtaccessTest extends TestCase
 
         // HTTPS dipaksa dari hPanel (CDN Hostinger) — redirect di sini bisa loop.
         $this->assertDoesNotMatchRegularExpression('/^\s*RewriteCond\s+%\{(HTTPS|HTTP_HOST)\}/mi', $htaccess);
-        $this->assertDoesNotMatchRegularExpression('/^\s*RewriteRule\s.*\bR=30[12]\b/mi', $htaccess);
+        $this->assertDoesNotMatchRegularExpression('/^\s*RewriteRule\s+\S+\s+https?:/mi', $htaccess);
         $this->assertStringContainsString('Options -Indexes', $htaccess);
 
         foreach (['storage/.htaccess', 'bootstrap/.htaccess'] as $file) {
@@ -69,7 +72,8 @@ class RootHtaccessTest extends TestCase
         }
     }
 
-    /** Hasil: 'deny' (403), 'pass' (dilayani apa adanya), 'public' (diteruskan ke public/), 'none'. */
+    /** Hasil: 'deny' (403), 'pass' (dilayani apa adanya), 'public' (diteruskan ke public/), 'app' (index.php), 'none'.
+     *  Aturan header (E=) dan redirect trailing slash (R=) bergantung RewriteCond, jadi dilewati. */
     private function evaluate(string $path): string
     {
         preg_match_all('/^\s*RewriteRule\s+(\S+)\s+(\S+)(?:\s+\[([^\]]*)\])?/m', file_get_contents(base_path('.htaccess')), $rules, PREG_SET_ORDER);
@@ -78,6 +82,9 @@ class RootHtaccessTest extends TestCase
         foreach ($rules as $rule) {
             [, $pattern, $target] = $rule;
             $flags = array_map('trim', explode(',', $rule[3] ?? ''));
+            if (preg_grep('/^[ER]=/', $flags)) {
+                continue;
+            }
             $regex = '#'.$pattern.'#'.(in_array('NC', $flags, true) ? 'i' : '');
 
             if (! preg_match($regex, $path)) {
@@ -88,7 +95,11 @@ class RootHtaccessTest extends TestCase
                 return 'deny';
             }
 
-            return str_starts_with($target, 'public/') ? 'public' : 'pass';
+            return match (true) {
+                str_starts_with($target, 'public/') => 'public',
+                $target === 'index.php' => 'app',
+                default => 'pass',
+            };
         }
 
         return 'none';

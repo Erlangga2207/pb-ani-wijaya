@@ -1,9 +1,36 @@
+# Root repo = public_html di Hostinger (deploy lewat fitur Git hPanel, PRD-09).
+# index.php, favicon.ico, robots.txt ada di root; asset statis (images, css, storage) tetap di public/.
+# Sengaja TIDAK ada redirect HTTPS/www di sini: HTTPS dipaksa dari hPanel (CDN Hostinger), bisa redirect loop.
+
+Options -Indexes
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
+        Options -MultiViews
     </IfModule>
 
     RewriteEngine On
+
+    # Verifikasi sertifikat SSL (hPanel menaruh file di public_html/.well-known) — layani apa adanya.
+    RewriteRule ^\.well-known/ - [L]
+
+    # File tersembunyi (.git, .env*, .gitignore, ...) → 403
+    RewriteRule (^|/)\.env - [F,L,NC]
+    RewriteRule (^|/)\. - [F,L]
+
+    # File proyek di root → 403
+    RewriteRule ^(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|vite\.config\.js)$ - [F,L,NC]
+    RewriteRule \.md$ - [F,L,NC]
+
+    # Folder kode & data → 403
+    RewriteRule ^(\.git|app|bootstrap|config|database|lang|resources|routes|tests|vendor|deploy|docs|node_modules)(/|$) - [F,L,NC]
+    RewriteRule ^storage/(app|framework|logs)(/|$) - [F,L,NC]
+
+    # File statis di root
+    RewriteRule ^(robots\.txt|favicon\.ico)$ - [L]
+
+    # Asset statis → public/ (public/storage = symlink ke storage/app/public, foto galeri)
+    RewriteRule ^((images|css|storage)/.+)$ public/$1 [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -22,4 +49,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# Tanpa mod_rewrite: jangan sampai kode terbuka.
+<IfModule !mod_rewrite.c>
+    Require all denied
 </IfModule>
