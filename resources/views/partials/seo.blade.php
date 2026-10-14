@@ -45,7 +45,7 @@
                 'postalCode' => preg_match('/\b\d{5}\b/', $address, $match) ? $match[0] : null,
                 'addressCountry' => 'ID',
             ]),
-            'sameAs' => array_values(array_filter([$setting('social_instagram'), $setting('social_facebook')])),
+            'sameAs' => array_values(array_filter([$setting('social_instagram'), $setting('social_facebook'), $setting('social_tiktok')])),
         ]);
     @endphp
     <script type="application/ld+json">@json($business)</script>
