@@ -2,6 +2,7 @@
 
 use App\Exceptions\InsufficientStockException;
 use App\Http\Middleware\EnsureUserIsActive;
+use App\Http\Middleware\NoIndex;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,7 +18,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware('web')->prefix('panel')->name('admin.')->group(base_path('routes/admin.php'));
+            Route::middleware(['web', NoIndex::class])->prefix('panel')->name('admin.')->group(base_path('routes/admin.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /panel
+Disallow: /nota/
+Disallow: /pembelian/
+Disallow: /laporan/
 
 Sitemap: https://aniwijaya.com/sitemap.xml
