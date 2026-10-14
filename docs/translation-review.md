@@ -35,7 +35,7 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | «Temukan Kami di» + «Indramayu» | «Find Us in» + «Indramayu» | «欢迎前往» + «英德拉马尤» | «アクセス：» + «インドラマユ» | «찾아오시는 길:» + «인드라마유» | |
 | «Butuh Respons» + «Lebih Cepat?» | «Need a» + «Faster Response?» | «需要» + «更快的回复吗？» | «もっと» + «早い返信が必要ですか？» | «더 빠른» + «응답이 필요하신가요?» | |
 
-## 2. Semua teks (252 key)
+## 2. Semua teks (248 key; judul halaman & label alamat dipindah ke bagian 4)
 
 | # | Indonesia (key) | en | zh | ja | ko | Cek |
 |---|---|---|---|---|---|---|
@@ -59,7 +59,6 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | 18 | :tagline dari :address, melayani distribusi grosir dan retail dengan komitmen kualitas terjamin. | :tagline from :address, serving wholesale and retail distribution with a commitment to guaranteed quality. | 来自 :address 的 :tagline，以品质保证的承诺服务批发与零售分销。 | :address の :tagline。品質保証へのこだわりをもって卸売・小売流通に対応しています。 | :address의 :tagline. 품질 보증을 약속하며 도매 및 소매 유통을 지원합니다. | |
 | 19 | AAA | AAA | AAA | AAA | AAA | |
 | 20 | Adhesi Sempurna | Perfect Stickiness | 完美黏性 | 理想的な粘り | 완벽한 찰기 | |
-| 21 | Alamat Pabrik | Factory Address | 工厂地址 | 工場所在地 | 공장 주소 | |
 | 22 | All Rights Reserved. | All Rights Reserved. | 版权所有。 | All Rights Reserved. | All Rights Reserved. | |
 | 23 | Apa yang ingin kami capai, dan bagaimana cara kami mencapainya. | What we aim to achieve, and how we get there. | 我们的目标，以及实现目标的方式。 | 私たちが目指すもの、そしてその実現方法。 | 저희가 이루고자 하는 것, 그리고 그 방법. | |
 | 24 | Arah Langkah | Our Direction | 前进方向 | 進むべき道 | 나아갈 방향 | |
@@ -103,7 +102,6 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | 62 | Fasilitas | Facilities | 设施 | 設備 | 시설 | |
 | 63 | Formulir Pertanyaan | Inquiry Form | 咨询表单 | お問い合わせフォーム | 문의 양식 | |
 | 64 | Galeri | Gallery | 图库 | ギャラリー | 갤러리 | |
-| 65 | Galeri - Dokumentasi Fasilitas & Produk | Gallery - Facility & Product Documentation | 图库 - 设施与产品记录 | ギャラリー - 設備・製品の記録 | 갤러리 - 시설 및 제품 기록 | |
 | 66 | Galeri Lengkap | Full Gallery | 完整图库 | ギャラリー一覧 | 전체 갤러리 | |
 | 67 | Galeri Sedang Dipersiapkan | Gallery Coming Soon | 图库筹备中 | ギャラリー準備中 | 갤러리 준비 중 | |
 | 68 | Glutinous AAA | Glutinous AAA | 糯性 AAA | もち性 AAA | 찰기 AAA | |
@@ -141,7 +139,6 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | 100 | Kirim Pesan ke | Send a Message to | 发送消息给 | メッセージを送る： | 메시지 보내기: | |
 | 101 | Komitmen kami pada kualitas terdokumentasi secara legal dan diaudit secara konsisten. | Our commitment to quality is legally documented and consistently audited. | 我们对品质的承诺有合法记录，并定期接受审核。 | 品質へのこだわりは法的に記録され、継続的に監査されています。 | 품질에 대한 저희의 약속은 법적으로 기록되어 있으며 꾸준히 감사를 받습니다. | |
 | 102 | Kontak | Contact | 联系方式 | 連絡先 | 연락처 | |
-| 103 | Kontak - Hubungi PB. Ani Wijaya | Contact - Get in Touch with PB. Ani Wijaya | 联系 - 联系 PB. Ani Wijaya | お問い合わせ - PB. Ani Wijaya | 연락처 - PB. Ani Wijaya 문의 | |
 | 104 | Kontak Langsung | Direct Contact | 直接联系 | 直接のご連絡 | 직접 연락 | |
 | 105 | Konten untuk kategori ini akan segera ditambahkan. | Content for this category will be added soon. | 此类别的内容即将上线。 | このカテゴリーのコンテンツは近日公開予定です。 | 이 카테고리의 콘텐츠가 곧 추가됩니다. | |
 | 106 | Kualitas | Quality | 品质 | 品質 | 품질 | |
@@ -210,7 +207,6 @@ Kalimat ini dipotong oleh `<span>`/`<br>`/`<strong>` di desain dan tidak boleh d
 | 169 | Premium Grade | Premium Grade | 优质等级 | プレミアムグレード | 프리미엄 등급 | |
 | 170 | Premium KEPALA | Premium Head Rice | 优质整粒米 | プレミアム整粒米 | 프리미엄 완전립 | |
 | 171 | Produk | Products | 产品 | 製品 | 제품 | |
-| 172 | Produk - Beras Ketan Putih Premium | Products - Premium White Glutinous Rice | 产品 - 优质白糯米 | 製品 - プレミアム白もち米 | 제품 - 프리미엄 백찹쌀 | |
 | 173 | Produk Berkualitas | Quality Products | 优质产品 | 高品質な製品へ | 고품질 제품까지 | |
 | 174 | Produk Unggulan | Featured Product | 明星产品 | 主力製品 | 대표 제품 | |
 | 175 | Produksi | Processing | 生产 | 生産 | 생산 | |
@@ -311,5 +307,28 @@ Setelah migrate, teks diubah lewat **/panel/pengaturan-website** (tab bahasa); f
 | `about_title` | A Journey of Resilience and Excellence | Perjalanan Ketekunan & Keunggulan | A Journey of Resilience and Excellence | 坚韧与卓越之路 | 粘り強さと卓越の歩み | 끈기와 탁월함의 여정 | |
 | `about_paragraph_1` | Founded in the heart of Indramayu, West Java, PB. Ani Wijaya began as a humble family dream to provide consistent, high-quality rice to local communities. What started as a single mill has evolved into a premier industrial rice producer, serving wholesale distributors across Indonesia. | Berdiri di jantung Indramayu, Jawa Barat, PB. Ani Wijaya bermula dari mimpi sederhana sebuah keluarga untuk menyediakan beras berkualitas tinggi yang konsisten bagi masyarakat sekitar. Berawal dari satu penggilingan, kini kami berkembang menjadi produsen beras terkemuka yang melayani distributor grosir di seluruh Indonesia. | Founded in the heart of Indramayu, West Java, PB. Ani Wijaya began as a humble family dream to provide consistent, high-quality rice to local communities. What started as a single mill has evolved into a premier industrial rice producer, serving wholesale distributors across Indonesia. | PB. Ani Wijaya 创立于西爪哇英德拉马尤腹地，起初只是一个家庭的朴素梦想——为当地社区稳定供应优质大米。从一家碾米厂起步，如今已发展成为领先的大米生产商，服务印度尼西亚各地的批发分销商。 | 西ジャワ州インドラマユの中心で創業した PB. Ani Wijaya は、地域の人々に高品質なお米を安定して届けたいという家族のささやかな夢から始まりました。一軒の精米所から出発し、今ではインドネシア全土の卸売業者に供給する有数の米メーカーへと成長しました。 | 서자바 인드라마유의 중심에서 설립된 PB. Ani Wijaya는 지역 주민에게 품질 좋은 쌀을 꾸준히 공급하고자 한 한 가족의 소박한 꿈에서 시작되었습니다. 도정소 하나로 출발해 이제는 인도네시아 전역의 도매 유통업체에 공급하는 대표적인 쌀 생산업체로 성장했습니다. | |
 | `about_paragraph_2` | The name "Ani Wijaya" is synonymous with trust. We understand that rice is more than just a staple; it is the center of the Indonesian dining table. This profound responsibility drives our "Mutu Terjamin" (Guaranteed Quality) philosophy, ensuring that every bag leaving our warehouse meets the highest standards of purity, texture, and taste. | Nama "Ani Wijaya" identik dengan kepercayaan. Kami memahami bahwa beras lebih dari sekadar bahan pokok; beras adalah pusat meja makan keluarga Indonesia. Tanggung jawab besar ini mendorong filosofi "Mutu Terjamin" kami, memastikan setiap karung yang keluar dari gudang memenuhi standar tertinggi dalam kemurnian, tekstur, dan rasa. | The name "Ani Wijaya" is synonymous with trust. We understand that rice is more than just a staple; it is the center of the Indonesian dining table. This profound responsibility drives our "Mutu Terjamin" (Guaranteed Quality) philosophy, ensuring that every bag leaving our warehouse meets the highest standards of purity, texture, and taste. | "Ani Wijaya" 这个名字代表着信赖。我们深知，大米不只是主食，更是印度尼西亚家庭餐桌的中心。这份重大的责任推动着我们"品质保证"（Mutu Terjamin）的理念，确保每一袋出库的大米在纯度、口感和味道上都达到最高标准。 | 「Ani Wijaya」という名前は信頼の証です。お米は単なる主食ではなく、インドネシアの食卓の中心です。この大きな責任が「品質保証（Mutu Terjamin）」という私たちの理念を支え、倉庫から出荷されるすべての袋が純度・食感・味のすべてで最高水準を満たすようにしています。 | "Ani Wijaya"라는 이름은 곧 신뢰입니다. 쌀은 단순한 주식이 아니라 인도네시아 가정 식탁의 중심입니다. 이 막중한 책임감이 "품질 보증(Mutu Terjamin)" 철학을 이끌며, 창고를 떠나는 모든 포대가 순도, 식감, 맛에서 최고 기준을 충족하도록 합니다. | |
-| `seo_meta_title` | — | Produsen Beras Ketan Premium dari Indramayu | Premium Glutinous Rice Producer from Indramayu, Indonesia | 印度尼西亚英德拉马尤优质糯米生产商 | インドネシア・インドラマユのプレミアムもち米メーカー | 인도네시아 인드라마유의 프리미엄 찹쌀 생산업체 | |
-| `seo_meta_description` | — | PB. Ani Wijaya memproduksi beras ketan putih premium kelas KEPALA di Indramayu, Jawa Barat. Melayani distributor, retailer, dan pembeli grosir di Indonesia dan mancanegara. | PB. Ani Wijaya produces premium head-grade white glutinous rice in Indramayu, West Java. Serving distributors, retailers, and wholesale buyers in Indonesia and abroad. | PB. Ani Wijaya 在西爪哇英德拉马尤生产优质整粒白糯米，为印度尼西亚及海外的分销商、零售商和批发买家提供服务。 | PB. Ani Wijaya は西ジャワ州インドラマユで最高級の白もち米（整粒）を生産し、インドネシア国内外の卸売業者・小売業者・バイヤーに供給しています。 | PB. Ani Wijaya는 서자바 인드라마유에서 프리미엄 완전립 백찹쌀을 생산하며 인도네시아 및 해외의 유통업체, 소매업체, 도매 구매자에게 공급합니다. | |
+| `seo_meta_title` | — | Pabrik & Supplier Beras Ketan Subang–Indramayu | Premium Glutinous Rice Mill & Supplier in West Java | 西爪哇优质糯米加工厂与供应商 | 西ジャワのプレミアムもち米精米所・サプライヤー | 서자바 프리미엄 찹쌀 정미소 및 공급업체 | |
+| `seo_meta_description` | — | PB. Ani Wijaya, pabrik beras ketan di perbatasan Subang–Indramayu, Jawa Barat. Supplier beras ketan putih premium untuk distributor, restoran, dan industri makanan di Indonesia dan mancanegara. | PB. Ani Wijaya is an Indonesian glutinous rice supplier and rice mill on the Subang–Indramayu border, West Java. Premium white glutinous rice for distributors, restaurants, and food manufacturers in Indonesia and abroad. | PB. Ani Wijaya 是位于西爪哇苏邦与英德拉马尤交界处的印度尼西亚糯米加工厂和供应商，为国内外分销商、餐厅及食品企业供应优质白糯米。 | PB. Ani Wijaya は西ジャワ州スバンとインドラマユの境にある、インドネシアのもち米精米所・サプライヤーです。国内外の卸売業者、レストラン、食品メーカーへ高品質な白もち米を供給しています。 | PB. Ani Wijaya는 서자바 수방과 인드라마유 경계에 위치한 인도네시아 찹쌀 정미소이자 공급업체로, 국내외 유통업체, 레스토랑, 식품 제조업체에 프리미엄 백찹쌀을 공급합니다. | |
+
+## 4. Judul & deskripsi SEO per halaman (SEO teknis, 2026-10-14, revisi Subang)
+
+Tampil di `<title>`, meta description, dan Open Graph — tidak terlihat di isi halaman. Kata kunci target: pabrik beras ketan Indramayu, perbatasan Subang–Indramayu (kantor di Pusakajaya, Subang; pabrik di Sukra, Indramayu), supplier beras ketan (bukan beras biasa), Indonesian glutinous rice supplier, rice mill West Java. Beranda memakai `seo_meta_title` / `seo_meta_description` (bagian 3).
+
+| Indonesia | en | zh | ja | ko | Cek |
+|---|---|---|---|---|---|
+| Beras Ketan Putih Premium - Supplier Grosir | Premium White Glutinous Rice - Wholesale Supplier | 优质白糯米 - 批发供应 | プレミアム白もち米 - 卸売供給 | 프리미엄 백찹쌀 - 도매 공급 | |
+| Beras ketan putih premium kelas kepala dari pabrik kami di perbatasan Subang–Indramayu. Supplier beras ketan grosir untuk distributor, restoran, dan industri makanan di Jawa Barat dan seluruh Indonesia. | Premium head-grade white glutinous rice from our mill on the Subang–Indramayu border, West Java. Indonesian glutinous rice supplier for distributors, restaurants, and food manufacturers in Indonesia and abroad. | 来自我们位于苏邦与英德拉马尤交界处加工厂的优质整粒白糯米。印度尼西亚糯米供应商，为国内外分销商、餐厅及食品企业提供批发供应。 | スバンとインドラマユの境にある自社精米所で生産する最高級の白もち米（整粒）。インドネシアのもち米サプライヤーとして、国内外の卸売業者、レストラン、食品メーカーに供給しています。 | 수방과 인드라마유 경계에 있는 자사 정미소에서 생산한 프리미엄 완전립 백찹쌀. 인도네시아 찹쌀 공급업체로서 국내외 유통업체, 레스토랑, 식품 제조업체에 공급합니다. | |
+| Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di perbatasan Subang–Indramayu, Jawa Barat. | Photos of the milling facility, production process, and glutinous rice of PB. Ani Wijaya on the Subang–Indramayu border, West Java, Indonesia. | PB. Ani Wijaya 位于印度尼西亚西爪哇苏邦与英德拉马尤交界处的碾米设施、生产流程及糯米产品照片。 | インドネシア西ジャワ州、スバンとインドラマユの境にある PB. Ani Wijaya の精米設備、生産工程、もち米の写真。 | 인도네시아 서자바 수방과 인드라마유 경계에 있는 PB. Ani Wijaya의 도정 설비, 생산 공정, 찹쌀 제품 사진. | |
+| Galeri - Pabrik Beras Ketan Subang–Indramayu | Gallery - Glutinous Rice Mill in West Java | 图库 - 西爪哇糯米加工厂 | ギャラリー - 西ジャワのもち米精米所 | 갤러리 - 서자바 찹쌀 정미소 | |
+| Hubungi PB. Ani Wijaya untuk harga grosir beras ketan premium. Kantor di Pusakajaya, Subang; pabrik di Sukra, Indramayu, perbatasan Subang–Indramayu, Jawa Barat. | Contact PB. Ani Wijaya for wholesale prices on premium glutinous rice. Office in Pusakajaya, Subang; mill in Sukra, Indramayu, on the Subang–Indramayu border in West Java, Indonesia. | 联系 PB. Ani Wijaya 获取优质糯米批发价格。办公室位于苏邦县普萨卡查亚区，工厂位于英德拉马尤县苏克拉区，地处西爪哇苏邦与英德拉马尤交界处。 | 高品質なもち米の卸売価格は PB. Ani Wijaya へお問い合わせください。事務所はスバン県プサカジャヤ郡、精米所はインドラマユ県スクラ郡にあり、西ジャワ州スバンとインドラマユの境に位置しています。 | 프리미엄 찹쌀 도매 가격은 PB. Ani Wijaya에 문의하세요. 사무소는 수방군 푸사카자야, 정미소는 인드라마유군 수크라에 있으며 서자바 수방과 인드라마유 경계에 위치합니다. | |
+| Kontak - Pesan Beras Ketan Grosir | Contact - Wholesale Glutinous Rice Orders | 联系我们 - 糯米批发订购 | お問い合わせ - もち米の卸売注文 | 문의 - 찹쌀 도매 주문 | |
+| Profil PB. Ani Wijaya, pabrik penggilingan beras ketan di perbatasan Subang–Indramayu, Jawa Barat. Mengolah gabah ketan dari petani lokal menjadi beras ketan premium. | Meet PB. Ani Wijaya, a glutinous rice mill on the Subang–Indramayu border in West Java. We mill glutinous paddy from local farmers into premium glutinous rice. | PB. Ani Wijaya 是位于西爪哇苏邦与英德拉马尤交界处的糯米加工厂，将当地农户的糯稻加工成优质糯米。 | PB. Ani Wijaya は西ジャワ州スバンとインドラマユの境にあるもち米精米所です。地元農家のもち籾を高品質なもち米に仕上げています。 | PB. Ani Wijaya는 서자바 수방과 인드라마유 경계에 있는 찹쌀 정미소입니다. 지역 농가의 찹쌀 벼를 프리미엄 찹쌀로 가공합니다. | |
+| Tentang Kami - Pabrik Beras Ketan Subang–Indramayu | About Us - Glutinous Rice Mill in West Java | 关于我们 - 苏邦–英德拉马尤糯米加工厂 | 会社概要 - スバン・インドラマユのもち米精米所 | 회사 소개 - 수방·인드라마유 찹쌀 정미소 | |
+
+Label kartu alamat halaman Kontak (menggantikan «Alamat Pabrik»):
+
+| Indonesia | en | zh | ja | ko | Cek |
+|---|---|---|---|---|---|
+| Alamat | Address | 地址 | 所在地 | 주소 | |
+| Kantor | Office | 办公室 | 事務所 | 사무소 | |
+| Pabrik | Mill | 工厂 | 精米所 | 정미소 | |

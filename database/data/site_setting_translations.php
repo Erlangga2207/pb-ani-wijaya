@@ -72,18 +72,18 @@ return [
     // Key baru (keputusan Fase 0 no. 3)
     'seo_meta_title' => [
         'old' => null,
-        'id' => 'Produsen Beras Ketan Premium dari Indramayu',
-        'en' => 'Premium Glutinous Rice Producer from Indramayu, Indonesia',
-        'zh' => '印度尼西亚英德拉马尤优质糯米生产商',
-        'ja' => 'インドネシア・インドラマユのプレミアムもち米メーカー',
-        'ko' => '인도네시아 인드라마유의 프리미엄 찹쌀 생산업체',
+        'id' => 'Pabrik & Supplier Beras Ketan Subang–Indramayu',
+        'en' => 'Premium Glutinous Rice Mill & Supplier in West Java',
+        'zh' => '西爪哇优质糯米加工厂与供应商',
+        'ja' => '西ジャワのプレミアムもち米精米所・サプライヤー',
+        'ko' => '서자바 프리미엄 찹쌀 정미소 및 공급업체',
     ],
     'seo_meta_description' => [
         'old' => null,
-        'id' => 'PB. Ani Wijaya memproduksi beras ketan putih premium kelas KEPALA di Indramayu, Jawa Barat. Melayani distributor, retailer, dan pembeli grosir di Indonesia dan mancanegara.',
-        'en' => 'PB. Ani Wijaya produces premium head-grade white glutinous rice in Indramayu, West Java. Serving distributors, retailers, and wholesale buyers in Indonesia and abroad.',
-        'zh' => 'PB. Ani Wijaya 在西爪哇英德拉马尤生产优质整粒白糯米，为印度尼西亚及海外的分销商、零售商和批发买家提供服务。',
-        'ja' => 'PB. Ani Wijaya は西ジャワ州インドラマユで最高級の白もち米（整粒）を生産し、インドネシア国内外の卸売業者・小売業者・バイヤーに供給しています。',
-        'ko' => 'PB. Ani Wijaya는 서자바 인드라마유에서 프리미엄 완전립 백찹쌀을 생산하며 인도네시아 및 해외의 유통업체, 소매업체, 도매 구매자에게 공급합니다.',
+        'id' => 'PB. Ani Wijaya, pabrik beras ketan di perbatasan Subang–Indramayu, Jawa Barat. Supplier beras ketan putih premium untuk distributor, restoran, dan industri makanan di Indonesia dan mancanegara.',
+        'en' => 'PB. Ani Wijaya is an Indonesian glutinous rice supplier and rice mill on the Subang–Indramayu border, West Java. Premium white glutinous rice for distributors, restaurants, and food manufacturers in Indonesia and abroad.',
+        'zh' => 'PB. Ani Wijaya 是位于西爪哇苏邦与英德拉马尤交界处的印度尼西亚糯米加工厂和供应商，为国内外分销商、餐厅及食品企业供应优质白糯米。',
+        'ja' => 'PB. Ani Wijaya は西ジャワ州スバンとインドラマユの境にある、インドネシアのもち米精米所・サプライヤーです。国内外の卸売業者、レストラン、食品メーカーへ高品質な白もち米を供給しています。',
+        'ko' => 'PB. Ani Wijaya는 서자바 수방과 인드라마유 경계에 위치한 인도네시아 찹쌀 정미소이자 공급업체로, 국내외 유통업체, 레스토랑, 식품 제조업체에 프리미엄 백찹쌀을 공급합니다.',
     ],
 ];

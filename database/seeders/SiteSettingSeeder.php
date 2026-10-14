@@ -31,11 +31,12 @@ class SiteSettingSeeder extends Seeder
 
             // Contact
             ['key' => 'contact_phone', 'value' => '+62 813-2431-4300', 'group' => 'contact', 'label' => 'Telepon', 'type' => 'phone', 'order' => 1],
-            ['key' => 'contact_email', 'value' => 'info@pbaniwijaya.com', 'group' => 'contact', 'label' => 'Email', 'type' => 'email', 'order' => 2],
-            ['key' => 'contact_address', 'value' => "Kec. Losarang, Kab. Indramayu\nJawa Barat, Indonesia 45253", 'group' => 'contact', 'label' => 'Alamat lengkap', 'type' => 'textarea', 'order' => 3],
-            ['key' => 'contact_short_address', 'value' => 'Indramayu, Jawa Barat', 'group' => 'contact', 'label' => 'Alamat singkat (untuk footer)', 'type' => 'text', 'order' => 4],
-            ['key' => 'maps_embed_url', 'value' => '', 'group' => 'contact', 'label' => 'URL embed Google Maps', 'type' => 'url', 'description' => 'Paste embed URL dari Google Maps (untuk iframe)', 'order' => 5],
-            ['key' => 'contact_maps_link', 'value' => 'https://maps.app.goo.gl/f9F7nw54f1uvdswc6', 'group' => 'contact', 'label' => 'Link Google Maps (tombol Petunjuk Arah)', 'type' => 'url', 'description' => 'URL share/shortlink Google Maps untuk tombol Petunjuk Arah', 'order' => 6],
+            ['key' => 'contact_email', 'value' => 'sales@aniwijaya.com', 'group' => 'contact', 'label' => 'Email', 'type' => 'email', 'order' => 2],
+            ['key' => 'contact_address', 'value' => "Desa Rangdu Rt04/02, Rangdu, Kec. Pusakajaya\nKabupaten Subang, Jawa Barat 41255", 'group' => 'contact', 'label' => 'Alamat kantor', 'type' => 'textarea', 'description' => 'Alamat bisnis utama (didatangi pembeli). Dipakai di footer, nota, dan Google (JSON-LD).', 'order' => 3],
+            ['key' => 'factory_address', 'value' => "Kec. Sukra, Kab. Indramayu\nJawa Barat, Indonesia 45259", 'group' => 'contact', 'label' => 'Alamat pabrik', 'type' => 'textarea', 'description' => 'Lokasi produksi, tampil di halaman Kontak.', 'order' => 4],
+            ['key' => 'contact_short_address', 'value' => 'Subang, Jawa Barat', 'group' => 'contact', 'label' => 'Alamat singkat (untuk footer)', 'type' => 'text', 'order' => 5],
+            ['key' => 'maps_embed_url', 'value' => '', 'group' => 'contact', 'label' => 'URL embed Google Maps', 'type' => 'url', 'description' => 'Paste embed URL dari Google Maps (untuk iframe)', 'order' => 6],
+            ['key' => 'contact_maps_link', 'value' => 'https://maps.app.goo.gl/f9F7nw54f1uvdswc6', 'group' => 'contact', 'label' => 'Link Google Maps (tombol Petunjuk Arah)', 'type' => 'url', 'description' => 'URL share/shortlink Google Maps untuk tombol Petunjuk Arah', 'order' => 7],
 
             // Social
             ['key' => 'social_whatsapp', 'value' => '6281324314300', 'group' => 'social', 'label' => 'Nomor WhatsApp', 'type' => 'text', 'description' => 'Format: 62812... tanpa +', 'order' => 1],

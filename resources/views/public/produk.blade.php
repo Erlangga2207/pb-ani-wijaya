@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Produk - Beras Ketan Putih Premium'))
+@section('title', __('Beras Ketan Putih Premium - Supplier Grosir'))
+@section('description', __('Beras ketan putih premium kelas kepala dari pabrik kami di perbatasan Subang–Indramayu. Supplier beras ketan grosir untuk distributor, restoran, dan industri makanan di Jawa Barat dan seluruh Indonesia.'))
 
 @section('content')
 
