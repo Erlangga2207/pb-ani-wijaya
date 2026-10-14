@@ -18,7 +18,7 @@
         <div class="flex justify-center mb-8" data-aos="fade-down">
             <img src="{{ asset('images/logo.png') }}"
                  alt="{{ __('PB. Ani Wijaya Logo') }}"
-                 class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl">
+                 class="w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-2xl">
         </div>
 
         <div data-aos="fade-up" data-aos-delay="100">
