@@ -12,7 +12,7 @@ class SeoLaunchTest extends TestCase
 
     public function test_robots_txt_blocks_panel_and_points_to_sitemap(): void
     {
-        $robots = file_get_contents(base_path('public/robots.txt'));
+        $robots = file_get_contents(base_path('robots.txt'));
 
         $this->assertStringContainsString("User-agent: *\n", $robots);
         $this->assertStringContainsString("Disallow: /panel\n", $robots);
