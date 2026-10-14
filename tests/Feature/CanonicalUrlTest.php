@@ -29,6 +29,25 @@ class CanonicalUrlTest extends TestCase
             ->assertDontSee('http://www.aniwijaya.com');
     }
 
+    // Root .htaccess meneruskan /produk ke public/index.php → SCRIPT_NAME=/public/index.php.
+    // Link tidak boleh berisi "/public".
+    public function test_production_urls_have_no_public_segment_behind_root_htaccess(): void
+    {
+        $this->seed(SiteSettingSeeder::class);
+        $this->app['env'] = 'production';
+        config(['app.url' => 'https://aniwijaya.com']);
+        (new AppServiceProvider($this->app))->boot();
+
+        $server = ['SCRIPT_NAME' => '/public/index.php', 'PHP_SELF' => '/public/index.php', 'SCRIPT_FILENAME' => base_path('public/index.php')];
+
+        $html = $this->call('GET', 'https://aniwijaya.com/produk', server: $server)->assertOk()->getContent();
+        $this->assertStringContainsString('<link rel="canonical" href="https://aniwijaya.com/produk">', $html);
+        $this->assertStringNotContainsString('aniwijaya.com/public', $html);
+
+        $this->call('GET', 'https://aniwijaya.com/en/kontak', server: $server)->assertOk()
+            ->assertSee('hreflang="ja" href="https://aniwijaya.com/ja/kontak"', false);
+    }
+
     public function test_local_urls_follow_request(): void
     {
         $this->seed(SiteSettingSeeder::class);

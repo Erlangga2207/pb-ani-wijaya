@@ -19,7 +19,7 @@ Legenda: ✅ selesai · 🟡 sebagian · ⬜ belum
 | A8. `public/robots.txt`: `User-agent: *`, `Disallow: /panel`, `Sitemap: https://aniwijaya.com/sitemap.xml`. Meta `noindex` di `/panel` (termasuk login) **sudah ada** sejak Fase 1 lewat `admin/layouts/aset.blade.php` — dikunci dengan test `SeoLaunchTest`. Halaman cetak (nota, bukti, laporan) wajib login → tidak bisa dirayapi | ✅ | `06a1dfb` |
 | Perbaikan dari simulasi: `deploy.sh` menjalankan `artisan config:clear` sebelum `migrate` (sebelumnya migrasi memakai config cache rilis lama) | ✅ | `975d0c1` |
 | A9. `deploy/FIRST_DEPLOY.md`: checklist B1–B9 + tabel "Kalau ada masalah". Disesuaikan dari simulasi: `key:generate --force` (di production artisan minta konfirmasi), cek `echo $HOME` untuk `APP_PUBLIC_PATH`, cek symlink & `public_path()` setelah deploy, B4 build Vite saat ini tidak diperlukan, cara memakai `PHP_BIN` bila `php` bukan 8.3, salin manual bila template `deploy/public_html` berubah, cek `/composer.json` 403 & canonical di B7 | ✅ | `43f0370` |
-| Verifikasi akhir (tabel di bawah) + Pint `config/app.php` | ✅ | (commit berikut) |
+| Verifikasi akhir (tabel di bawah) + Pint `config/app.php` | ✅ | `a60f0b1` |
 
 ## Catatan
 - Pemakaian `public_path()` saat runtime hanya `filemtime(public_path('css/admin.css'))` di `admin/layouts/aset.blade.php` → di server file itu harus ada di `public_html/css/` (disalin `deploy.sh`).
@@ -54,3 +54,22 @@ Struktur meniru server di scratchpad (bukan di repo, supaya tidak mungkin ter-co
 | Pint (file PHP yang berubah) | lolos |
 
 Catatan: `optimize:clear` pada DB MySQL kosong gagal karena `.env` lokal memakai `CACHE_STORE=database` (tabel `cache` belum ada) — jalankan setelah migrasi. Di server `CACHE_STORE=file`, jadi tidak terpengaruh.
+
+---
+
+# Revisi: deploy lewat fitur Git Hostinger (2026-10-13)
+
+Branch: `feature/prd-09-git-deploy` (dari `main` @ `c608622`).
+Keputusan Erlan: seluruh repo di-clone oleh fitur Git hPanel ke `/home/u838281704/domains/aniwijaya.com/public_html`.
+`public/` tetap di repo seperti biasa; root `.htaccess` meneruskan request ke `public/`.
+Keputusan tambahan: root `.htaccess` **tidak** memblokir seluruh `/storage` (foto galeri memakai URL `/storage/gallery/...` lewat symlink
+`public/storage`), melainkan isi internal `storage/app|framework|logs` + `storage/.htaccess` "Require all denied".
+
+| Langkah | Status | Commit |
+|---|---|---|
+| R1. Batalkan A1 (`APP_PUBLIC_PATH`, `usePublicPath`, `PublicPathTest`) & A3 (`deploy/public_html/`) | ✅ | `e16606e` |
+| R2. Root `.htaccess`: `.well-known` dilayani langsung; 403 untuk file tersembunyi (`.git*`, `.env*`, ...), `composer.*`, `package*.json`, `artisan`, `phpunit.xml`, `vite.config.js`, `*.md`, folder `.git|app|bootstrap|config|database|lang|resources|routes|tests|vendor|deploy|docs|node_modules`, dan `storage/app|framework|logs`; sisanya → `public/$1`; `Options -Indexes`; tanpa mod_rewrite → semua ditolak; **tanpa redirect HTTPS/www**. Lapis kedua: `storage/.htaccess` & `bootstrap/.htaccess` `Require all denied` | ✅ | `2d96e29` |
+| R3. `bootstrap/app.php`: bila `dirname(__DIR__, 2)/.env.pb-ani-wijaya` ada → `useEnvironmentPath(dirname(__DIR__, 2))` + `loadEnvironmentFrom('.env.pb-ani-wijaya')`. `key:generate` menulis ke `environmentFilePath()` (= file ini). Di laptop: `C:/laragon/www/.env.pb-ani-wijaya` tidak ada → `.env` biasa (dicek: `environmentFilePath()` = `.env` repo; 178/178 hijau) | ✅ | `3526f9f` |
+| R4. `deploy/deploy.sh` baru: `APP_DIR` = `public_html`, tanpa `git pull` & tanpa salin asset. Isi: `composer install --no-dev -o` → `artisan down` (+`trap` selalu `up`) → `config:clear` + `migrate --force` → `optimize:clear` + `optimize` → `up`. Cek awal: PHP ≥ 8.3, composer2→composer, `artisan` ada, `../.env.pb-ani-wijaya` ada. `composer install` sengaja **sebelum** `down`: kode baru sudah live begitu hPanel menarik repo, dan `artisan` butuh `vendor/` yang cocok (deploy pertama: belum ada `vendor/`). `bash -n` lolos | ✅ | `3132a04` |
+| R5. `.env.production.example`: `APP_PUBLIC_PATH` dihapus; petunjuk lokasi baru `~/domains/aniwijaya.com/.env.pb-ani-wijaya` (di luar `public_html`). A2, A4, A6, A8 tidak diubah | ✅ | `28ffa58` |
+| R6. `RootHtaccessTest`: aturan `RewriteRule` root `.htaccess` dievaluasi berurutan seperti Apache (PCRE) terhadap 31 path — `.git/*`, `.env*`, `.gitignore`, `storage/logs|framework|app/*`, `vendor/*`, `app/*`, `bootstrap/*`, `config/*`, `database/*`, `deploy/*`, `docs/*`, `composer.*`, `package-lock.json`, `artisan`, `phpunit.xml`, `vite.config.js`, `*.md` → 403; `storage/gallery/*`, `css/admin.css`, beranda, `/en/produk`, sitemap, robots, `/panel/login` → `public/`; `.well-known/*` → dilayani langsung. Plus: tidak ada redirect HTTPS/www, `Options -Indexes`, `storage/.htaccess` & `bootstrap/.htaccess` = `Require all denied`. `CanonicalUrlTest` ditambah kasus `SCRIPT_NAME=/public/index.php` (tidak ada `/public` di link) | ✅ | (commit berikut) |

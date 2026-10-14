@@ -21,9 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if ($publicPath = config('app.public_path')) {
-            $this->app->usePublicPath($publicPath);
-        }
+        //
     }
 
     /**

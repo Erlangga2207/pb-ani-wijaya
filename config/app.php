@@ -54,10 +54,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    // Folder web publik bila bukan base_path('public'), mis. public_html di Hostinger (PRD-09).
-    // Diterapkan di AppServiceProvider::register() supaya berlaku juga untuk artisan & config:cache.
-    'public_path' => env('APP_PUBLIC_PATH'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
