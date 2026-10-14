@@ -42,6 +42,7 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'social_whatsapp', 'value' => '6281324314300', 'group' => 'social', 'label' => 'Nomor WhatsApp', 'type' => 'text', 'description' => 'Format: 62812... tanpa +', 'order' => 1],
             ['key' => 'social_instagram', 'value' => '', 'group' => 'social', 'label' => 'URL Instagram', 'type' => 'url', 'order' => 2],
             ['key' => 'social_facebook', 'value' => '', 'group' => 'social', 'label' => 'URL Facebook', 'type' => 'url', 'order' => 3],
+            ['key' => 'social_tiktok', 'value' => '', 'group' => 'social', 'label' => 'URL TikTok', 'type' => 'url', 'description' => 'Contoh: https://www.tiktok.com/@namaakun', 'order' => 4],
 
             // SEO (PRD-08)
             ['key' => 'seo_meta_title', 'group' => 'seo', 'label' => 'Judul SEO (beranda)', 'type' => 'text', 'description' => 'Tampil sebagai judul tab & hasil pencarian Google untuk beranda.', 'order' => 1],

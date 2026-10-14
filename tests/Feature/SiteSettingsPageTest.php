@@ -31,7 +31,7 @@ class SiteSettingsPageTest extends TestCase
 
         $this->assertSame('Ketan Terbaik Indramayu', SiteSetting::get('hero_title'));
         $this->get('/')->assertSee('Ketan Terbaik Indramayu');
-        $this->assertSame(24, SiteSetting::count()); // 21 key lama + 2 key SEO + alamat pabrik, tidak ada yang hilang
+        $this->assertSame(25, SiteSetting::count()); // 21 key lama + 2 key SEO + alamat pabrik + TikTok, tidak ada yang hilang
     }
 
     public function test_invalid_url_is_rejected(): void
@@ -40,6 +40,22 @@ class SiteSettingsPageTest extends TestCase
 
         $this->put('/panel/pengaturan-website', $this->formData(['social_instagram' => 'bukan url']))
             ->assertSessionHasErrors(['settings.social_instagram']);
+    }
+
+    public function test_owner_saves_tiktok_url_and_it_appears_in_json_ld(): void
+    {
+        $this->actingAs($this->userWithRole('owner'));
+
+        $this->get('/panel/pengaturan-website')->assertOk()->assertSee('URL TikTok');
+
+        $this->put('/panel/pengaturan-website', $this->formData(['social_tiktok' => 'bukan url']))
+            ->assertSessionHasErrors(['settings.social_tiktok']);
+
+        $this->put('/panel/pengaturan-website', $this->formData(['social_tiktok' => 'https://www.tiktok.com/@aniwijaya']))
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('https://www.tiktok.com/@aniwijaya', SiteSetting::get('social_tiktok'));
+        $this->get('/')->assertSee('"sameAs":["https:\/\/www.tiktok.com\/@aniwijaya"]', false);
     }
 
     public function test_staff_cannot_access_website_menu(): void
