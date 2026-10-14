@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Galeri - Pabrik Beras Ketan Indramayu'))
-@section('description', __('Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di Indramayu, Jawa Barat.'))
+@section('title', __('Galeri - Pabrik Beras Ketan Subang–Indramayu'))
+@section('description', __('Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di perbatasan Subang–Indramayu, Jawa Barat.'))
 
 @section('content')
 

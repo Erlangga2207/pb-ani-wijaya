@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', __('Kontak - Pesan Beras Ketan Grosir'))
-@section('description', __('Hubungi PB. Ani Wijaya untuk harga grosir beras ketan premium. Pabrik di Kec. Sukra, Indramayu, perbatasan Indramayu–Subang, Jawa Barat.'))
+@section('description', __('Hubungi PB. Ani Wijaya untuk harga grosir beras ketan premium. Kantor di Pusakajaya, Subang; pabrik di Sukra, Indramayu, perbatasan Subang–Indramayu, Jawa Barat.'))
 
 @section('content')
 
