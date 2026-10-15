@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Galeri - Pabrik Beras Ketan Subang–Indramayu'))
-@section('description', __('Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di perbatasan Subang–Indramayu, Jawa Barat.'))
+@section('title', __('Galeri - Pabrik Beras Ketan Subang'))
+@section('description', __('Foto fasilitas penggilingan, proses produksi, dan beras ketan PB. Ani Wijaya di Subang, Jawa Barat.'))
 
 @section('content')
 
@@ -37,7 +37,7 @@
 
             {{-- Subtitle --}}
             <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-                {{ __('Jelajahi fasilitas penggilingan modern kami di Indramayu — dari sawah emas Jawa Barat hingga lini pengemasan presisi. Transparansi adalah pondasi PB. Ani Wijaya.') }}
+                {{ __('Jelajahi fasilitas penggilingan modern kami di Subang — dari sawah emas Jawa Barat hingga lini pengemasan presisi. Transparansi adalah pondasi PB. Ani Wijaya.') }}
             </p>
         </div>
     </section>

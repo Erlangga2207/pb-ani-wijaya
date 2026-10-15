@@ -333,3 +333,8 @@ Label kartu alamat halaman Kontak (menggantikan «Alamat Pabrik»):
 | Kantor | Office | 办公室 | 事務所 | 사무소 | |
 | Pabrik | Mill | 工厂 | 精米所 | 정미소 | |
 | Subang (judul peta Kontak: «Temukan Kami di» + «Subang») | Subang | 苏邦 | スバン | 수방 | |
+
+## 2026-10-15 — «Indramayu» → «Subang» di teks statis company profile
+
+17 key di `lang/*.json` (dan `__()` di Blade publik) diganti: «Indramayu» → «Subang», «di perbatasan Subang–Indramayu» → «di Subang». Terjemahan ikut diganti (en «Subang», zh «苏邦», ja «スバン», ko «수방»; frasa «perbatasan/交界处/境/경계» dihapus) — **perlu dicek penutur asli**. Tabel di atas memuat versi lama.
+Tidak diubah: deskripsi halaman Kontak («… pabrik di Sukra, Indramayu …», alamat pabrik asli) dan semua teks dari pengaturan admin (`site_settings`, produk, galeri).

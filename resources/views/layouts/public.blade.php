@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{-- Deskripsi per halaman lewat @section('description'); beranda memakai setting SEO. --}}
-    <meta name="description" content="@yield('description', $setting('seo_meta_description', $setting('company_tagline', 'Premium Rice Producer').' - '.__(':company di Indramayu, Jawa Barat.', ['company' => $setting('company_name', 'PB. Ani Wijaya')])))">
+    <meta name="description" content="@yield('description', $setting('seo_meta_description', $setting('company_tagline', 'Premium Rice Producer').' - '.__(':company di Subang, Jawa Barat.', ['company' => $setting('company_name', 'PB. Ani Wijaya')])))">
 
     <title>@yield('title', 'PB. Ani Wijaya') - {{ $setting('company_name', 'PB. Ani Wijaya') }}</title>
 

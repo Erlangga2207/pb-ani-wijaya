@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', __('Tentang Kami - Pabrik Beras Ketan Subang–Indramayu'))
-@section('description', __('Profil PB. Ani Wijaya, pabrik penggilingan beras ketan di perbatasan Subang–Indramayu, Jawa Barat. Mengolah gabah ketan dari petani lokal menjadi beras ketan premium.'))
+@section('title', __('Tentang Kami - Pabrik Beras Ketan Subang'))
+@section('description', __('Profil PB. Ani Wijaya, pabrik penggilingan beras ketan di Subang, Jawa Barat. Mengolah gabah ketan dari petani lokal menjadi beras ketan premium.'))
 
 @section('content')
 
@@ -28,12 +28,12 @@
         </span>
 
         <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
-            {{ __('Warisan Indramayu,') }} <br>
+            {{ __('Warisan Subang,') }} <br>
             <span class="text-primary italic">{{ __('Mutu Terjamin') }}</span>
         </h1>
 
         <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-            {{ __('Selama puluhan tahun, PB. Ani Wijaya menjadi pondasi produksi beras berkualitas — memadukan kearifan tradisional Indramayu dengan teknologi modern untuk menghidupi keluarga di seluruh Indonesia.') }}
+            {{ __('Selama puluhan tahun, PB. Ani Wijaya menjadi pondasi produksi beras berkualitas — memadukan kearifan tradisional Subang dengan teknologi modern untuk menghidupi keluarga di seluruh Indonesia.') }}
         </p>
     </div>
 </section>
