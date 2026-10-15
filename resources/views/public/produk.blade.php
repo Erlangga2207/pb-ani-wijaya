@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', __('Beras Ketan Putih Premium - Supplier Grosir'))
-@section('description', __('Beras ketan putih premium kelas kepala dari pabrik kami di perbatasan Subang–Indramayu. Supplier beras ketan grosir untuk distributor, restoran, dan industri makanan di Jawa Barat dan seluruh Indonesia.'))
+@section('description', __('Beras ketan putih premium kelas kepala dari pabrik kami di Subang. Supplier beras ketan grosir untuk distributor, restoran, dan industri makanan di Jawa Barat dan seluruh Indonesia.'))
 
 @section('content')
 
@@ -34,7 +34,7 @@
 
         {{-- Subtitle --}}
         <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-            {{ __('Puncak panen Indramayu yang diproses dengan presisi tinggi — menghasilkan butiran putih mutiara dengan kelengketan sempurna untuk kuliner premium Indonesia.') }}
+            {{ __('Puncak panen Subang yang diproses dengan presisi tinggi — menghasilkan butiran putih mutiara dengan kelengketan sempurna untuk kuliner premium Indonesia.') }}
         </p>
 
         {{-- Quick Trust Indicators --}}
@@ -49,7 +49,7 @@
             </div>
             <div class="flex items-center gap-2 text-white/90">
                 <span class="material-symbols-outlined text-gold">eco</span>
-                <span class="text-sm font-bold">{{ __('100% Lokal Indramayu') }}</span>
+                <span class="text-sm font-bold">{{ __('100% Lokal Subang') }}</span>
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@
 
                 {{-- Description --}}
                 <p class="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
-                    {{ __('Setiap butir beras ketan kami melewati seleksi ketat dari sawah hingga karung. Diproses dengan teknologi modern untuk menjaga kelengketan alami dan aroma khas Indramayu.') }}
+                    {{ __('Setiap butir beras ketan kami melewati seleksi ketat dari sawah hingga karung. Diproses dengan teknologi modern untuk menjaga kelengketan alami dan aroma khas Subang.') }}
                 </p>
 
                 {{-- Specs Grid 2x2 --}}
@@ -129,7 +129,7 @@
                             <span class="material-symbols-outlined text-primary text-xl">location_on</span>
                             <span class="text-[10px] md:text-xs font-bold text-primary uppercase tracking-widest">{{ __('Asal') }}</span>
                         </div>
-                        <p class="font-heading text-lg md:text-xl font-bold text-charcoal">{{ __('Indramayu') }}</p>
+                        <p class="font-heading text-lg md:text-xl font-bold text-charcoal">{{ __('Subang') }}</p>
                         <p class="text-xs text-gray-500 mt-1">{{ __('Jawa Barat') }}</p>
                     </div>
 
@@ -228,7 +228,7 @@
                 </div>
                 <h3 class="font-heading text-xl md:text-2xl font-bold text-charcoal mb-3">{{ __('Seleksi Bahan Baku') }}</h3>
                 <p class="text-sm md:text-base text-gray-600 leading-relaxed">
-                    {{ __('Hanya padi ketan terbaik dari mitra petani Indramayu yang diterima. Kami memeriksa kadar air, ukuran butir, dan kebersihan secara manual sebelum diproses.') }}
+                    {{ __('Hanya padi ketan terbaik dari mitra petani Subang yang diterima. Kami memeriksa kadar air, ukuran butir, dan kebersihan secara manual sebelum diproses.') }}
                 </p>
                 {{-- Quality marker --}}
                 <div class="mt-4 pt-4 border-t border-surface flex items-center gap-2 text-xs text-gray-500">

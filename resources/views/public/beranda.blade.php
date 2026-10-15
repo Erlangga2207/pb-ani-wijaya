@@ -106,9 +106,9 @@
                 <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">history_edu</span>
                 </div>
-                <h3 class="font-heading text-2xl font-bold mb-3">{{ __('Tradisi Indramayu') }}</h3>
+                <h3 class="font-heading text-2xl font-bold mb-3">{{ __('Tradisi Subang') }}</h3>
                 <p class="text-white/90 leading-relaxed">
-                    {{ __('Lahir dari tanah subur Indramayu, kami memadukan kearifan petani lokal dengan teknologi pengolahan modern untuk hasil terbaik.') }}
+                    {{ __('Lahir dari tanah subur Subang, kami memadukan kearifan petani lokal dengan teknologi pengolahan modern untuk hasil terbaik.') }}
                 </p>
                 <div class="mt-6 inline-flex items-center gap-2 text-gold text-sm font-bold">
                     <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">eco</span>
@@ -189,7 +189,7 @@
                     </div>
                     <div class="p-4 bg-white rounded-lg border border-gray-200">
                         <div class="text-xs text-primary font-bold uppercase tracking-wider mb-1">{{ __('Region') }}</div>
-                        <div class="font-bold text-charcoal">{{ __('Indramayu Barat') }}</div>
+                        <div class="font-bold text-charcoal">{{ __('Subang Barat') }}</div>
                     </div>
                     <div class="p-4 bg-white rounded-lg border border-gray-200">
                         <div class="text-xs text-primary font-bold uppercase tracking-wider mb-1">{{ __('Texture') }}</div>
